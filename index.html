@@ -931,11 +931,13 @@ footer {
 
       <div class="stagger">
 
-        <a href="/cdn-cgi/l/email-protection#7b1408181a09131e09090e0114163b1c161a121755181416" class="c-link">
+        <a href="#" class="c-link" id="emailLink">
           <div class="c-ico">
             <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="1.8"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg>
           </div>
-          <div><p class="c-lbl">Email</p><p class="c-val"><span class="__cf_email__" data-cfemail="432c302022312b26313136392c2e03242e222a2f6d202c2e">[email&#160;protected]</span></p></div>
+          <div><p class="c-lbl">Email</p><p class="c-val" id="emailVal">oscarherruzom&#64;gmail.com</p></div>
+          <svg class="c-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M7 7h10v10"/></svg>
+        </a>
           <svg class="c-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M7 7h10v10"/></svg>
         </a>
 
@@ -1014,6 +1016,13 @@ window.addEventListener('scroll', () => {
     document.body.style.overflow = '';
   }
 });
+
+/* EMAIL ANTI-OBFUSCATION */
+(function(){
+  const u='oscarherruzom';const d='gmail.com';
+  const el=document.getElementById('emailLink');
+  if(el){ el.href='mai'+'lto:'+u+'@'+d; }
+})();
 
 /* CURSOR */
 const cDot = document.getElementById('cDot');
