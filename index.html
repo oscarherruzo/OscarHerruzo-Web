@@ -50,6 +50,70 @@ nav {
 .nav-links a:hover { color:var(--dark); }
 .nav-cta { background:var(--dark)!important;color:#fff!important;padding:6px 16px;border-radius:6px; }
 
+/* ── HAMBURGUESA ──────────────────────────────────────────────────────────── */
+.nav-burger {
+  display:none;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  gap:5px;
+  width:36px;height:36px;
+  background:none;border:none;cursor:pointer;
+  padding:4px;border-radius:6px;
+  transition:background .2s;
+}
+.nav-burger:hover { background:var(--border); }
+.nav-burger span {
+  display:block;width:20px;height:2px;
+  background:var(--dark);border-radius:2px;
+  transition:transform .3s ease, opacity .3s ease, width .3s ease;
+  transform-origin:center;
+}
+
+/* Estado abierto */
+.nav-burger.open span:nth-child(1) { transform:translateY(7px) rotate(45deg); }
+.nav-burger.open span:nth-child(2) { opacity:0;width:0; }
+.nav-burger.open span:nth-child(3) { transform:translateY(-7px) rotate(-45deg); }
+
+/* Menú móvil desplegado */
+.nav-mobile {
+  display:none;
+  position:fixed;top:56px;left:0;right:0;z-index:199;
+  background:rgba(247,248,250,.98);
+  backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+  padding:16px 24px 20px;
+  flex-direction:column;
+  gap:4px;
+  box-shadow:0 8px 24px rgba(0,0,0,.08);
+  transform:translateY(-8px);
+  opacity:0;
+  transition:transform .25s ease, opacity .25s ease;
+}
+.nav-mobile.open {
+  transform:translateY(0);
+  opacity:1;
+}
+.nav-mobile a {
+  font-family:var(--mono);font-size:.82rem;
+  color:var(--gray);text-decoration:none;
+  padding:11px 14px;border-radius:8px;
+  transition:background .15s, color .15s;
+  display:block;
+}
+.nav-mobile a:hover { background:var(--border);color:var(--dark); }
+.nav-mobile .mob-cta {
+  background:var(--dark)!important;color:#fff!important;
+  margin-top:8px;text-align:center;font-weight:600;
+}
+.nav-mobile .mob-cta:hover { background:#374151!important; }
+
+@media(max-width:720px){
+  .nav-links  { display:none; }
+  .nav-burger { display:flex; }
+  .nav-mobile { display:flex; }
+}
+
 /* ── HERO ────────────────────────────────────────────────────────────────── */
 .hero {
   min-height:100vh;background:var(--dark2);
@@ -369,7 +433,20 @@ footer {
     <li><a href="#experiencia">experience</a></li>
     <li><a href="#contacto" class="nav-cta">contactar →</a></li>
   </ul>
+  <!-- HAMBURGUESA -->
+  <button class="nav-burger" id="navBurger" aria-label="Menú">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+
+<!-- MENÚ MÓVIL -->
+<div class="nav-mobile" id="navMobile">
+  <a href="#sobre"      class="mob-link">about()</a>
+  <a href="#skills"     class="mob-link">skills[]</a>
+  <a href="#proyectos"  class="mob-link">projects{}</a>
+  <a href="#experiencia" class="mob-link">experience</a>
+  <a href="#contacto"   class="mob-cta">contactar →</a>
+</div>
 
 
 <!-- ── HERO ────────────────────────────────────────────────────────────── -->
@@ -379,9 +456,9 @@ footer {
   <div class="glow glow-b"></div>
 
   <div class="hero-in">
-    <div class="hero-badge"><span class="badge-dot"></span>Disponible para proyectos · Andújar, Jaén</div>
+    <div class="hero-badge"><span class="badge-dot"></span>Disponible para proyectos · Madrid, España</div>
 
-    <h1 class="hero-name">Óscar<br><em>Herruzo Montoya</em></h1>
+    <h1 class="hero-name">Óscar<br><em>Herruzo</em></h1>
     <p class="hero-role"><span>~/</span>&nbsp; Data & BI Developer &nbsp;·&nbsp; Data Management Consultant &nbsp;·&nbsp; Full-Stack</p>
     <p class="hero-desc">
       Construyo pipelines de datos, dashboards inteligentes y herramientas BI
@@ -450,8 +527,8 @@ footer {
       </div>
 
       <div class="stagger">
-        <div class="fact-card"><div class="fact-ico">🏢</div><div><p class="fact-lbl">Empresa</p><p class="fact-val">Nter Tech Services </p></div></div>
-        <div class="fact-card"><div class="fact-ico">📍</div><div><p class="fact-lbl">Ubicación</p><p class="fact-val">Andújar, Jaén</p></div></div>
+        <div class="fact-card"><div class="fact-ico">🏢</div><div><p class="fact-lbl">Empresa</p><p class="fact-val">Nter Tech Services · Santander</p></div></div>
+        <div class="fact-card"><div class="fact-ico">📍</div><div><p class="fact-lbl">Ubicación</p><p class="fact-val">Madrid, España</p></div></div>
         <div class="fact-card"><div class="fact-ico">🎓</div><div><p class="fact-lbl">Formación</p><p class="fact-val">DAM (IES Jándula) · DAW (CEAC)</p></div></div>
         <div class="fact-card"><div class="fact-ico">🔐</div><div><p class="fact-lbl">Especialización extra</p><p class="fact-val">Ciberseguridad · EIP Business School</p></div></div>
         <div class="fact-card"><div class="fact-ico">☁️</div><div><p class="fact-lbl">Certificación en curso</p><p class="fact-val">AWS CLF-C02 → Data Engineer</p></div></div>
@@ -682,7 +759,7 @@ footer {
             <p class="tl-date">Nov. 2025 — Actualidad · 5 meses</p>
             <p class="tl-title">Data & BI Developer</p>
             <p class="tl-company">Nter Tech Services · Santander (Model Risk & Local Credit Risks)</p>
-            <p class="tl-type">Jornada completa · Híbrido · Jaén</p>
+            <p class="tl-type">Jornada completa · Híbrido · Madrid</p>
             <p style="font-size:.78rem;color:var(--gray);line-height:1.6;margin:6px 0 8px 0;">Liderazgo del desarrollo end-to-end del ecosistema de reporting de gestión de riesgos, cubriendo arquitectura de datos, entrega analítica, gobernanza e innovación con IA.</p>
             <ul class="tl-bullets">
               <li><strong>Arquitectura de datos:</strong> Diseño y optimización de pipelines ETL para integrar datasets de alto volumen desde SQL Server a Power BI, estableciendo data lineage completo y estándares de calidad.</li>
@@ -828,11 +905,11 @@ footer {
 
       <div class="stagger">
 
-        <a href="mailto:oscarherruzom@gmail.com" class="c-link">
+        <a href="/cdn-cgi/l/email-protection#7b1408181a09131e09090e0114163b1c161a121755181416" class="c-link">
           <div class="c-ico">
             <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="1.8"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg>
           </div>
-          <div><p class="c-lbl">Email</p><p class="c-val">oscarherruzom@gmail.com</p></div>
+          <div><p class="c-lbl">Email</p><p class="c-val"><span class="__cf_email__" data-cfemail="432c302022312b26313136392c2e03242e222a2f6d202c2e">[email&#160;protected]</span></p></div>
           <svg class="c-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M7 7h10v10"/></svg>
         </a>
 
@@ -879,11 +956,39 @@ footer {
 <!-- ── FOOTER ───────────────────────────────────────────────────────────── -->
 <footer>
   <span class="ft-l">◈ Óscar Herruzo Montoya · Data & BI Developer</span>
-  <span class="ft-r">Nter Tech Services · Jaén · 2025</span>
+  <span class="ft-r">Nter Tech Services · Madrid · 2025</span>
 </footer>
 
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+/* HAMBURGUESA */
+const burger    = document.getElementById('navBurger');
+const navMobile = document.getElementById('navMobile');
+
+burger.addEventListener('click', () => {
+  const open = navMobile.classList.toggle('open');
+  burger.classList.toggle('open', open);
+  document.body.style.overflow = open ? 'hidden' : '';
+});
+
+// Cerrar al hacer clic en un enlace
+document.querySelectorAll('.mob-link, .mob-cta').forEach(a => {
+  a.addEventListener('click', () => {
+    navMobile.classList.remove('open');
+    burger.classList.remove('open');
+    document.body.style.overflow = '';
+  });
+});
+
+// Cerrar al hacer scroll
+window.addEventListener('scroll', () => {
+  if (navMobile.classList.contains('open')) {
+    navMobile.classList.remove('open');
+    burger.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+});
+
 /* CURSOR */
 const cDot = document.getElementById('cDot');
 const cRing = document.getElementById('cRing');
