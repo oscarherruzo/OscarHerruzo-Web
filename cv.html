@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CV — Óscar Herruzo Montoya</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --dark:#1A1D23; --mid:#374151; --gray:#6B7280;
+  --light:#F7F8FA; --border:#E5E7EB; --green:#15803D; --accent:#A3E635;
+}
+body { font-family:'DM Sans',sans-serif; background:#EDEDEB; color:var(--dark); min-height:100vh; display:flex; flex-direction:column; align-items:center; padding:40px 20px; }
+
+.top-bar { width:100%; max-width:794px; display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; }
+.top-bar a { font-family:'DM Mono',monospace; font-size:.72rem; color:#9CA3AF; text-decoration:none; }
+.top-bar a:hover { color:var(--dark); }
+.btn-print { background:var(--dark); color:#fff; border:none; border-radius:7px; padding:9px 20px; font-family:'DM Sans',sans-serif; font-size:.82rem; font-weight:500; cursor:pointer; display:inline-flex; align-items:center; gap:7px; transition:background .2s; }
+.btn-print:hover { background:#374151; }
+
+.page { width:794px; background:#fff; box-shadow:0 6px 48px rgba(0,0,0,.13); border-radius:4px; overflow:hidden; }
+
+.cv-head { background:var(--dark); padding:34px 44px 28px; display:grid; grid-template-columns:1fr auto; gap:24px; align-items:end; }
+.cv-name { font-family:'DM Serif Display',serif; font-size:2.3rem; color:#fff; line-height:1.04; letter-spacing:-.02em; margin-bottom:6px; }
+.cv-name em { color:var(--accent); font-style:italic; }
+.cv-role { font-family:'DM Mono',monospace; font-size:.73rem; color:#9CA3AF; letter-spacing:.04em; }
+.cv-contacts { display:flex; flex-direction:column; align-items:flex-end; gap:5px; }
+.cv-ct { display:flex; align-items:center; gap:7px; font-family:'DM Mono',monospace; font-size:.7rem; color:#D1D5DB; }
+.cv-ct a { color:#D1D5DB; text-decoration:none; }
+.cv-ct a:hover { color:var(--accent); }
+.ct-dot { width:5px; height:5px; background:var(--accent); border-radius:50%; flex-shrink:0; }
+
+.cv-body { display:grid; grid-template-columns:1fr 218px; }
+.cv-main { padding:28px 32px 28px 44px; border-right:1px solid var(--border); }
+.cv-side { padding:28px 24px 28px 22px; background:var(--light); }
+
+.sec { margin-bottom:20px; }
+.sec-title { font-family:'DM Mono',monospace; font-size:.6rem; font-weight:500; text-transform:uppercase; letter-spacing:.15em; color:var(--gray); margin-bottom:10px; padding-bottom:5px; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:7px; }
+.sec-title::before { content:''; width:3px; height:9px; background:var(--dark); border-radius:2px; flex-shrink:0; }
+
+.summary { font-size:.8rem; color:var(--mid); line-height:1.72; font-weight:300; }
+.summary strong { color:var(--dark); font-weight:600; }
+
+.exp-item { margin-bottom:15px; padding-bottom:15px; border-bottom:1px solid #F3F4F6; }
+.exp-item:last-child { border-bottom:none; margin-bottom:0; padding-bottom:0; }
+.exp-row { display:flex; justify-content:space-between; align-items:baseline; gap:10px; margin-bottom:1px; }
+.exp-title { font-size:.84rem; font-weight:700; color:var(--dark); }
+.exp-date  { font-family:'DM Mono',monospace; font-size:.61rem; color:var(--gray); white-space:nowrap; flex-shrink:0; }
+.exp-co    { font-size:.76rem; color:var(--green); font-weight:500; margin-bottom:1px; }
+.exp-type  { font-family:'DM Mono',monospace; font-size:.6rem; color:#9CA3AF; margin-bottom:5px; }
+
+.sub-proj { margin-top:6px; padding-top:6px; border-top:1px dashed #F0F0F0; }
+.sub-proj:first-of-type { border-top:none; padding-top:0; margin-top:4px; }
+.sub-title { font-size:.74rem; font-weight:600; color:var(--mid); margin-bottom:3px; display:flex; align-items:center; gap:5px; }
+.sub-title::before { content:'▸'; color:var(--green); font-size:.6rem; flex-shrink:0; }
+
+.bullets { list-style:none; padding:0; display:flex; flex-direction:column; gap:2px; }
+.bullets li { font-size:.74rem; color:var(--gray); line-height:1.52; padding-left:10px; position:relative; }
+.bullets li::before { content:'○'; position:absolute; left:0; color:#D1D5DB; font-size:.55rem; top:3px; }
+.bullets li strong { color:var(--mid); font-weight:600; }
+
+.sk-item { margin-bottom:11px; }
+.sk-name { font-size:.75rem; font-weight:600; color:var(--dark); margin-bottom:3px; }
+.sk-bar-bg { background:var(--border); border-radius:2px; height:3px; overflow:hidden; margin-bottom:4px; }
+.sk-bar-fill { height:100%; border-radius:2px; background:linear-gradient(90deg,var(--green),var(--accent)); }
+.sk-tags { display:flex; flex-wrap:wrap; gap:3px; }
+.sk-tag { font-family:'DM Mono',monospace; font-size:.57rem; color:var(--gray); background:#fff; border:1px solid var(--border); border-radius:3px; padding:1px 5px; }
+
+.edu-item { margin-bottom:10px; padding-bottom:10px; border-bottom:1px solid var(--border); }
+.edu-item:last-child { border-bottom:none; margin-bottom:0; padding-bottom:0; }
+.edu-title  { font-size:.74rem; font-weight:700; color:var(--dark); margin-bottom:2px; line-height:1.3; }
+.edu-place  { font-size:.7rem; color:var(--green); font-weight:500; margin-bottom:1px; }
+.edu-date   { font-family:'DM Mono',monospace; font-size:.59rem; color:#9CA3AF; margin-bottom:2px; }
+.edu-detail { font-size:.67rem; color:var(--gray); line-height:1.45; }
+
+.extra-item { font-size:.72rem; color:var(--gray); line-height:1.5; padding-left:10px; position:relative; margin-bottom:6px; }
+.extra-item::before { content:'▸'; position:absolute; left:0; color:var(--green); font-size:.6rem; top:2px; }
+.extra-item strong { color:var(--dark); font-weight:600; }
+
+.lang-row { display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; }
+.lang-name { font-size:.75rem; font-weight:500; color:var(--dark); }
+.lang-lvl  { font-family:'DM Mono',monospace; font-size:.59rem; color:var(--gray); background:#fff; border:1px solid var(--border); border-radius:3px; padding:1px 6px; }
+
+@media print {
+  body { background:#fff; padding:0; }
+  .top-bar { display:none; }
+  .page { box-shadow:none; border-radius:0; width:100%; }
+  @page { margin:0; size:A4; }
+}
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <a href="index.html">← Volver al portfolio</a>
+  <button class="btn-print" onclick="window.print()">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/>
+      <rect x="6" y="14" width="12" height="8"/>
+    </svg>
+    Imprimir / Guardar PDF
+  </button>
+</div>
+
+<div class="page">
+
+  <!-- CABECERA -->
+  <div class="cv-head">
+    <div>
+      <h1 class="cv-name">Óscar <em>Herruzo Montoya</em></h1>
+      <p class="cv-role">Desarrollador de Datos y BI &nbsp;·&nbsp; Consultor de Gestión de Datos &nbsp;·&nbsp; Full-Stack</p>
+    </div>
+    <div class="cv-contacts">
+      <div class="cv-ct"><span class="ct-dot"></span><a href="tel:+34602674339">+34 602 674 339</a></div>
+      <div class="cv-ct"><span class="ct-dot"></span><a href="mailto:oscarherruzom@gmail.com">oscarherruzom@gmail.com</a></div>
+      <div class="cv-ct"><span class="ct-dot"></span><a href="https://linkedin.com/in/oscar-herruzo-montoya-640683214" target="_blank">linkedin.com/in/oscar-herruzo-montoya</a></div>
+      <div class="cv-ct"><span class="ct-dot"></span>Andújar, Jaén · España</div>
+    </div>
+  </div>
+
+  <div class="cv-body">
+
+    <!-- MAIN -->
+    <div class="cv-main">
+
+      <div class="sec">
+        <p class="sec-title">Perfil profesional</p>
+        <p class="summary">
+          Desarrollador <strong>apasionado por los datos</strong>: tratarlos, transformarlos y llevarlos a su destino final.
+          Con experiencia en <strong>Datos y BI</strong> (Power BI, DAX avanzado, Star Schema, RLS),
+          <strong>ingeniería de datos</strong> (ETL con Python, SSIS, PL/SQL Oracle) y <strong>desarrollo full-stack</strong>
+          (Angular, NestJS, Flutter). Actualmente en <strong>Nter Tech Services</strong> asignado a
+          <strong>Santander · Riesgo de Modelos y Riesgos Crediticios Locales</strong>, liderando el ecosistema de reporting de riesgos
+          e impulsando la innovación con IA aplicada (DAX Assistant · POC 2026).
+        </p>
+      </div>
+
+      <div class="sec">
+        <p class="sec-title">Experiencia profesional</p>
+
+        <!-- NTER ACTUAL -->
+        <div class="exp-item">
+          <div class="exp-row">
+            <span class="exp-title">Desarrollador de Datos y BI</span>
+            <span class="exp-date">Nov. 2025 — Actualidad</span>
+          </div>
+          <p class="exp-co">Nter Tech Services · Santander — Riesgo de Modelos y Riesgos Crediticios Locales</p>
+          <p class="exp-type">Jornada completa · Híbrido · Jaén</p>
+          <ul class="bullets" style="margin:4px 0 6px 0;">
+            <li>Liderazgo del desarrollo end-to-end del ecosistema de reporting de gestión de riesgos: arquitectura de datos, entrega analítica, gobernanza e innovación con IA.</li>
+          </ul>
+          <div class="sub-proj">
+            <p class="sub-title">Arquitectura de Datos</p>
+            <ul class="bullets">
+              <li>Diseño y optimización de pipelines ETL para integrar datasets de alto volumen desde SQL Server a Power BI, estableciendo data lineage completo y estándares de calidad en los flujos críticos del departamento.</li>
+            </ul>
+          </div>
+          <div class="sub-proj">
+            <p class="sub-title">Desarrollo Analítico</p>
+            <ul class="bullets">
+              <li>Dashboards avanzados con DAX complejo para monitorizar métricas de rendimiento de modelos, indicadores de riesgo y soporte al reporting de compliance regulatorio.</li>
+            </ul>
+          </div>
+          <div class="sub-proj">
+            <p class="sub-title">Estandarización y Escalabilidad</p>
+            <ul class="bullets">
+              <li>Normalización del ecosistema de reporting desde cero — Star Schema, buenas prácticas UX/UI y arquitectura escalable diseñada para crecer con el negocio.</li>
+            </ul>
+          </div>
+          <div class="sub-proj">
+            <p class="sub-title">Seguridad y Gobernanza</p>
+            <ul class="bullets">
+              <li>Configuración de Row-Level Security (RLS) y refresco automatizado de datos en Power BI Service, garantizando disponibilidad 24/7 con acceso controlado por roles.</li>
+            </ul>
+          </div>
+          <div class="sub-proj">
+            <p class="sub-title">Innovación con IA — DAX Assistant (POC · 2026)</p>
+            <ul class="bullets">
+              <li>Identificación de ineficiencias en los flujos de desarrollo DAX y construcción independiente de un copiloto IA para resolverlas.</li>
+              <li>La herramienta conecta directamente a SQL Server, lee metadatos del schema en vivo y usa Llama 3.3 70B (Groq / SambaNova / Gemini fallback) para generar DAX listo para producción, validar fórmulas, explicar el código y evaluar la lógica de negocio — sin exponer datos sensibles. <strong>GDPR-safe by design.</strong></li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- NTER PRÁCTICAS -->
+        <div class="exp-item">
+          <div class="exp-row">
+            <span class="exp-title">Desarrollador de Datos y BI</span>
+            <span class="exp-date">May. 2025 — Nov. 2025</span>
+          </div>
+          <p class="exp-co">Nter Tech Services</p>
+          <p class="exp-type">Prácticas · Híbrido · Jaén</p>
+          <div class="sub-proj">
+            <p class="sub-title">ETL Control de Ventas — PL/SQL (Oracle Database)</p>
+            <ul class="bullets">
+              <li>Modelo relacional de control de ventas: estructuras, paquetes, procedimientos, funciones y disparadores de integridad en Oracle SQL Developer.</li>
+            </ul>
+          </div>
+          <div class="sub-proj">
+            <p class="sub-title">ETL Aseguradora — SSIS</p>
+            <ul class="bullets">
+              <li>Pipeline SSIS para carga desde ficheros con validación técnica, funcional y de integridad mediante procedimientos T-SQL.</li>
+            </ul>
+          </div>
+          <div class="sub-proj">
+            <p class="sub-title">ETL Python + Power BI</p>
+            <ul class="bullets">
+              <li>Scripts de extracción, limpieza y transformación con Pandas/NumPy desde BBDD, Excel y CSV. <strong>Reducción del 82%</strong> en tiempo de preparación de datos.</li>
+              <li>Dashboards con DAX avanzado y M (Power Query) para KPIs críticos. Entorno de analítica de autoservicio en Looker Studio.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- IOONIC -->
+        <div class="exp-item">
+          <div class="exp-row">
+            <span class="exp-title">Becario Desarrollo Web y Software</span>
+            <span class="exp-date">Dic. 2024 — Abr. 2025</span>
+          </div>
+          <p class="exp-co">Ioonic Sistemas Informáticos, SL · En remoto · Madrid</p>
+          <p class="exp-type">Prácticas</p>
+          <div class="sub-proj">
+            <p class="sub-title">App 'Licitaciones' — Full-Stack</p>
+            <ul class="bullets">
+              <li>Aplicación desde cero para análisis de licitaciones públicas y gestión de ganadores en subasta. <strong>Stack:</strong> Angular · JavaScript · MariaDB.</li>
+              <li>Webs corporativas con WordPress + PHP + JavaScript + HTML/CSS.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- A3COM -->
+        <div class="exp-item">
+          <div class="exp-row">
+            <span class="exp-title">Becario Desarrollo de Software</span>
+            <span class="exp-date">Mar. 2023 — Jun. 2023</span>
+          </div>
+          <p class="exp-co">A3Com · Presencial · Andújar</p>
+          <p class="exp-type">Prácticas</p>
+          <div class="sub-proj">
+            <p class="sub-title">App 'Trajes' — Back-End Mobile</p>
+            <ul class="bullets">
+              <li>Aplicación desde cero para gestión de pedidos y compra de una marca de moda. <strong>Stack:</strong> FlutterFlow · Flutter · Firebase.</li>
+              <li>Webs corporativas con WordPress + PHP + HTML/CSS.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- CUBIT -->
+        <div class="exp-item">
+          <div class="exp-row">
+            <span class="exp-title">Administrador de Redes</span>
+            <span class="exp-date">Mar. 2019 — Jun. 2019</span>
+          </div>
+          <p class="exp-co">Cubit Technology · Viena, Austria 🇦🇹</p>
+          <p class="exp-type">Prácticas · Internacional</p>
+          <ul class="bullets" style="margin-top:4px;"><li>Administración de redes SAN y DNS en entorno corporativo internacional.</li></ul>
+        </div>
+
+        <!-- DYNOS -->
+        <div class="exp-item">
+          <div class="exp-row">
+            <span class="exp-title">Técnico Informático</span>
+            <span class="exp-date">Sept. 2017 — Mar. 2019</span>
+          </div>
+          <p class="exp-co">Dynos · Andújar</p>
+          <p class="exp-type">Prácticas</p>
+          <ul class="bullets" style="margin-top:4px;"><li>Reparación y mantenimiento de equipos, gestión DNS y soporte técnico.</li></ul>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- SIDE -->
+    <div class="cv-side">
+
+      <div class="sec">
+        <p class="sec-title">Tecnologías</p>
+        <div class="sk-item">
+          <p class="sk-name">Power BI y DAX</p>
+          <div class="sk-bar-bg"><div class="sk-bar-fill" style="width:94%"></div></div>
+          <div class="sk-tags"><span class="sk-tag">DAX avanzado</span><span class="sk-tag">RLS</span><span class="sk-tag">Star Schema</span><span class="sk-tag">Intel. Temporal</span><span class="sk-tag">PBI Service</span></div>
+        </div>
+        <div class="sk-item">
+          <p class="sk-name">Python</p>
+          <div class="sk-bar-bg"><div class="sk-bar-fill" style="width:88%"></div></div>
+          <div class="sk-tags"><span class="sk-tag">Pandas</span><span class="sk-tag">NumPy</span><span class="sk-tag">SQLAlchemy</span><span class="sk-tag">Streamlit</span></div>
+        </div>
+        <div class="sk-item">
+          <p class="sk-name">SQL y Bases de datos</p>
+          <div class="sk-bar-bg"><div class="sk-bar-fill" style="width:86%"></div></div>
+          <div class="sk-tags"><span class="sk-tag">SQL Server</span><span class="sk-tag">PL/SQL</span><span class="sk-tag">Oracle</span><span class="sk-tag">MySQL</span><span class="sk-tag">MariaDB</span></div>
+        </div>
+        <div class="sk-item">
+          <p class="sk-name">ETL e Integración</p>
+          <div class="sk-bar-bg"><div class="sk-bar-fill" style="width:85%"></div></div>
+          <div class="sk-tags"><span class="sk-tag">SSIS</span><span class="sk-tag">T-SQL</span><span class="sk-tag">Power Query</span><span class="sk-tag">Apps Script</span></div>
+        </div>
+        <div class="sk-item">
+          <p class="sk-name">IA y Modelos de Lenguaje</p>
+          <div class="sk-bar-bg"><div class="sk-bar-fill" style="width:77%"></div></div>
+          <div class="sk-tags"><span class="sk-tag">Groq</span><span class="sk-tag">Gemini</span><span class="sk-tag">Llama 3.3</span><span class="sk-tag">Ing. de Prompts</span></div>
+        </div>
+        <div class="sk-item">
+          <p class="sk-name">Desarrollo Full-Stack</p>
+          <div class="sk-bar-bg"><div class="sk-bar-fill" style="width:80%"></div></div>
+          <div class="sk-tags"><span class="sk-tag">Angular</span><span class="sk-tag">NestJS</span><span class="sk-tag">TypeScript</span><span class="sk-tag">Flutter</span><span class="sk-tag">Java</span><span class="sk-tag">Spring Boot</span><span class="sk-tag">WordPress</span><span class="sk-tag">Git</span></div>
+        </div>
+      </div>
+
+      <div class="sec">
+        <p class="sec-title">Formación</p>
+        <div class="edu-item">
+          <p class="edu-title">CFGS Desarrollo de Aplicaciones Multiplataforma (DAM)</p>
+          <p class="edu-place">EFA Moratalaz · IES Jándula</p>
+          <p class="edu-date">2020 — 2023</p>
+          <p class="edu-detail">Java · Flutter · Kotlin · Python · Bases de datos</p>
+        </div>
+        <div class="edu-item">
+          <p class="edu-title">CFGS Desarrollo de Aplicaciones Web (DAW)</p>
+          <p class="edu-place">CEAC FP Oficial</p>
+          <p class="edu-date">2024 — 2025</p>
+          <p class="edu-detail">HTML · CSS · JavaScript · PHP · SQL</p>
+        </div>
+        <div class="edu-item">
+          <p class="edu-title">Especialista en Ciberseguridad</p>
+          <p class="edu-place">EIP International Business School</p>
+          <p class="edu-date">Mar. 2023 — Jul. 2023</p>
+          <p class="edu-detail">Hacking Ético · RGPD · LOPDGDD · Forense · Criptografía</p>
+        </div>
+        <div class="edu-item">
+          <p class="edu-title">AWS Cloud Practitioner (en curso)</p>
+          <p class="edu-place">Amazon Web Services</p>
+          <p class="edu-detail">CLF-C02 → Objetivo: Data Engineer Associate</p>
+        </div>
+      </div>
+
+      <div class="sec">
+        <p class="sec-title">Otros méritos</p>
+        <div class="extra-item"><strong>Spring Boot</strong> — Curso de especialidad (CEAC FP Oficial)</div>
+        <div class="extra-item"><strong>Ciberseguridad</strong> — Especialista (EIP Posgrados)</div>
+        <div class="extra-item"><strong>Scrum / Agile</strong> — Metodologías ágiles (EFA Moratalaz)</div>
+        <div class="extra-item"><strong>GitLab y GitHub</strong> — Control de versiones en equipo</div>
+      </div>
+
+      <div class="sec">
+        <p class="sec-title">Idiomas</p>
+        <div class="lang-row"><span class="lang-name">Español</span><span class="lang-lvl">Nativo</span></div>
+        <div class="lang-row"><span class="lang-name">Inglés</span><span class="lang-lvl">Profesional</span></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
