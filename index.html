@@ -920,7 +920,7 @@ footer {
       <div class="stagger">
 
         <!-- EMAIL: href y texto inyectados por JS — Cloudflare no ve nada en el HTML -->
-        <a href="#" class="c-link" id="emailLink">
+        <a class="c-link" id="emailLink" style="cursor:pointer;">
           <div class="c-ico">
             <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="1.8"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg>
           </div>
@@ -1005,10 +1005,19 @@ window.addEventListener('scroll', () => {
 (function(){
   const u = 'oscarherruzom';
   const d = 'gmail.com';
-  const link = document.getElementById('emailLink');
-  const val  = document.getElementById('emailVal');
-  if (link) link.href        = 'mai' + 'lto:' + u + '@' + d;
-  if (val)  val.textContent  = u + '@' + d;
+  const email = u + '@' + d;
+  const link  = document.getElementById('emailLink');
+  const val   = document.getElementById('emailVal');
+  if (val)  val.textContent = email;
+  if (link) {
+    link.href = 'mai' + 'lto:' + email;
+    // Por si el smooth-scroll intercepta el click, forzamos la apertura
+    link.addEventListener('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      window.location.href = 'mai' + 'lto:' + email;
+    });
+  }
 })();
 
 /* CURSOR */
