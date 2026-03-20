@@ -474,6 +474,9 @@ function scalePage() {
 }
 scalePage();
 window.addEventListener('resize', scalePage);
+// Esperar fuentes para medir altura real
+document.fonts.ready.then(scalePage);
+window.addEventListener('load', scalePage);
 
 function descargarPDF() {
   const toast = document.getElementById('toastPdf');
