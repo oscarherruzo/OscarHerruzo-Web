@@ -26,14 +26,11 @@ body {
   padding:40px 0 60px;
 }
 
+/* ── TOP BAR ── */
 .top-bar {
-  width:100%;
-  max-width:var(--cv-w);
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:16px;
-  padding:0 16px;
+  width:100%; max-width:var(--cv-w);
+  display:flex; justify-content:space-between; align-items:center;
+  margin-bottom:16px; padding:0 16px;
 }
 .top-bar a { font-family:'DM Mono',monospace; font-size:.72rem; color:#9CA3AF; text-decoration:none; }
 .top-bar a:hover { color:var(--dark); }
@@ -50,20 +47,17 @@ body {
 .btn-print { background:var(--dark); color:#fff; }
 .btn-print:hover { background:#374151; }
 
-/* ── Wrapper de escala ── */
-.scale-shell {
-  width:100%;
-  max-width:var(--cv-w);
-}
+/* ── WRAPPER ESCALADO ── */
+.scale-shell { width:100%; max-width:var(--cv-w); }
 
-/* ── Documento CV ── */
+/* ── DOCUMENTO ── */
 #cvDoc {
-  width: var(--cv-w);
+  width:var(--cv-w);
   background:#fff;
   box-shadow:0 6px 48px rgba(0,0,0,.13);
   border-radius:4px;
   overflow:hidden;
-  transform-origin: top left;
+  transform-origin:top left;
 }
 
 /* ── CABECERA ── */
@@ -71,7 +65,7 @@ body {
   background:var(--dark);
   padding:30px 40px 26px;
   display:grid;
-  grid-template-columns: 1fr auto;
+  grid-template-columns:1fr auto;
   gap:20px;
   align-items:center;
 }
@@ -96,6 +90,9 @@ body {
   text-transform:uppercase; letter-spacing:.15em; color:var(--gray);
   margin-bottom:10px; padding-bottom:5px; border-bottom:1px solid var(--border);
   display:flex; align-items:center; gap:7px;
+  /* evitar que el título quede solo al final de una página */
+  page-break-after: avoid;
+  break-after: avoid;
 }
 .sec-title::before { content:''; width:3px; height:9px; background:var(--dark); border-radius:2px; flex-shrink:0; }
 .summary { font-size:.78rem; color:var(--mid); line-height:1.72; font-weight:300; }
@@ -103,48 +100,79 @@ body {
 
 /* ── EXPERIENCIA ── */
 .exp-item {
-  margin-bottom:13px; padding-bottom:13px; border-bottom:1px solid #F3F4F6;
-  page-break-inside:avoid; break-inside:avoid;
+  margin-bottom:13px; padding-bottom:13px;
+  border-bottom:1px solid #F3F4F6;
+  /* Evitar cortes dentro de un bloque de experiencia */
+  page-break-inside: avoid !important;
+  break-inside:      avoid !important;
 }
 .exp-item:last-child { border-bottom:none; margin-bottom:0; padding-bottom:0; }
-.exp-row { display:flex; justify-content:space-between; align-items:baseline; gap:8px; margin-bottom:1px; flex-wrap:wrap; }
+.exp-row {
+  display:flex; justify-content:space-between; align-items:baseline;
+  gap:8px; margin-bottom:1px; flex-wrap:wrap;
+  page-break-after: avoid; break-after: avoid;
+}
 .exp-title { font-size:.83rem; font-weight:700; color:var(--dark); }
 .exp-date  { font-family:'DM Mono',monospace; font-size:.6rem; color:var(--gray); white-space:nowrap; flex-shrink:0; }
-.exp-co    { font-size:.74rem; color:var(--green); font-weight:500; margin-bottom:1px; }
+.exp-co    { font-size:.74rem; color:var(--green); font-weight:500; margin-bottom:1px; page-break-after:avoid; break-after:avoid; }
 .exp-type  { font-family:'DM Mono',monospace; font-size:.58rem; color:#9CA3AF; margin-bottom:5px; }
-.sub-proj { margin-top:5px; padding-top:5px; border-top:1px dashed #EFEFEF; }
+
+.sub-proj {
+  margin-top:5px; padding-top:5px; border-top:1px dashed #EFEFEF;
+  page-break-inside: avoid !important;
+  break-inside:      avoid !important;
+}
 .sub-proj:first-of-type { border-top:none; padding-top:0; margin-top:3px; }
-.sub-title { font-size:.72rem; font-weight:600; color:var(--mid); margin-bottom:3px; display:flex; align-items:center; gap:5px; }
+.sub-title {
+  font-size:.72rem; font-weight:600; color:var(--mid);
+  margin-bottom:3px; display:flex; align-items:center; gap:5px;
+  page-break-after: avoid; break-after: avoid;
+}
 .sub-title::before { content:'▸'; color:var(--green); font-size:.58rem; flex-shrink:0; }
-.bullets { list-style:none; padding:0; display:flex; flex-direction:column; gap:2px; }
-.bullets li { font-size:.72rem; color:var(--gray); line-height:1.5; padding-left:10px; position:relative; }
+
+.bullets {
+  list-style:none; padding:0; display:flex; flex-direction:column; gap:2px;
+  page-break-inside: avoid !important; break-inside: avoid !important;
+}
+.bullets li {
+  font-size:.72rem; color:var(--gray); line-height:1.5;
+  padding-left:10px; position:relative;
+  page-break-inside: avoid !important; break-inside: avoid !important;
+}
 .bullets li::before { content:'○'; position:absolute; left:0; color:#D1D5DB; font-size:.52rem; top:3px; }
 .bullets li strong { color:var(--mid); font-weight:600; }
 
 /* ── SKILLS ── */
-.sk-item { margin-bottom:10px; page-break-inside:avoid; break-inside:avoid; }
-.sk-name { font-size:.73rem; font-weight:600; color:var(--dark); margin-bottom:3px; }
+.sk-item {
+  margin-bottom:10px;
+  page-break-inside: avoid !important; break-inside: avoid !important;
+}
+.sk-name { font-size:.73rem; font-weight:600; color:var(--dark); margin-bottom:3px; page-break-after:avoid; break-after:avoid; }
 .sk-bar-bg { background:var(--border); border-radius:2px; height:3px; overflow:hidden; margin-bottom:4px; }
 .sk-bar-fill { height:100%; border-radius:2px; background:linear-gradient(90deg,var(--green),var(--accent)); }
 .sk-tags { display:flex; flex-wrap:wrap; gap:3px; }
 .sk-tag { font-family:'DM Mono',monospace; font-size:.55rem; color:var(--gray); background:#fff; border:1px solid var(--border); border-radius:3px; padding:1px 4px; white-space:nowrap; }
 
 /* ── EDUCACIÓN ── */
-.edu-item { margin-bottom:9px; padding-bottom:9px; border-bottom:1px solid var(--border); page-break-inside:avoid; break-inside:avoid; }
+.edu-item {
+  margin-bottom:9px; padding-bottom:9px; border-bottom:1px solid var(--border);
+  page-break-inside: avoid !important; break-inside: avoid !important;
+}
 .edu-item:last-child { border-bottom:none; margin-bottom:0; padding-bottom:0; }
-.edu-title  { font-size:.72rem; font-weight:700; color:var(--dark); margin-bottom:2px; line-height:1.3; }
+.edu-title  { font-size:.72rem; font-weight:700; color:var(--dark); margin-bottom:2px; line-height:1.3; page-break-after:avoid; break-after:avoid; }
 .edu-place  { font-size:.68rem; color:var(--green); font-weight:500; margin-bottom:1px; }
 .edu-date   { font-family:'DM Mono',monospace; font-size:.57rem; color:#9CA3AF; margin-bottom:2px; }
 .edu-detail { font-size:.65rem; color:var(--gray); line-height:1.45; }
 
 /* ── OTROS / IDIOMAS ── */
-.extra-item { font-size:.7rem; color:var(--gray); line-height:1.5; padding-left:10px; position:relative; margin-bottom:5px; }
+.extra-item { font-size:.7rem; color:var(--gray); line-height:1.5; padding-left:10px; position:relative; margin-bottom:5px; page-break-inside:avoid; break-inside:avoid; }
 .extra-item::before { content:'▸'; position:absolute; left:0; color:var(--green); font-size:.58rem; top:2px; }
 .extra-item strong { color:var(--dark); font-weight:600; }
 .lang-row { display:flex; justify-content:space-between; align-items:center; margin-bottom:5px; }
 .lang-name { font-size:.73rem; font-weight:500; color:var(--dark); }
 .lang-lvl  { font-family:'DM Mono',monospace; font-size:.57rem; color:var(--gray); background:#fff; border:1px solid var(--border); border-radius:3px; padding:1px 5px; }
 
+/* ── PRINT ── */
 @media print {
   body { background:#fff; padding:0; }
   .top-bar { display:none; }
@@ -348,54 +376,32 @@ body {
         <div class="sk-item">
           <p class="sk-name">Power BI y DAX</p>
           <div class="sk-bar-bg"><div class="sk-bar-fill" style="width:94%"></div></div>
-          <div class="sk-tags">
-            <span class="sk-tag">DAX avanzado</span><span class="sk-tag">RLS</span>
-            <span class="sk-tag">Star Schema</span><span class="sk-tag">Intel. Temporal</span>
-            <span class="sk-tag">PBI Service</span>
-          </div>
+          <div class="sk-tags"><span class="sk-tag">DAX avanzado</span><span class="sk-tag">RLS</span><span class="sk-tag">Star Schema</span><span class="sk-tag">Intel. Temporal</span><span class="sk-tag">PBI Service</span></div>
         </div>
         <div class="sk-item">
           <p class="sk-name">Python</p>
           <div class="sk-bar-bg"><div class="sk-bar-fill" style="width:88%"></div></div>
-          <div class="sk-tags">
-            <span class="sk-tag">Pandas</span><span class="sk-tag">NumPy</span>
-            <span class="sk-tag">SQLAlchemy</span><span class="sk-tag">Streamlit</span>
-          </div>
+          <div class="sk-tags"><span class="sk-tag">Pandas</span><span class="sk-tag">NumPy</span><span class="sk-tag">SQLAlchemy</span><span class="sk-tag">Streamlit</span></div>
         </div>
         <div class="sk-item">
           <p class="sk-name">SQL y Bases de datos</p>
           <div class="sk-bar-bg"><div class="sk-bar-fill" style="width:86%"></div></div>
-          <div class="sk-tags">
-            <span class="sk-tag">SQL Server</span><span class="sk-tag">PL/SQL</span>
-            <span class="sk-tag">Oracle</span><span class="sk-tag">MySQL</span>
-            <span class="sk-tag">MariaDB</span>
-          </div>
+          <div class="sk-tags"><span class="sk-tag">SQL Server</span><span class="sk-tag">PL/SQL</span><span class="sk-tag">Oracle</span><span class="sk-tag">MySQL</span><span class="sk-tag">MariaDB</span></div>
         </div>
         <div class="sk-item">
           <p class="sk-name">ETL e Integración</p>
           <div class="sk-bar-bg"><div class="sk-bar-fill" style="width:85%"></div></div>
-          <div class="sk-tags">
-            <span class="sk-tag">SSIS</span><span class="sk-tag">T-SQL</span>
-            <span class="sk-tag">Power Query</span><span class="sk-tag">Apps Script</span>
-          </div>
+          <div class="sk-tags"><span class="sk-tag">SSIS</span><span class="sk-tag">T-SQL</span><span class="sk-tag">Power Query</span><span class="sk-tag">Apps Script</span></div>
         </div>
         <div class="sk-item">
           <p class="sk-name">IA y Modelos de Lenguaje</p>
           <div class="sk-bar-bg"><div class="sk-bar-fill" style="width:77%"></div></div>
-          <div class="sk-tags">
-            <span class="sk-tag">Groq</span><span class="sk-tag">Gemini</span>
-            <span class="sk-tag">Llama 3.3</span><span class="sk-tag">Ing. de Prompts</span>
-          </div>
+          <div class="sk-tags"><span class="sk-tag">Groq</span><span class="sk-tag">Gemini</span><span class="sk-tag">Llama 3.3</span><span class="sk-tag">Ing. de Prompts</span></div>
         </div>
         <div class="sk-item">
           <p class="sk-name">Desarrollo Full-Stack</p>
           <div class="sk-bar-bg"><div class="sk-bar-fill" style="width:80%"></div></div>
-          <div class="sk-tags">
-            <span class="sk-tag">Angular</span><span class="sk-tag">NestJS</span>
-            <span class="sk-tag">TypeScript</span><span class="sk-tag">Flutter</span>
-            <span class="sk-tag">Java</span><span class="sk-tag">Spring Boot</span>
-            <span class="sk-tag">WordPress</span><span class="sk-tag">Git</span>
-          </div>
+          <div class="sk-tags"><span class="sk-tag">Angular</span><span class="sk-tag">NestJS</span><span class="sk-tag">TypeScript</span><span class="sk-tag">Flutter</span><span class="sk-tag">Java</span><span class="sk-tag">Spring Boot</span><span class="sk-tag">WordPress</span><span class="sk-tag">Git</span></div>
         </div>
       </div>
 
@@ -445,9 +451,7 @@ body {
 </div><!-- /.scale-shell -->
 
 <script>
-/* ════════════════════════════════════
-   ESCALADO MÓVIL
-════════════════════════════════════ */
+/* ════════ ESCALADO MÓVIL ════════ */
 const CV_W = 794;
 function scalePage() {
   const shell = document.getElementById('scaleShell');
@@ -467,26 +471,41 @@ function scalePage() {
 scalePage();
 window.addEventListener('resize', scalePage);
 
-/* ════════════════════════════════════
-   DESCARGA PDF
-   Clave: margin [10,0,10,0] — sin margen lateral
-   794px html == 210mm A4, encaja exacto
-════════════════════════════════════ */
+/* ════════ DESCARGA PDF ════════
+   Estrategia de márgenes:
+   - Página 1:   margen superior = 0  → la cabecera oscura llega al borde
+   - Páginas 2+: necesitan espacio para la mini-cabecera (HBAR mm)
+                 → lo creamos añadiendo un offset al canvas de la página 2+
+
+   En la práctica html2pdf no permite márgenes distintos por página,
+   así que usamos el truco de:
+   1. Renderizar el HTML con margin [0,0,10,0]  (sin margen top)
+   2. En páginas 2+ desplazamos el contenido hacia abajo HBAR+GAP mm
+      re-dibujando la imagen de esa página con un offset en Y.
+   Esto es más complejo, por lo que usamos el enfoque más fiable:
+   - margin top = HBAR + GAP = 14mm para TODAS las páginas
+   - En página 1 rellenamos el espacio sobrante con el color de la cabecera (#1A1D23)
+     para que sea imperceptible
+════════════════════════════════ */
+const HBAR = 12;   // mm — altura de la mini-cabecera
+const GAP  = 3;    // mm — separación entre mini-cabecera y contenido
+const MTOP = HBAR + GAP; // 15mm margen superior aplicado a TODAS las páginas
+
 async function descargarPDF() {
   const btn = document.getElementById('btnPdf');
   btn.disabled = true;
   btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
     style="animation:spin 1s linear infinite"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>&nbsp;Generando…`;
 
-  const doc   = document.getElementById('cvDoc');
+  const cvDoc = document.getElementById('cvDoc');
   const shell = document.getElementById('scaleShell');
 
   // Quitar escala temporalmente
-  const pT = doc.style.transform, pO = doc.style.transformOrigin, pH = shell.style.height;
-  doc.style.transform = ''; doc.style.transformOrigin = ''; shell.style.height = '';
+  const pT = cvDoc.style.transform, pO = cvDoc.style.transformOrigin, pH = shell.style.height;
+  cvDoc.style.transform = ''; cvDoc.style.transformOrigin = ''; shell.style.height = '';
 
   const opts = {
-    margin:      [10, 0, 10, 0],       // sin margen lateral: 794px = A4 exacto
+    margin:      [MTOP, 0, 10, 0],
     filename:    'cv-oscar-herruzo-montoya.pdf',
     image:       { type: 'jpeg', quality: 0.98 },
     html2canvas: {
@@ -495,30 +514,67 @@ async function descargarPDF() {
     },
     jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
     pagebreak: {
+      // 'css' respeta las propiedades CSS que pusimos
+      // 'legacy' es el fallback basado en altura de página
       mode: ['css', 'legacy'],
-      avoid: ['.exp-item', '.edu-item', '.sk-item', '.cv-head']
+      avoid: ['.exp-item', '.sub-proj', '.edu-item', '.sk-item', '.bullets', '.sec-title']
     }
   };
 
-  const D = [26,29,35], A = [163,230,53];
-  const HBAR = 11;
+  // Colores
+  const DARK = [26, 29, 35];    // #1A1D23
+  const ACNT = [163, 230, 53];  // #A3E635
+  const LGRY = [170, 178, 190];
+  const MGRY = [130, 140, 155];
 
   try {
-    await html2pdf().set(opts).from(doc).toPdf().get('pdf').then(pdf => {
+    await html2pdf().set(opts).from(cvDoc).toPdf().get('pdf').then(pdf => {
       const n = pdf.internal.getNumberOfPages();
       const W = pdf.internal.pageSize.getWidth();
+
+      // ── Página 1: rellenar el margen superior con el color de la cabecera
+      //    para que parezca que no hay margen
+      pdf.setPage(1);
+      pdf.setFillColor(...DARK);
+      pdf.rect(0, 0, W, MTOP, 'F');
+
+      // ── Páginas 2+: mini-cabecera dentro del margen superior
       for (let i = 2; i <= n; i++) {
         pdf.setPage(i);
-        pdf.setFillColor(...D);
+
+        // Fondo gris claro para toda la franja del margen (limpio)
+        pdf.setFillColor(247, 248, 250);
+        pdf.rect(0, 0, W, MTOP, 'F');
+
+        // Mini-cabecera oscura (HBAR mm de alto, con 1mm de espacio abajo = GAP-2mm)
+        pdf.setFillColor(...DARK);
         pdf.rect(0, 0, W, HBAR, 'F');
-        pdf.setFillColor(...A);
-        pdf.rect(10, 4, 2.5, 2.5, 'F');
-        pdf.setFont('helvetica','bold'); pdf.setFontSize(9.5); pdf.setTextColor(255,255,255);
-        pdf.text('Óscar Herruzo Montoya', 15.5, 7.2);
-        pdf.setFont('helvetica','normal'); pdf.setFontSize(6.5); pdf.setTextColor(170,178,190);
-        pdf.text('Desarrollador de Datos y BI · Consultor · Full-Stack', 15.5, 9.6);
-        pdf.setFontSize(6.5); pdf.setTextColor(130,140,155);
-        pdf.text(`Página ${i} / ${n}`, W - 10, 7.2, { align: 'right' });
+
+        // Punto acento
+        pdf.setFillColor(...ACNT);
+        pdf.rect(10, 4, 2.2, 2.2, 'F');
+
+        // Nombre
+        pdf.setFont('helvetica', 'bold');
+        pdf.setFontSize(9);
+        pdf.setTextColor(255, 255, 255);
+        pdf.text('Óscar Herruzo Montoya', 15, 7);
+
+        // Rol
+        pdf.setFont('helvetica', 'normal');
+        pdf.setFontSize(6);
+        pdf.setTextColor(...LGRY);
+        pdf.text('Desarrollador de Datos y BI · Consultor · Full-Stack', 15, 10);
+
+        // Número de página (derecha, alineado con el nombre)
+        pdf.setFontSize(6);
+        pdf.setTextColor(...MGRY);
+        pdf.text(`Página ${i} / ${n}`, W - 10, 7, { align: 'right' });
+
+        // Línea separadora sutil entre cabecera y contenido
+        pdf.setDrawColor(220, 224, 230);
+        pdf.setLineWidth(0.3);
+        pdf.line(0, HBAR + 0.5, W, HBAR + 0.5);
       }
     }).save();
   } catch(e) {
@@ -526,10 +582,12 @@ async function descargarPDF() {
     alert('Error al generar el PDF. Usa el botón Imprimir como alternativa.');
   }
 
-  doc.style.transform = pT; doc.style.transformOrigin = pO; shell.style.height = pH;
+  // Restaurar escalado
+  cvDoc.style.transform = pT; cvDoc.style.transformOrigin = pO; shell.style.height = pH;
   btn.disabled = false;
   btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/>
+    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+    <polyline points="7 10 12 15 17 10"/>
     <line x1="12" y1="15" x2="12" y2="3"/></svg> Descargar PDF`;
 }
 </script>
