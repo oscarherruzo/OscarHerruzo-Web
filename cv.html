@@ -6,7 +6,6 @@
 <title>CV — Óscar Herruzo Montoya</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&family=DM+Serif+Display&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
@@ -37,7 +36,6 @@ body {
 }
 .btn-pdf { background:var(--green); color:#fff; }
 .btn-pdf:hover { background:#166534; }
-.btn-pdf:disabled { opacity:.6; cursor:wait; }
 .btn-print { background:var(--dark); color:#fff; }
 .btn-print:hover { background:#374151; }
 
@@ -49,7 +47,6 @@ body {
   border-radius:4px; overflow:hidden; transform-origin:top left;
 }
 
-/* ── CABECERA ── */
 .cv-head {
   background:var(--dark); padding:18px 40px 16px;
   display:grid; grid-template-columns:1fr auto; gap:20px; align-items:center;
@@ -60,103 +57,143 @@ body {
 .cv-contacts { display:flex; flex-direction:column; align-items:flex-end; gap:5px; flex-shrink:0; }
 .cv-ct { display:flex; align-items:center; gap:6px; font-family:'DM Mono',monospace; font-size:.65rem; color:#D1D5DB; white-space:nowrap; }
 .cv-ct a { color:#D1D5DB; text-decoration:none; }
-.cv-ct a:hover { color:var(--accent); }
 .ct-dot { width:5px; height:5px; background:var(--accent); border-radius:50%; flex-shrink:0; }
 
-/* ── CUERPO ── */
 .cv-body { display:grid; grid-template-columns:1fr 210px; }
 .cv-main { padding:24px 28px 24px 40px; border-right:1px solid var(--border); min-width:0; }
 .cv-side { padding:24px 20px; background:var(--light); min-width:0; }
 
-/* ── SECCIONES ── */
 .sec { margin-bottom:18px; }
 .sec-title {
   font-family:'DM Mono',monospace; font-size:.58rem; font-weight:500;
   text-transform:uppercase; letter-spacing:.15em; color:var(--gray);
   margin-bottom:10px; padding-bottom:5px; border-bottom:1px solid var(--border);
   display:flex; align-items:center; gap:7px;
-  page-break-after:avoid; break-after:avoid;
 }
 .sec-title::before { content:''; width:3px; height:9px; background:var(--dark); border-radius:2px; flex-shrink:0; }
 .summary { font-size:.64rem; color:var(--mid); line-height:1.55; font-weight:300; }
 .summary strong { color:var(--dark); font-weight:600; }
 
-/* ── EXPERIENCIA ── */
 .exp-item { margin-bottom:13px; padding-bottom:13px; border-bottom:1px solid #F3F4F6; }
 .exp-item:last-child { border-bottom:none; margin-bottom:0; padding-bottom:0; }
-
-.exp-row {
-  display:flex; justify-content:space-between; align-items:baseline;
-  gap:8px; margin-bottom:1px; flex-wrap:wrap;
-  page-break-after:avoid; break-after:avoid;
-}
+.exp-row { display:flex; justify-content:space-between; align-items:baseline; gap:8px; margin-bottom:1px; flex-wrap:wrap; }
 .exp-title { font-size:.83rem; font-weight:700; color:var(--dark); }
 .exp-date  { font-family:'DM Mono',monospace; font-size:.6rem; color:var(--gray); white-space:nowrap; flex-shrink:0; }
-.exp-co    { font-size:.74rem; color:var(--green); font-weight:500; margin-bottom:1px; page-break-after:avoid; break-after:avoid; }
-.exp-type  { font-family:'DM Mono',monospace; font-size:.58rem; color:#9CA3AF; margin-bottom:5px; page-break-after:avoid; break-after:avoid; }
+.exp-co    { font-size:.74rem; color:var(--green); font-weight:500; margin-bottom:1px; }
+.exp-type  { font-family:'DM Mono',monospace; font-size:.58rem; color:#9CA3AF; margin-bottom:5px; }
 
-.sub-proj {
-  margin-top:5px; padding-top:5px; border-top:1px dashed #EFEFEF;
-  page-break-inside:avoid; break-inside:avoid;
-}
+.sub-proj { margin-top:5px; padding-top:5px; border-top:1px dashed #EFEFEF; }
 .sub-proj:first-of-type { border-top:none; padding-top:0; margin-top:3px; }
-
-.sub-title {
-  font-size:.72rem; font-weight:600; color:var(--mid);
-  margin-bottom:3px; display:flex; align-items:center; gap:5px;
-  page-break-after:avoid; break-after:avoid;
-}
+.sub-title { font-size:.72rem; font-weight:600; color:var(--mid); margin-bottom:3px; display:flex; align-items:center; gap:5px; }
 .sub-title::before { content:'▸'; color:var(--green); font-size:.58rem; flex-shrink:0; }
 
 .bullets { list-style:none; padding:0; display:flex; flex-direction:column; gap:2px; }
-.bullets li {
-  font-size:.72rem; color:var(--gray); line-height:1.5;
-  padding-left:10px; position:relative;
-  page-break-inside:avoid; break-inside:avoid;
-}
+.bullets li { font-size:.72rem; color:var(--gray); line-height:1.5; padding-left:10px; position:relative; }
 .bullets li::before { content:'○'; position:absolute; left:0; color:#D1D5DB; font-size:.52rem; top:3px; }
 .bullets li strong { color:var(--mid); font-weight:600; }
 
-/* ── SKILLS ── */
-.sk-item { margin-bottom:10px; page-break-inside:avoid; break-inside:avoid; }
-.sk-name { font-size:.73rem; font-weight:600; color:var(--dark); margin-bottom:3px; page-break-after:avoid; break-after:avoid; }
+.sk-item { margin-bottom:10px; }
+.sk-name { font-size:.73rem; font-weight:600; color:var(--dark); margin-bottom:3px; }
 .sk-bar-bg { background:var(--border); border-radius:2px; height:3px; overflow:hidden; margin-bottom:4px; }
 .sk-bar-fill { height:100%; border-radius:2px; background:linear-gradient(90deg,var(--green),var(--accent)); }
 .sk-tags { display:flex; flex-wrap:wrap; gap:3px; }
 .sk-tag { font-family:'DM Mono',monospace; font-size:.55rem; color:var(--gray); background:#fff; border:1px solid var(--border); border-radius:3px; padding:1px 4px; white-space:nowrap; }
 
-/* ── EDUCACIÓN ── */
-.edu-item { margin-bottom:9px; padding-bottom:9px; border-bottom:1px solid var(--border); page-break-inside:avoid; break-inside:avoid; }
+.edu-item { margin-bottom:9px; padding-bottom:9px; border-bottom:1px solid var(--border); }
 .edu-item:last-child { border-bottom:none; margin-bottom:0; padding-bottom:0; }
-.edu-title  { font-size:.72rem; font-weight:700; color:var(--dark); margin-bottom:2px; line-height:1.3; page-break-after:avoid; break-after:avoid; }
+.edu-title  { font-size:.72rem; font-weight:700; color:var(--dark); margin-bottom:2px; line-height:1.3; }
 .edu-place  { font-size:.68rem; color:var(--green); font-weight:500; margin-bottom:1px; }
 .edu-date   { font-family:'DM Mono',monospace; font-size:.57rem; color:#9CA3AF; margin-bottom:2px; }
 .edu-detail { font-size:.65rem; color:var(--gray); line-height:1.45; }
 
-/* ── OTROS / IDIOMAS ── */
-.extra-item { font-size:.7rem; color:var(--gray); line-height:1.5; padding-left:10px; position:relative; margin-bottom:5px; page-break-inside:avoid; break-inside:avoid; }
+.extra-item { font-size:.7rem; color:var(--gray); line-height:1.5; padding-left:10px; position:relative; margin-bottom:5px; }
 .extra-item::before { content:'▸'; position:absolute; left:0; color:var(--green); font-size:.58rem; top:2px; }
 .extra-item strong { color:var(--dark); font-weight:600; }
 .lang-row { display:flex; justify-content:space-between; align-items:center; margin-bottom:5px; }
 .lang-name { font-size:.73rem; font-weight:500; color:var(--dark); }
 .lang-lvl  { font-family:'DM Mono',monospace; font-size:.57rem; color:var(--gray); background:#fff; border:1px solid var(--border); border-radius:3px; padding:1px 5px; }
 
+/* ═══════════════════════════════════════════════════
+   PRINT — renderizado idéntico al navegador
+═══════════════════════════════════════════════════ */
 @media print {
-  body { background:#fff; padding:0; }
-  .top-bar { display:none; }
-  .scale-shell { max-width:100%; }
-  #cvDoc { box-shadow:none; border-radius:0; width:100% !important; transform:none !important; }
-  @page { margin:20mm 0; size:A4; }
+  .top-bar, .toast-pdf { display:none !important; }
+
+  html, body {
+    background:#fff !important;
+    padding:0 !important; margin:0 !important;
+    display:block !important;
+    -webkit-print-color-adjust:exact !important;
+    print-color-adjust:exact !important;
+    color-adjust:exact !important;
+  }
+
+  .scale-shell {
+    max-width:100% !important;
+    width:100% !important;
+  }
+
+  #cvDoc {
+    width:100% !important;
+    box-shadow:none !important;
+    border-radius:0 !important;
+    transform:none !important;
+    overflow:visible !important;
+  }
+
+  /* Mantener layout de dos columnas */
+  .cv-body {
+    display:grid !important;
+    grid-template-columns:1fr 210px !important;
+  }
+
+  /* Fondos y colores */
+  .cv-head     { background:#1A1D23 !important; -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important; }
+  .cv-side     { background:#F7F8FA !important; -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important; }
+  .sk-bar-fill { -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important; }
+  .ct-dot      { background:#A3E635 !important; -webkit-print-color-adjust:exact !important; }
+  .cv-name em  { color:#A3E635 !important; }
+  .exp-co, .edu-place, .sub-title::before, .extra-item::before { -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important; }
+
+  /* Saltos de página */
+  .exp-item  { page-break-inside:avoid; break-inside:avoid; }
+  .sub-proj  { page-break-inside:avoid; break-inside:avoid; }
+  .edu-item  { page-break-inside:avoid; break-inside:avoid; }
+  .sk-item   { page-break-inside:avoid; break-inside:avoid; }
+  .sec-title { page-break-after:avoid;  break-after:avoid;  }
+  .exp-row   { page-break-after:avoid;  break-after:avoid;  }
+  .bullets li{ page-break-inside:avoid; break-inside:avoid; }
+
+  @page {
+    size: A4 portrait;
+    margin: 12mm 0;
+  }
 }
-@keyframes spin { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+
+/* Toast */
+.toast-pdf {
+  position:fixed; bottom:28px; left:50%; transform:translateX(-50%) translateY(20px);
+  background:var(--dark); color:#fff; padding:11px 22px;
+  border-radius:8px; font-size:.8rem; font-family:'DM Sans',sans-serif;
+  opacity:0; pointer-events:none;
+  transition:opacity .3s, transform .3s;
+  z-index:9999; white-space:nowrap;
+  box-shadow:0 4px 24px rgba(0,0,0,.3);
+}
+.toast-pdf.show { opacity:1; transform:translateX(-50%) translateY(0); }
+.toast-pdf .accent { color:var(--accent); font-weight:600; }
 </style>
 </head>
 <body>
 
+<div class="toast-pdf" id="toastPdf">
+  En el diálogo: cambia destino a <span class="accent">Guardar como PDF</span>
+</div>
+
 <div class="top-bar">
   <a href="index.html">← Portfolio</a>
   <div class="btn-group">
-    <button class="btn-pdf" id="btnPdf" onclick="descargarPDF()">
+    <button class="btn-pdf" onclick="descargarPDF()">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
         <polyline points="7 10 12 15 17 10"/>
@@ -419,7 +456,6 @@ body {
 </div><!-- /.scale-shell -->
 
 <script>
-/* ════ ESCALADO MÓVIL ════ */
 const CV_W = 794;
 function scalePage() {
   const shell = document.getElementById('scaleShell');
@@ -439,185 +475,11 @@ function scalePage() {
 scalePage();
 window.addEventListener('resize', scalePage);
 
-/* ════════════════════════════════════════════════════════
-   DESCARGA PDF
-════════════════════════════════════════════════════════ */
-const HBAR = 13;
-const MTOP = 20;
-const MBOT = 15;
-
-const A4_H_MM  = 297;
-const MM_TO_PX = 96 / 25.4;
-const PAGE_CONTENT_PX = (A4_H_MM - MTOP - MBOT) * MM_TO_PX;
-
-function insertBreakMarkers(root) {
-  const candidates = root.querySelectorAll(
-    '.sub-proj, .exp-item, .edu-item, .sk-item, .sec-title'
-  );
-  const rootTop = root.getBoundingClientRect().top;
-  const markers = [];
-
-  candidates.forEach(el => {
-    const elTop    = el.getBoundingClientRect().top - rootTop;
-    const elBottom = elTop + el.offsetHeight;
-    const pageStart = Math.floor(elTop    / PAGE_CONTENT_PX);
-    const pageEnd   = Math.floor(elBottom / PAGE_CONTENT_PX);
-
-    if (pageStart !== pageEnd) {
-      const nextPageTop = (pageStart + 1) * PAGE_CONTENT_PX;
-      const spaceLeft   = nextPageTop - elTop;
-
-      if (spaceLeft < el.offsetHeight * 0.4) {
-        const marker = document.createElement('div');
-        marker.className = '__pdf-break-marker';
-        marker.style.cssText = 'page-break-before:always;break-before:page;height:0;display:block;';
-        el.parentNode.insertBefore(marker, el);
-        markers.push(marker);
-      }
-    }
-  });
-
-  return markers;
-}
-
-function removeBreakMarkers(markers) {
-  markers.forEach(m => m.parentNode && m.parentNode.removeChild(m));
-}
-
-async function descargarPDF() {
-  const btn = document.getElementById('btnPdf');
-  btn.disabled = true;
-  btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-    style="animation:spin 1s linear infinite"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>&nbsp;Generando…`;
-
-  const cvDoc = document.getElementById('cvDoc');
-  const shell = document.getElementById('scaleShell');
-
-  // ── 1. Quitar transform de escala
-  const pT = cvDoc.style.transform;
-  const pO = cvDoc.style.transformOrigin;
-  const pH = shell.style.height;
-  cvDoc.style.transform = '';
-  cvDoc.style.transformOrigin = '';
-  shell.style.height = '';
-
-  // ── 2. CLAVE: quitar overflow:hidden para que html2canvas capture TODO el grid
-  const pOverflow      = cvDoc.style.overflow;
-  const pBorderRadius  = cvDoc.style.borderRadius;
-  cvDoc.style.overflow     = 'visible';
-  cvDoc.style.borderRadius = '0';
-
-  // ── 3. Forzar ancho explícito y scroll al inicio
-  cvDoc.style.width = CV_W + 'px';
-  window.scrollTo(0, 0);
-
-  // Pequeño delay para que el layout se recalcule
-  await new Promise(r => setTimeout(r, 80));
-
-  // ── 4. Insertar marcadores de salto
-  const markers = insertBreakMarkers(cvDoc);
-
-  const totalH = cvDoc.scrollHeight;
-
-  const opts = {
-    margin:      [MTOP, 0, MBOT, 0],
-    filename:    'cv-oscar-herruzo-montoya.pdf',
-    image:       { type: 'jpeg', quality: 0.98 },
-    html2canvas: {
-      scale:           2,
-      useCORS:         true,
-      logging:         false,
-      letterRendering: true,
-      scrollX:         0,
-      scrollY:         0,
-      windowWidth:     CV_W,
-      width:           CV_W,
-      height:          totalH,
-      onclone: (clonedDoc) => {
-        // Asegurar que el clon también tiene overflow visible y ancho correcto
-        const clonedCV = clonedDoc.getElementById('cvDoc');
-        if (clonedCV) {
-          clonedCV.style.overflow     = 'visible';
-          clonedCV.style.borderRadius = '0';
-          clonedCV.style.width        = CV_W + 'px';
-          clonedCV.style.transform    = '';
-        }
-      }
-    },
-    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
-    pagebreak: {
-      mode: ['css', 'legacy'],
-      before: ['.__pdf-break-marker'],
-      avoid:  ['.sub-proj', '.bullets li', '.edu-item', '.sk-item', '.sec-title']
-    }
-  };
-
-  const DARK = [26, 29, 35];
-  const ACNT = [163, 230, 53];
-  const LGRY = [170, 178, 190];
-  const MGRY = [130, 140, 155];
-
-  try {
-    await html2pdf().set(opts).from(cvDoc).toPdf().get('pdf').then(pdf => {
-      const n = pdf.internal.getNumberOfPages();
-      const W = pdf.internal.pageSize.getWidth();
-
-      // Página 1: cabecera oscura cubre el margen superior
-      pdf.setPage(1);
-      pdf.setFillColor(...DARK);
-      pdf.rect(0, 0, W, MTOP, 'F');
-
-      // Páginas 2+: mini-cabecera
-      for (let i = 2; i <= n; i++) {
-        pdf.setPage(i);
-
-        pdf.setFillColor(255, 255, 255);
-        pdf.rect(0, 0, W, MTOP, 'F');
-
-        pdf.setFillColor(...DARK);
-        pdf.rect(0, 0, W, HBAR, 'F');
-
-        pdf.setFillColor(...ACNT);
-        pdf.rect(10, 4.5, 2.2, 2.2, 'F');
-
-        pdf.setFont('helvetica', 'bold');
-        pdf.setFontSize(9);
-        pdf.setTextColor(255, 255, 255);
-        pdf.text('Óscar Herruzo Montoya', 15, 7.5);
-
-        pdf.setFont('helvetica', 'normal');
-        pdf.setFontSize(5.8);
-        pdf.setTextColor(...LGRY);
-        pdf.text('Desarrollador de Datos y BI · Consultor · Full-Stack', 15, 10.5);
-
-        pdf.setFontSize(5.8);
-        pdf.setTextColor(...MGRY);
-        pdf.text(`Página ${i} / ${n}`, W - 10, 7.5, { align: 'right' });
-
-        pdf.setDrawColor(220, 224, 230);
-        pdf.setLineWidth(0.25);
-        pdf.line(0, HBAR + 0.5, W, HBAR + 0.5);
-      }
-    }).save();
-  } catch(e) {
-    console.error(e);
-    alert('Error al generar el PDF. Usa el botón Imprimir como alternativa.');
-  }
-
-  // ── 5. Restaurar todo
-  removeBreakMarkers(markers);
-  cvDoc.style.overflow     = pOverflow;
-  cvDoc.style.borderRadius = pBorderRadius;
-  cvDoc.style.width        = '';
-  cvDoc.style.transform    = pT;
-  cvDoc.style.transformOrigin = pO;
-  shell.style.height       = pH;
-
-  btn.disabled = false;
-  btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-    <polyline points="7 10 12 15 17 10"/>
-    <line x1="12" y1="15" x2="12" y2="3"/></svg> Descargar PDF`;
+function descargarPDF() {
+  const toast = document.getElementById('toastPdf');
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 5000);
+  setTimeout(() => window.print(), 350);
 }
 </script>
 </body>
