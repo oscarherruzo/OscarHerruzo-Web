@@ -527,20 +527,13 @@ async function descargarPDF() {
   // Insertar marcadores de salto
   const markers = insertBreakMarkers(cvDoc);
 
-  const rect = cvDoc.getBoundingClientRect();
-
   const opts = {
     margin:      [MTOP, 0, MBOT, 0],
     filename:    'cv-oscar-herruzo-montoya.pdf',
     image:       { type: 'jpeg', quality: 0.98 },
     html2canvas: {
       scale: 2, useCORS: true, logging: false,
-      letterRendering: true,
-      scrollX: -rect.left,
-      scrollY: -rect.top,
-      windowWidth: CV_W,
-      width: CV_W,
-      height: cvDoc.scrollHeight
+      letterRendering: true, scrollX: 0, scrollY: 0, windowWidth: CV_W
     },
     jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
     pagebreak: {
