@@ -12,7 +12,9 @@
 :root {
   --dark:#1A1D23; --mid:#374151; --gray:#6B7280;
   --light:#F7F8FA; --border:#E5E7EB; --green:#15803D; --accent:#A3E635;
+  --cv-w: 794px;
 }
+
 body {
   font-family:'DM Sans',sans-serif;
   background:#EDEDEB;
@@ -21,57 +23,42 @@ body {
   display:flex;
   flex-direction:column;
   align-items:center;
-  padding:40px 20px;
+  padding:40px 0 60px;
 }
 
-/* ── TOP BAR ── */
 .top-bar {
   width:100%;
-  max-width:794px;
+  max-width:var(--cv-w);
   display:flex;
   justify-content:space-between;
   align-items:center;
   margin-bottom:16px;
+  padding:0 16px;
 }
-.top-bar a {
-  font-family:'DM Mono',monospace;
-  font-size:.72rem;
-  color:#9CA3AF;
-  text-decoration:none;
-}
+.top-bar a { font-family:'DM Mono',monospace; font-size:.72rem; color:#9CA3AF; text-decoration:none; }
 .top-bar a:hover { color:var(--dark); }
-
-.btn-group { display:flex; gap:8px; }
-
-.btn-print, .btn-pdf {
-  border:none;
-  border-radius:7px;
-  padding:9px 20px;
-  font-family:'DM Sans',sans-serif;
-  font-size:.82rem;
-  font-weight:500;
-  cursor:pointer;
-  display:inline-flex;
-  align-items:center;
-  gap:7px;
-  transition:background .2s;
+.btn-group { display:flex; gap:8px; flex-wrap:wrap; }
+.btn-pdf, .btn-print {
+  border:none; border-radius:7px; padding:9px 18px;
+  font-family:'DM Sans',sans-serif; font-size:.82rem; font-weight:500;
+  cursor:pointer; display:inline-flex; align-items:center; gap:7px;
+  transition:background .2s; white-space:nowrap;
 }
 .btn-pdf   { background:var(--green); color:#fff; }
 .btn-pdf:hover { background:#166534; }
+.btn-pdf:disabled { opacity:.6; cursor:wait; }
 .btn-print { background:var(--dark); color:#fff; }
 .btn-print:hover { background:#374151; }
-.btn-pdf:disabled { opacity:.6; cursor:wait; }
 
-/* ── PAGE WRAPPER para ajuste móvil ── */
-.page-wrapper {
-  width: 100%;
-  max-width: 794px;
-  overflow: hidden;
+/* ── Wrapper de escala ── */
+.scale-shell {
+  width:100%;
+  max-width:var(--cv-w);
 }
 
-/* ── PAGE ── */
-.page {
-  width:794px;
+/* ── Documento CV ── */
+#cvDoc {
+  width: var(--cv-w);
   background:#fff;
   box-shadow:0 6px 48px rgba(0,0,0,.13);
   border-radius:4px;
@@ -82,105 +69,96 @@ body {
 /* ── CABECERA ── */
 .cv-head {
   background:var(--dark);
-  padding:34px 44px 28px;
+  padding:30px 40px 26px;
   display:grid;
-  grid-template-columns:1fr auto;
-  gap:24px;
-  align-items:end;
+  grid-template-columns: 1fr auto;
+  gap:20px;
+  align-items:center;
 }
-.cv-name { font-family:'DM Serif Display',serif; font-size:2.3rem; color:#fff; line-height:1.04; letter-spacing:-.02em; margin-bottom:6px; }
+.cv-name { font-family:'DM Serif Display',serif; font-size:2.1rem; color:#fff; line-height:1.06; letter-spacing:-.02em; margin-bottom:6px; }
 .cv-name em { color:var(--accent); font-style:italic; }
-.cv-role { font-family:'DM Mono',monospace; font-size:.73rem; color:#9CA3AF; letter-spacing:.04em; }
-.cv-contacts { display:flex; flex-direction:column; align-items:flex-end; gap:5px; }
-.cv-ct { display:flex; align-items:center; gap:7px; font-family:'DM Mono',monospace; font-size:.7rem; color:#D1D5DB; }
+.cv-role { font-family:'DM Mono',monospace; font-size:.66rem; color:#9CA3AF; letter-spacing:.03em; line-height:1.5; }
+.cv-contacts { display:flex; flex-direction:column; align-items:flex-end; gap:5px; flex-shrink:0; }
+.cv-ct { display:flex; align-items:center; gap:6px; font-family:'DM Mono',monospace; font-size:.65rem; color:#D1D5DB; white-space:nowrap; }
 .cv-ct a { color:#D1D5DB; text-decoration:none; }
 .cv-ct a:hover { color:var(--accent); }
 .ct-dot { width:5px; height:5px; background:var(--accent); border-radius:50%; flex-shrink:0; }
 
-/* ── BODY GRID ── */
-.cv-body { display:grid; grid-template-columns:1fr 218px; }
-.cv-main { padding:28px 32px 28px 44px; border-right:1px solid var(--border); }
-.cv-side { padding:28px 24px 28px 22px; background:var(--light); }
+/* ── CUERPO ── */
+.cv-body { display:grid; grid-template-columns:1fr 210px; }
+.cv-main { padding:24px 28px 24px 40px; border-right:1px solid var(--border); min-width:0; }
+.cv-side { padding:24px 20px; background:var(--light); min-width:0; }
 
 /* ── SECCIONES ── */
-.sec { margin-bottom:20px; }
+.sec { margin-bottom:18px; }
 .sec-title {
-  font-family:'DM Mono',monospace;
-  font-size:.6rem;
-  font-weight:500;
-  text-transform:uppercase;
-  letter-spacing:.15em;
-  color:var(--gray);
-  margin-bottom:10px;
-  padding-bottom:5px;
-  border-bottom:1px solid var(--border);
-  display:flex;
-  align-items:center;
-  gap:7px;
+  font-family:'DM Mono',monospace; font-size:.58rem; font-weight:500;
+  text-transform:uppercase; letter-spacing:.15em; color:var(--gray);
+  margin-bottom:10px; padding-bottom:5px; border-bottom:1px solid var(--border);
+  display:flex; align-items:center; gap:7px;
 }
 .sec-title::before { content:''; width:3px; height:9px; background:var(--dark); border-radius:2px; flex-shrink:0; }
-
-.summary { font-size:.8rem; color:var(--mid); line-height:1.72; font-weight:300; }
+.summary { font-size:.78rem; color:var(--mid); line-height:1.72; font-weight:300; }
 .summary strong { color:var(--dark); font-weight:600; }
 
 /* ── EXPERIENCIA ── */
-.exp-item { margin-bottom:15px; padding-bottom:15px; border-bottom:1px solid #F3F4F6; }
+.exp-item {
+  margin-bottom:13px; padding-bottom:13px; border-bottom:1px solid #F3F4F6;
+  page-break-inside:avoid; break-inside:avoid;
+}
 .exp-item:last-child { border-bottom:none; margin-bottom:0; padding-bottom:0; }
-.exp-row { display:flex; justify-content:space-between; align-items:baseline; gap:10px; margin-bottom:1px; }
-.exp-title { font-size:.84rem; font-weight:700; color:var(--dark); }
-.exp-date  { font-family:'DM Mono',monospace; font-size:.61rem; color:var(--gray); white-space:nowrap; flex-shrink:0; }
-.exp-co    { font-size:.76rem; color:var(--green); font-weight:500; margin-bottom:1px; }
-.exp-type  { font-family:'DM Mono',monospace; font-size:.6rem; color:#9CA3AF; margin-bottom:5px; }
-
-.sub-proj { margin-top:6px; padding-top:6px; border-top:1px dashed #F0F0F0; }
-.sub-proj:first-of-type { border-top:none; padding-top:0; margin-top:4px; }
-.sub-title { font-size:.74rem; font-weight:600; color:var(--mid); margin-bottom:3px; display:flex; align-items:center; gap:5px; }
-.sub-title::before { content:'▸'; color:var(--green); font-size:.6rem; flex-shrink:0; }
-
+.exp-row { display:flex; justify-content:space-between; align-items:baseline; gap:8px; margin-bottom:1px; flex-wrap:wrap; }
+.exp-title { font-size:.83rem; font-weight:700; color:var(--dark); }
+.exp-date  { font-family:'DM Mono',monospace; font-size:.6rem; color:var(--gray); white-space:nowrap; flex-shrink:0; }
+.exp-co    { font-size:.74rem; color:var(--green); font-weight:500; margin-bottom:1px; }
+.exp-type  { font-family:'DM Mono',monospace; font-size:.58rem; color:#9CA3AF; margin-bottom:5px; }
+.sub-proj { margin-top:5px; padding-top:5px; border-top:1px dashed #EFEFEF; }
+.sub-proj:first-of-type { border-top:none; padding-top:0; margin-top:3px; }
+.sub-title { font-size:.72rem; font-weight:600; color:var(--mid); margin-bottom:3px; display:flex; align-items:center; gap:5px; }
+.sub-title::before { content:'▸'; color:var(--green); font-size:.58rem; flex-shrink:0; }
 .bullets { list-style:none; padding:0; display:flex; flex-direction:column; gap:2px; }
-.bullets li { font-size:.74rem; color:var(--gray); line-height:1.52; padding-left:10px; position:relative; }
-.bullets li::before { content:'○'; position:absolute; left:0; color:#D1D5DB; font-size:.55rem; top:3px; }
+.bullets li { font-size:.72rem; color:var(--gray); line-height:1.5; padding-left:10px; position:relative; }
+.bullets li::before { content:'○'; position:absolute; left:0; color:#D1D5DB; font-size:.52rem; top:3px; }
 .bullets li strong { color:var(--mid); font-weight:600; }
 
 /* ── SKILLS ── */
-.sk-item { margin-bottom:11px; }
-.sk-name { font-size:.75rem; font-weight:600; color:var(--dark); margin-bottom:3px; }
+.sk-item { margin-bottom:10px; page-break-inside:avoid; break-inside:avoid; }
+.sk-name { font-size:.73rem; font-weight:600; color:var(--dark); margin-bottom:3px; }
 .sk-bar-bg { background:var(--border); border-radius:2px; height:3px; overflow:hidden; margin-bottom:4px; }
 .sk-bar-fill { height:100%; border-radius:2px; background:linear-gradient(90deg,var(--green),var(--accent)); }
 .sk-tags { display:flex; flex-wrap:wrap; gap:3px; }
-.sk-tag { font-family:'DM Mono',monospace; font-size:.57rem; color:var(--gray); background:#fff; border:1px solid var(--border); border-radius:3px; padding:1px 5px; }
+.sk-tag { font-family:'DM Mono',monospace; font-size:.55rem; color:var(--gray); background:#fff; border:1px solid var(--border); border-radius:3px; padding:1px 4px; white-space:nowrap; }
 
 /* ── EDUCACIÓN ── */
-.edu-item { margin-bottom:10px; padding-bottom:10px; border-bottom:1px solid var(--border); }
+.edu-item { margin-bottom:9px; padding-bottom:9px; border-bottom:1px solid var(--border); page-break-inside:avoid; break-inside:avoid; }
 .edu-item:last-child { border-bottom:none; margin-bottom:0; padding-bottom:0; }
-.edu-title  { font-size:.74rem; font-weight:700; color:var(--dark); margin-bottom:2px; line-height:1.3; }
-.edu-place  { font-size:.7rem; color:var(--green); font-weight:500; margin-bottom:1px; }
-.edu-date   { font-family:'DM Mono',monospace; font-size:.59rem; color:#9CA3AF; margin-bottom:2px; }
-.edu-detail { font-size:.67rem; color:var(--gray); line-height:1.45; }
+.edu-title  { font-size:.72rem; font-weight:700; color:var(--dark); margin-bottom:2px; line-height:1.3; }
+.edu-place  { font-size:.68rem; color:var(--green); font-weight:500; margin-bottom:1px; }
+.edu-date   { font-family:'DM Mono',monospace; font-size:.57rem; color:#9CA3AF; margin-bottom:2px; }
+.edu-detail { font-size:.65rem; color:var(--gray); line-height:1.45; }
 
-/* ── OTROS ── */
-.extra-item { font-size:.72rem; color:var(--gray); line-height:1.5; padding-left:10px; position:relative; margin-bottom:6px; }
-.extra-item::before { content:'▸'; position:absolute; left:0; color:var(--green); font-size:.6rem; top:2px; }
+/* ── OTROS / IDIOMAS ── */
+.extra-item { font-size:.7rem; color:var(--gray); line-height:1.5; padding-left:10px; position:relative; margin-bottom:5px; }
+.extra-item::before { content:'▸'; position:absolute; left:0; color:var(--green); font-size:.58rem; top:2px; }
 .extra-item strong { color:var(--dark); font-weight:600; }
+.lang-row { display:flex; justify-content:space-between; align-items:center; margin-bottom:5px; }
+.lang-name { font-size:.73rem; font-weight:500; color:var(--dark); }
+.lang-lvl  { font-family:'DM Mono',monospace; font-size:.57rem; color:var(--gray); background:#fff; border:1px solid var(--border); border-radius:3px; padding:1px 5px; }
 
-.lang-row { display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; }
-.lang-name { font-size:.75rem; font-weight:500; color:var(--dark); }
-.lang-lvl  { font-family:'DM Mono',monospace; font-size:.59rem; color:var(--gray); background:#fff; border:1px solid var(--border); border-radius:3px; padding:1px 6px; }
-
-/* ── PRINT / PDF ── */
 @media print {
   body { background:#fff; padding:0; }
   .top-bar { display:none; }
-  .page-wrapper { max-width:100%; }
-  .page { box-shadow:none; border-radius:0; width:100%; transform:none !important; }
-  @page { margin:12mm 10mm; size:A4; }
+  .scale-shell { max-width:100%; }
+  #cvDoc { box-shadow:none; border-radius:0; width:100% !important; transform:none !important; }
+  @page { margin:10mm 0; size:A4; }
 }
+@keyframes spin { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
 </style>
 </head>
 <body>
 
 <div class="top-bar">
-  <a href="index.html">← Volver al portfolio</a>
+  <a href="index.html">← Portfolio</a>
   <div class="btn-group">
     <button class="btn-pdf" id="btnPdf" onclick="descargarPDF()">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -200,11 +178,9 @@ body {
   </div>
 </div>
 
-<!-- Wrapper para el escalado móvil -->
-<div class="page-wrapper" id="pageWrapper">
-<div class="page" id="cvPage">
+<div class="scale-shell" id="scaleShell">
+<div id="cvDoc">
 
-  <!-- CABECERA -->
   <div class="cv-head">
     <div>
       <h1 class="cv-name">Óscar <em>Herruzo Montoya</em></h1>
@@ -219,8 +195,6 @@ body {
   </div>
 
   <div class="cv-body">
-
-    <!-- MAIN -->
     <div class="cv-main">
 
       <div class="sec">
@@ -230,15 +204,14 @@ body {
           Con experiencia en <strong>Datos y BI</strong> (Power BI, DAX avanzado, Star Schema, RLS),
           <strong>ingeniería de datos</strong> (ETL con Python, SSIS, PL/SQL Oracle) y <strong>desarrollo full-stack</strong>
           (Angular, NestJS, Flutter). Actualmente en <strong>Nter Tech Services</strong> asignado a
-          <strong>Santander · Riesgo de Modelos y Riesgos Crediticios Locales</strong>, liderando el ecosistema de reporting de riesgos
-          e impulsando la innovación con IA aplicada (DAX Assistant · POC 2026).
+          <strong>Santander · Riesgo de Modelos y Riesgos Crediticios Locales</strong>, liderando el ecosistema de reporting
+          de riesgos e impulsando la innovación con IA aplicada (DAX Assistant · POC 2026).
         </p>
       </div>
 
       <div class="sec">
         <p class="sec-title">Experiencia profesional</p>
 
-        <!-- NTER ACTUAL -->
         <div class="exp-item">
           <div class="exp-row">
             <span class="exp-title">Desarrollador de Datos y BI</span>
@@ -246,13 +219,13 @@ body {
           </div>
           <p class="exp-co">Nter Tech Services · Santander — Riesgo de Modelos y Riesgos Crediticios Locales</p>
           <p class="exp-type">Jornada completa · Híbrido · Jaén</p>
-          <ul class="bullets" style="margin:4px 0 6px 0;">
+          <ul class="bullets" style="margin:4px 0 5px 0;">
             <li>Liderazgo del desarrollo end-to-end del ecosistema de reporting de gestión de riesgos: arquitectura de datos, entrega analítica, gobernanza e innovación con IA.</li>
           </ul>
           <div class="sub-proj">
             <p class="sub-title">Arquitectura de Datos</p>
             <ul class="bullets">
-              <li>Diseño y optimización de pipelines ETL para integrar datasets de alto volumen desde SQL Server a Power BI, estableciendo data lineage completo y estándares de calidad en los flujos críticos del departamento.</li>
+              <li>Diseño y optimización de pipelines ETL para integrar datasets de alto volumen desde SQL Server a Power BI, estableciendo data lineage completo y estándares de calidad en los flujos críticos.</li>
             </ul>
           </div>
           <div class="sub-proj">
@@ -270,19 +243,18 @@ body {
           <div class="sub-proj">
             <p class="sub-title">Seguridad y Gobernanza</p>
             <ul class="bullets">
-              <li>Configuración de Row-Level Security (RLS) y refresco automatizado de datos en Power BI Service, garantizando disponibilidad 24/7 con acceso controlado por roles.</li>
+              <li>Configuración de Row-Level Security (RLS) y refresco automatizado en Power BI Service, garantizando disponibilidad 24/7 con acceso controlado por roles.</li>
             </ul>
           </div>
           <div class="sub-proj">
             <p class="sub-title">Innovación con IA — DAX Assistant (POC · 2026)</p>
             <ul class="bullets">
               <li>Identificación de ineficiencias en los flujos de desarrollo DAX y construcción independiente de un copiloto IA para resolverlas.</li>
-              <li>La herramienta conecta directamente a SQL Server, lee metadatos del schema en vivo y usa Llama 3.3 70B (Groq / SambaNova / Gemini fallback) para generar DAX listo para producción, validar fórmulas, explicar el código y evaluar la lógica de negocio — sin exponer datos sensibles. <strong>GDPR-safe by design.</strong></li>
+              <li>Conecta a SQL Server, lee metadatos del schema en vivo y usa Llama 3.3 70B (Groq / SambaNova / Gemini fallback) para generar DAX listo para producción. <strong>GDPR-safe by design.</strong></li>
             </ul>
           </div>
         </div>
 
-        <!-- NTER PRÁCTICAS -->
         <div class="exp-item">
           <div class="exp-row">
             <span class="exp-title">Desarrollador de Datos y BI</span>
@@ -311,7 +283,6 @@ body {
           </div>
         </div>
 
-        <!-- IOONIC -->
         <div class="exp-item">
           <div class="exp-row">
             <span class="exp-title">Becario Desarrollo Web y Software</span>
@@ -328,7 +299,6 @@ body {
           </div>
         </div>
 
-        <!-- AAG -->
         <div class="exp-item">
           <div class="exp-row">
             <span class="exp-title">Becario Desarrollo de Software</span>
@@ -345,7 +315,6 @@ body {
           </div>
         </div>
 
-        <!-- CUBIT -->
         <div class="exp-item">
           <div class="exp-row">
             <span class="exp-title">Administrador de Redes</span>
@@ -353,10 +322,11 @@ body {
           </div>
           <p class="exp-co">Cubit Technology · Viena, Austria 🇦🇹</p>
           <p class="exp-type">Prácticas · Internacional</p>
-          <ul class="bullets" style="margin-top:4px;"><li>Administración de redes SAN y DNS en entorno corporativo internacional.</li></ul>
+          <ul class="bullets" style="margin-top:4px;">
+            <li>Administración de redes SAN y DNS en entorno corporativo internacional.</li>
+          </ul>
         </div>
 
-        <!-- DYNOS -->
         <div class="exp-item">
           <div class="exp-row">
             <span class="exp-title">Técnico Informático</span>
@@ -364,46 +334,68 @@ body {
           </div>
           <p class="exp-co">Dynos · Andújar</p>
           <p class="exp-type">Prácticas</p>
-          <ul class="bullets" style="margin-top:4px;"><li>Reparación y mantenimiento de equipos, gestión DNS y soporte técnico.</li></ul>
+          <ul class="bullets" style="margin-top:4px;">
+            <li>Reparación y mantenimiento de equipos, gestión DNS y soporte técnico.</li>
+          </ul>
         </div>
 
       </div>
-    </div>
+    </div><!-- /cv-main -->
 
-    <!-- SIDE -->
     <div class="cv-side">
-
       <div class="sec">
         <p class="sec-title">Tecnologías</p>
         <div class="sk-item">
           <p class="sk-name">Power BI y DAX</p>
           <div class="sk-bar-bg"><div class="sk-bar-fill" style="width:94%"></div></div>
-          <div class="sk-tags"><span class="sk-tag">DAX avanzado</span><span class="sk-tag">RLS</span><span class="sk-tag">Star Schema</span><span class="sk-tag">Intel. Temporal</span><span class="sk-tag">PBI Service</span></div>
+          <div class="sk-tags">
+            <span class="sk-tag">DAX avanzado</span><span class="sk-tag">RLS</span>
+            <span class="sk-tag">Star Schema</span><span class="sk-tag">Intel. Temporal</span>
+            <span class="sk-tag">PBI Service</span>
+          </div>
         </div>
         <div class="sk-item">
           <p class="sk-name">Python</p>
           <div class="sk-bar-bg"><div class="sk-bar-fill" style="width:88%"></div></div>
-          <div class="sk-tags"><span class="sk-tag">Pandas</span><span class="sk-tag">NumPy</span><span class="sk-tag">SQLAlchemy</span><span class="sk-tag">Streamlit</span></div>
+          <div class="sk-tags">
+            <span class="sk-tag">Pandas</span><span class="sk-tag">NumPy</span>
+            <span class="sk-tag">SQLAlchemy</span><span class="sk-tag">Streamlit</span>
+          </div>
         </div>
         <div class="sk-item">
           <p class="sk-name">SQL y Bases de datos</p>
           <div class="sk-bar-bg"><div class="sk-bar-fill" style="width:86%"></div></div>
-          <div class="sk-tags"><span class="sk-tag">SQL Server</span><span class="sk-tag">PL/SQL</span><span class="sk-tag">Oracle</span><span class="sk-tag">MySQL</span><span class="sk-tag">MariaDB</span></div>
+          <div class="sk-tags">
+            <span class="sk-tag">SQL Server</span><span class="sk-tag">PL/SQL</span>
+            <span class="sk-tag">Oracle</span><span class="sk-tag">MySQL</span>
+            <span class="sk-tag">MariaDB</span>
+          </div>
         </div>
         <div class="sk-item">
           <p class="sk-name">ETL e Integración</p>
           <div class="sk-bar-bg"><div class="sk-bar-fill" style="width:85%"></div></div>
-          <div class="sk-tags"><span class="sk-tag">SSIS</span><span class="sk-tag">T-SQL</span><span class="sk-tag">Power Query</span><span class="sk-tag">Apps Script</span></div>
+          <div class="sk-tags">
+            <span class="sk-tag">SSIS</span><span class="sk-tag">T-SQL</span>
+            <span class="sk-tag">Power Query</span><span class="sk-tag">Apps Script</span>
+          </div>
         </div>
         <div class="sk-item">
           <p class="sk-name">IA y Modelos de Lenguaje</p>
           <div class="sk-bar-bg"><div class="sk-bar-fill" style="width:77%"></div></div>
-          <div class="sk-tags"><span class="sk-tag">Groq</span><span class="sk-tag">Gemini</span><span class="sk-tag">Llama 3.3</span><span class="sk-tag">Ing. de Prompts</span></div>
+          <div class="sk-tags">
+            <span class="sk-tag">Groq</span><span class="sk-tag">Gemini</span>
+            <span class="sk-tag">Llama 3.3</span><span class="sk-tag">Ing. de Prompts</span>
+          </div>
         </div>
         <div class="sk-item">
           <p class="sk-name">Desarrollo Full-Stack</p>
           <div class="sk-bar-bg"><div class="sk-bar-fill" style="width:80%"></div></div>
-          <div class="sk-tags"><span class="sk-tag">Angular</span><span class="sk-tag">NestJS</span><span class="sk-tag">TypeScript</span><span class="sk-tag">Flutter</span><span class="sk-tag">Java</span><span class="sk-tag">Spring Boot</span><span class="sk-tag">WordPress</span><span class="sk-tag">Git</span></div>
+          <div class="sk-tags">
+            <span class="sk-tag">Angular</span><span class="sk-tag">NestJS</span>
+            <span class="sk-tag">TypeScript</span><span class="sk-tag">Flutter</span>
+            <span class="sk-tag">Java</span><span class="sk-tag">Spring Boot</span>
+            <span class="sk-tag">WordPress</span><span class="sk-tag">Git</span>
+          </div>
         </div>
       </div>
 
@@ -447,137 +439,99 @@ body {
         <div class="lang-row"><span class="lang-name">Español</span><span class="lang-lvl">Nativo</span></div>
         <div class="lang-row"><span class="lang-name">Inglés</span><span class="lang-lvl">Profesional</span></div>
       </div>
-
-    </div>
-  </div>
-</div><!-- /#cvPage -->
-</div><!-- /#pageWrapper -->
+    </div><!-- /cv-side -->
+  </div><!-- /cv-body -->
+</div><!-- /#cvDoc -->
+</div><!-- /.scale-shell -->
 
 <script>
-/* ══════════════════════════════════════════
-   ESCALADO RESPONSIVE MÓVIL
-   ══════════════════════════════════════════ */
+/* ════════════════════════════════════
+   ESCALADO MÓVIL
+════════════════════════════════════ */
+const CV_W = 794;
 function scalePage() {
-  const wrapper = document.getElementById('pageWrapper');
-  const page    = document.getElementById('cvPage');
-  const available = wrapper.clientWidth;
-  const natural   = 794;
-
-  if (available < natural) {
-    const scale = available / natural;
-    page.style.transform = `scale(${scale})`;
-    page.style.transformOrigin = 'top left';
-    // Ajustar la altura del wrapper para que no haya espacio vacío
-    wrapper.style.height = (page.offsetHeight * scale) + 'px';
+  const shell = document.getElementById('scaleShell');
+  const doc   = document.getElementById('cvDoc');
+  const avail = shell.getBoundingClientRect().width;
+  if (avail < CV_W) {
+    const s = avail / CV_W;
+    doc.style.transform = `scale(${s})`;
+    doc.style.transformOrigin = 'top left';
+    shell.style.height = (doc.scrollHeight * s) + 'px';
   } else {
-    page.style.transform = '';
-    page.style.transformOrigin = '';
-    wrapper.style.height = '';
+    doc.style.transform = '';
+    doc.style.transformOrigin = '';
+    shell.style.height = '';
   }
 }
-
 scalePage();
 window.addEventListener('resize', scalePage);
 
-/* ══════════════════════════════════════════
-   DESCARGA PDF CON CABECERA EN PÁGINA 2+
-   ══════════════════════════════════════════ */
+/* ════════════════════════════════════
+   DESCARGA PDF
+   Clave: margin [10,0,10,0] — sin margen lateral
+   794px html == 210mm A4, encaja exacto
+════════════════════════════════════ */
 async function descargarPDF() {
   const btn = document.getElementById('btnPdf');
   btn.disabled = true;
-  btn.innerHTML = `
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="animation:spin 1s linear infinite">
-      <path d="M21 12a9 9 0 1 1-6.219-8.56"/>
-    </svg>
-    Generando…`;
+  btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+    style="animation:spin 1s linear infinite"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>&nbsp;Generando…`;
 
-  // Quitar el escalado temporal para capturar en resolución original
-  const page = document.getElementById('cvPage');
-  const prevTransform = page.style.transform;
-  const prevOrigin    = page.style.transformOrigin;
-  page.style.transform = '';
-  page.style.transformOrigin = '';
+  const doc   = document.getElementById('cvDoc');
+  const shell = document.getElementById('scaleShell');
 
-  const opt = {
-    margin:      [14, 10, 14, 10],   // [top, left, bottom, right] en mm
+  // Quitar escala temporalmente
+  const pT = doc.style.transform, pO = doc.style.transformOrigin, pH = shell.style.height;
+  doc.style.transform = ''; doc.style.transformOrigin = ''; shell.style.height = '';
+
+  const opts = {
+    margin:      [10, 0, 10, 0],       // sin margen lateral: 794px = A4 exacto
     filename:    'cv-oscar-herruzo-montoya.pdf',
     image:       { type: 'jpeg', quality: 0.98 },
-    html2canvas: { scale: 2, useCORS: true, logging: false, letterRendering: true },
-    jsPDF:       { unit: 'mm', format: 'a4', orientation: 'portrait' },
-    pagebreak:   { mode: ['css', 'legacy'], avoid: '.exp-item, .edu-item, .sk-item' }
+    html2canvas: {
+      scale: 2, useCORS: true, logging: false,
+      letterRendering: true, scrollX: 0, scrollY: 0, windowWidth: CV_W
+    },
+    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+    pagebreak: {
+      mode: ['css', 'legacy'],
+      avoid: ['.exp-item', '.edu-item', '.sk-item', '.cv-head']
+    }
   };
 
-  // Colores de la cabecera (hex → valores 0-255)
-  const DARK_R = 26, DARK_G = 29, DARK_B = 35;   // #1A1D23
-  const ACC_R  = 163, ACC_G = 230, ACC_B = 53;    // #A3E635
-  const HEADER_H = 10; // mm — altura de la mini-cabecera en páginas 2+
+  const D = [26,29,35], A = [163,230,53];
+  const HBAR = 11;
 
   try {
-    await html2pdf()
-      .set(opt)
-      .from(page)
-      .toPdf()
-      .get('pdf')
-      .then(function(pdf) {
-        const totalPages = pdf.internal.getNumberOfPages();
-        const pageW = pdf.internal.pageSize.getWidth();
-
-        if (totalPages > 1) {
-          for (let i = 2; i <= totalPages; i++) {
-            pdf.setPage(i);
-
-            // Franja oscura de cabecera
-            pdf.setFillColor(DARK_R, DARK_G, DARK_B);
-            pdf.rect(0, 0, pageW, HEADER_H, 'F');
-
-            // Punto acento (pequeño cuadrado)
-            pdf.setFillColor(ACC_R, ACC_G, ACC_B);
-            pdf.rect(10, 3.8, 2, 2, 'F');
-
-            // Nombre en blanco
-            pdf.setFontSize(9);
-            pdf.setFont('helvetica', 'bold');
-            pdf.setTextColor(255, 255, 255);
-            pdf.text('Óscar Herruzo Montoya', 15, 6.8);
-
-            // Rol en gris claro
-            pdf.setFont('helvetica', 'normal');
-            pdf.setFontSize(6.5);
-            pdf.setTextColor(180, 185, 195);
-            pdf.text('Desarrollador de Datos y BI · Consultor · Full-Stack', 15, 9.2);
-
-            // Número de página a la derecha
-            pdf.setFontSize(6.5);
-            pdf.setTextColor(155, 163, 175);
-            pdf.text(`Página ${i} / ${totalPages}`, pageW - 10, 6.8, { align: 'right' });
-          }
-        }
-      })
-      .save();
+    await html2pdf().set(opts).from(doc).toPdf().get('pdf').then(pdf => {
+      const n = pdf.internal.getNumberOfPages();
+      const W = pdf.internal.pageSize.getWidth();
+      for (let i = 2; i <= n; i++) {
+        pdf.setPage(i);
+        pdf.setFillColor(...D);
+        pdf.rect(0, 0, W, HBAR, 'F');
+        pdf.setFillColor(...A);
+        pdf.rect(10, 4, 2.5, 2.5, 'F');
+        pdf.setFont('helvetica','bold'); pdf.setFontSize(9.5); pdf.setTextColor(255,255,255);
+        pdf.text('Óscar Herruzo Montoya', 15.5, 7.2);
+        pdf.setFont('helvetica','normal'); pdf.setFontSize(6.5); pdf.setTextColor(170,178,190);
+        pdf.text('Desarrollador de Datos y BI · Consultor · Full-Stack', 15.5, 9.6);
+        pdf.setFontSize(6.5); pdf.setTextColor(130,140,155);
+        pdf.text(`Página ${i} / ${n}`, W - 10, 7.2, { align: 'right' });
+      }
+    }).save();
   } catch(e) {
     console.error(e);
-    alert('Error al generar el PDF. Prueba con el botón Imprimir como alternativa.');
+    alert('Error al generar el PDF. Usa el botón Imprimir como alternativa.');
   }
 
-  // Restaurar escalado móvil
-  page.style.transform      = prevTransform;
-  page.style.transformOrigin = prevOrigin;
-
+  doc.style.transform = pT; doc.style.transformOrigin = pO; shell.style.height = pH;
   btn.disabled = false;
-  btn.innerHTML = `
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-      <polyline points="7 10 12 15 17 10"/>
-      <line x1="12" y1="15" x2="12" y2="3"/>
-    </svg>
-    Descargar PDF`;
+  btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/>
+    <line x1="12" y1="15" x2="12" y2="3"/></svg> Descargar PDF`;
 }
-
-// Spinner CSS
-const style = document.createElement('style');
-style.textContent = `@keyframes spin { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }`;
-document.head.appendChild(style);
 </script>
-
 </body>
 </html>
