@@ -85,7 +85,6 @@ body {
 .exp-item { margin-bottom:13px; padding-bottom:13px; border-bottom:1px solid #F3F4F6; }
 .exp-item:last-child { border-bottom:none; margin-bottom:0; padding-bottom:0; }
 
-/* La cabecera de cada trabajo nunca queda sola al final de página */
 .exp-row {
   display:flex; justify-content:space-between; align-items:baseline;
   gap:8px; margin-bottom:1px; flex-wrap:wrap;
@@ -96,7 +95,6 @@ body {
 .exp-co    { font-size:.74rem; color:var(--green); font-weight:500; margin-bottom:1px; page-break-after:avoid; break-after:avoid; }
 .exp-type  { font-family:'DM Mono',monospace; font-size:.58rem; color:#9CA3AF; margin-bottom:5px; page-break-after:avoid; break-after:avoid; }
 
-/* Cada sub-proyecto es la unidad mínima indivisible */
 .sub-proj {
   margin-top:5px; padding-top:5px; border-top:1px dashed #EFEFEF;
   page-break-inside:avoid; break-inside:avoid;
@@ -442,37 +440,17 @@ scalePage();
 window.addEventListener('resize', scalePage);
 
 /* ════════════════════════════════════════════════════════
-   DESCARGA PDF — estrategia con pre-procesado de breaks
-
-   html2pdf renderiza TODO el HTML como una imagen gigante
-   y luego la corta. Los CSS break-inside no siempre funcionan
-   porque opera sobre píxeles, no sobre el flujo de texto.
-
-   Solución robusta:
-   1. Calculamos la altura de página en px (a la escala de canvas)
-   2. Recorremos todos los .sub-proj y .exp-row y, si un elemento
-      cruzaría el límite de página, insertamos un div marcador
-      ANTES de él para que html2pdf sepa dónde cortar limpio.
-   3. Después de generar el PDF, eliminamos esos divs.
-
-   Márgenes:
-   - HBAR = 13mm  altura de la mini-cabecera
-   - GAP  = 7mm   espacio entre cabecera y texto
-   - MTOP = 20mm  margen superior total (estándar PDF)
-   - MBOT = 15mm  margen inferior
+   DESCARGA PDF
 ════════════════════════════════════════════════════════ */
 const HBAR = 13;
 const MTOP = 20;
 const MBOT = 15;
 
-// Altura A4 en mm → px a 96dpi
 const A4_H_MM  = 297;
 const MM_TO_PX = 96 / 25.4;
-// Área de contenido por página (px, sin márgenes)
-const PAGE_CONTENT_PX = (A4_H_MM - MTOP - MBOT) * MM_TO_PX; // ~1007px
+const PAGE_CONTENT_PX = (A4_H_MM - MTOP - MBOT) * MM_TO_PX;
 
 function insertBreakMarkers(root) {
-  // Nodos que deben comenzar en una nueva página si cruzan el límite
   const candidates = root.querySelectorAll(
     '.sub-proj, .exp-item, .edu-item, .sk-item, .sec-title'
   );
@@ -482,18 +460,13 @@ function insertBreakMarkers(root) {
   candidates.forEach(el => {
     const elTop    = el.getBoundingClientRect().top - rootTop;
     const elBottom = elTop + el.offsetHeight;
-
-    // ¿En qué página empieza y termina?
     const pageStart = Math.floor(elTop    / PAGE_CONTENT_PX);
     const pageEnd   = Math.floor(elBottom / PAGE_CONTENT_PX);
 
     if (pageStart !== pageEnd) {
-      // Calcular si el elemento EMPIEZA justo al comienzo de la siguiente página
-      // o si cruza: si cruza, forzar que empiece en la página siguiente
       const nextPageTop = (pageStart + 1) * PAGE_CONTENT_PX;
       const spaceLeft   = nextPageTop - elTop;
 
-      // Solo mover si el elemento no cabe en el espacio restante de esta página
       if (spaceLeft < el.offsetHeight * 0.4) {
         const marker = document.createElement('div');
         marker.className = '__pdf-break-marker';
@@ -520,20 +493,56 @@ async function descargarPDF() {
   const cvDoc = document.getElementById('cvDoc');
   const shell = document.getElementById('scaleShell');
 
-  // Quitar escala
-  const pT = cvDoc.style.transform, pO = cvDoc.style.transformOrigin, pH = shell.style.height;
-  cvDoc.style.transform = ''; cvDoc.style.transformOrigin = ''; shell.style.height = '';
+  // ── 1. Quitar transform de escala
+  const pT = cvDoc.style.transform;
+  const pO = cvDoc.style.transformOrigin;
+  const pH = shell.style.height;
+  cvDoc.style.transform = '';
+  cvDoc.style.transformOrigin = '';
+  shell.style.height = '';
 
-  // Insertar marcadores de salto
+  // ── 2. CLAVE: quitar overflow:hidden para que html2canvas capture TODO el grid
+  const pOverflow      = cvDoc.style.overflow;
+  const pBorderRadius  = cvDoc.style.borderRadius;
+  cvDoc.style.overflow     = 'visible';
+  cvDoc.style.borderRadius = '0';
+
+  // ── 3. Forzar ancho explícito y scroll al inicio
+  cvDoc.style.width = CV_W + 'px';
+  window.scrollTo(0, 0);
+
+  // Pequeño delay para que el layout se recalcule
+  await new Promise(r => setTimeout(r, 80));
+
+  // ── 4. Insertar marcadores de salto
   const markers = insertBreakMarkers(cvDoc);
+
+  const totalH = cvDoc.scrollHeight;
 
   const opts = {
     margin:      [MTOP, 0, MBOT, 0],
     filename:    'cv-oscar-herruzo-montoya.pdf',
     image:       { type: 'jpeg', quality: 0.98 },
     html2canvas: {
-      scale: 2, useCORS: true, logging: false,
-      letterRendering: true, scrollX: 0, scrollY: 0, windowWidth: CV_W
+      scale:           2,
+      useCORS:         true,
+      logging:         false,
+      letterRendering: true,
+      scrollX:         0,
+      scrollY:         0,
+      windowWidth:     CV_W,
+      width:           CV_W,
+      height:          totalH,
+      onclone: (clonedDoc) => {
+        // Asegurar que el clon también tiene overflow visible y ancho correcto
+        const clonedCV = clonedDoc.getElementById('cvDoc');
+        if (clonedCV) {
+          clonedCV.style.overflow     = 'visible';
+          clonedCV.style.borderRadius = '0';
+          clonedCV.style.width        = CV_W + 'px';
+          clonedCV.style.transform    = '';
+        }
+      }
     },
     jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
     pagebreak: {
@@ -553,45 +562,38 @@ async function descargarPDF() {
       const n = pdf.internal.getNumberOfPages();
       const W = pdf.internal.pageSize.getWidth();
 
-      // Página 1: tapar el margen superior con el color de la cabecera
+      // Página 1: cabecera oscura cubre el margen superior
       pdf.setPage(1);
       pdf.setFillColor(...DARK);
       pdf.rect(0, 0, W, MTOP, 'F');
 
-      // Páginas 2+: mini-cabecera dentro del margen superior
+      // Páginas 2+: mini-cabecera
       for (let i = 2; i <= n; i++) {
         pdf.setPage(i);
 
-        // Fondo blanco para toda la zona de margen (limpio)
         pdf.setFillColor(255, 255, 255);
         pdf.rect(0, 0, W, MTOP, 'F');
 
-        // Franja oscura (ocupa HBAR mm de los MTOP disponibles)
         pdf.setFillColor(...DARK);
         pdf.rect(0, 0, W, HBAR, 'F');
 
-        // Punto acento
         pdf.setFillColor(...ACNT);
         pdf.rect(10, 4.5, 2.2, 2.2, 'F');
 
-        // Nombre
         pdf.setFont('helvetica', 'bold');
         pdf.setFontSize(9);
         pdf.setTextColor(255, 255, 255);
         pdf.text('Óscar Herruzo Montoya', 15, 7.5);
 
-        // Rol
         pdf.setFont('helvetica', 'normal');
         pdf.setFontSize(5.8);
         pdf.setTextColor(...LGRY);
         pdf.text('Desarrollador de Datos y BI · Consultor · Full-Stack', 15, 10.5);
 
-        // Paginación
         pdf.setFontSize(5.8);
         pdf.setTextColor(...MGRY);
         pdf.text(`Página ${i} / ${n}`, W - 10, 7.5, { align: 'right' });
 
-        // Línea separadora entre la barra oscura y el contenido
         pdf.setDrawColor(220, 224, 230);
         pdf.setLineWidth(0.25);
         pdf.line(0, HBAR + 0.5, W, HBAR + 0.5);
@@ -602,10 +604,15 @@ async function descargarPDF() {
     alert('Error al generar el PDF. Usa el botón Imprimir como alternativa.');
   }
 
+  // ── 5. Restaurar todo
   removeBreakMarkers(markers);
+  cvDoc.style.overflow     = pOverflow;
+  cvDoc.style.borderRadius = pBorderRadius;
+  cvDoc.style.width        = '';
+  cvDoc.style.transform    = pT;
+  cvDoc.style.transformOrigin = pO;
+  shell.style.height       = pH;
 
-  // Restaurar escalado
-  cvDoc.style.transform = pT; cvDoc.style.transformOrigin = pO; shell.style.height = pH;
   btn.disabled = false;
   btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
     <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
