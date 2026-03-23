@@ -167,10 +167,6 @@ hr.div-d { border:none;border-top:1px solid #1E2228;margin:0; }
 .proj-title { font-size:.98rem;font-weight:700;color:var(--dark);margin:0 0 6px 0;letter-spacing:-.01em; }
 .proj-desc  { font-size:.82rem;color:var(--gray);line-height:1.65;margin-bottom:14px; }
 
-/* Inkaria card — borde magenta sutil */
-.proj-card.inkaria { border-color:#f0d0e8; }
-.proj-card.inkaria:hover { border-color:#cc00ff;transform:translateY(-3px); }
-
 /* ── TIMELINE ────────────────────────────────────────────────────────────── */
 .timeline { border-left:1px solid var(--border);padding-left:22px; }
 .tl-item { position:relative;margin-bottom:30px; }
@@ -403,13 +399,13 @@ footer { background:#0D0F12;padding:20px 44px;display:flex;align-items:center;ju
       </div>
     </div>
 
-    <!-- INKARIA — FEATURED (segundo proyecto destacado) -->
+    <!-- INKARIA — FEATURED -->
     <div class="proj-featured reveal" style="border-left-color:#cc00ff;">
       <div style="display:flex;align-items:flex-start;gap:16px;flex-wrap:wrap;">
         <div style="width:42px;height:42px;background:#150025;border:2px solid rgba(204,0,255,0.4);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;">🖋️</div>
         <div style="flex:1;min-width:260px;">
           <span class="proj-badge" style="background:#fdf0ff;color:#7e22ce;border-color:#e9d5ff;">Proyecto personal · GitHub Pages · Apps Script</span>
-          <p class="proj-title" style="font-size:1.15rem;"> Tattoo Inventory</p>
+          <p class="proj-title" style="font-size:1.15rem;">Inkaria · Tattoo Inventory</p>
           <p class="proj-desc">
             Aplicación web completa de gestión de inventario para estudio de tatuajes, construida en HTML/CSS/JS puro y desplegada en GitHub Pages.
             Conecta en tiempo real con Google Sheets como base de datos cloud mediante un backend sin servidor en Google Apps Script — los datos se sincronizan entre dispositivos sin coste de infraestructura.
@@ -432,7 +428,36 @@ footer { background:#0D0F12;padding:20px 44px;display:flex;align-items:center;ju
       </div>
     </div>
 
-    <!-- GRID -->
+    <!-- PATATAS ANDÚJAR — FEATURED -->
+    <div class="proj-featured reveal" style="border-left-color:#C8860A;">
+      <div style="display:flex;align-items:flex-start;gap:16px;flex-wrap:wrap;">
+        <div style="width:42px;height:42px;background:#1E1508;border:2px solid rgba(200,134,10,0.5);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;">🥔</div>
+        <div style="flex:1;min-width:260px;">
+          <span class="proj-badge" style="background:#FEF9EE;color:#92600A;border-color:#FBBF24;">Web corporativa · Vanilla JS · SPA · GitHub Pages</span>
+          <p class="proj-title" style="font-size:1.15rem;">Patatas Andújar — Web Corporativa</p>
+          <p class="proj-desc">Web corporativa completa para empresa distribuidora de patata natural pelada y cortada en Andújar, Jaén. Construida desde cero en HTML, CSS y JavaScript puro — sin frameworks — como <strong>SPA (Single Page Application)</strong> con router propio, arquitectura de configuración centralizada en <code style="font-family:var(--mono);font-size:.75rem;background:var(--light);padding:1px 5px;border-radius:3px;">config.js</code> y generación dinámica de componentes en cliente.<br><br>Incluye hero con vídeo autoplay, catálogo de 13 cortes y calibres con grid completamente responsivo, heroes de producto generados automáticamente desde el archivo de configuración, formulario de presupuesto con validación y envío vía Formspree, y sistema de fallback en tres niveles para imágenes 404 (corta bucles infinitos de peticiones).</p>
+          <div class="tag-row" style="margin-bottom:14px;">
+            <span class="tag-l">HTML · CSS · JS</span><span class="tag-l">SPA Router</span><span class="tag-l">Vanilla JS</span><span class="tag-l">CSS Grid</span><span class="tag-l">Responsive</span><span class="tag-l">Formspree</span><span class="tag-l">GitHub Pages</span>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;">
+            <div style="background:var(--light);border:1px solid var(--border);border-radius:8px;padding:11px 15px;">
+              <p style="font-family:var(--mono);font-size:.62rem;color:#9CA3AF;margin:0 0 4px 0;">ARQUITECTURA</p>
+              <p style="font-size:.79rem;color:var(--mid);margin:0;line-height:1.6;">⚙️ config.js centralizado · 🔀 Router SPA propio · 🧩 Componentes generados en cliente · 📱 Mobile-first responsive</p>
+            </div>
+            <div style="background:var(--light);border:1px solid var(--border);border-radius:8px;padding:11px 15px;">
+              <p style="font-family:var(--mono);font-size:.62rem;color:#9CA3AF;margin:0 0 4px 0;">HIGHLIGHTS</p>
+              <p style="font-size:.79rem;color:var(--mid);margin:0;line-height:1.6;">🎬 Hero vídeo autoplay · 🥔 13 cortes · 📋 Formulario con validación · 🛡️ Fallback anti-404 en 3 niveles · 🍔 Menú hamburguesa</p>
+            </div>
+          </div>
+          <a href="https://oscarherruzo.github.io/patatas-prueba/#inicio" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:7px;background:#1E1508;color:#E8A020;padding:9px 20px;border-radius:7px;font-size:.8rem;font-weight:600;text-decoration:none;border:1px solid #C8860A;transition:background .2s,transform .2s;" onmouseover="this.style.background='#2B1F0E';this.style.transform='translateY(-2px)'" onmouseout="this.style.background='#1E1508';this.style.transform='none'">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            Ver web →
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- GRID proyectos secundarios -->
     <div class="proj-grid stagger">
 
       <div class="proj-card">
@@ -468,17 +493,6 @@ footer { background:#0D0F12;padding:20px 44px;display:flex;align-items:center;ju
         <p class="proj-title">Career Plans Analyzer</p>
         <p class="proj-desc">Pipeline multi-etapa para analizar planes de carrera con matching semántico (Sentence Transformers MiniLM), fuzzy matching y exportación formateada a Excel + Google Sheets.</p>
         <div class="tag-row"><span class="tag-l">Python</span><span class="tag-l">Pandas</span><span class="tag-l">Sentence Transformers</span><span class="tag-l">openpyxl</span></div>
-      </div>
-
-      <div class="proj-card">
-        <div style="display:flex;align-items:center;gap:9px;margin-bottom:10px;"><div style="width:32px;height:32px;background:#1E1508;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:14px;">🥔</div><span class="proj-badge" style="background:#FEF9EE;color:#92600A;border-color:#FBBF24;">Web corporativa · Vanilla JS · SPA</span></div>
-        <p class="proj-title">Patatas Andújar</p>
-        <p class="proj-desc">Web corporativa completa para empresa distribuidora de patata natural pelada y cortada en Andújar, Jaén. Construida desde cero en HTML, CSS y JavaScript puro — sin frameworks — como SPA (Single Page Application) con router propio, arquitectura de configuración centralizada en <code style="font-family:var(--mono);font-size:.75rem;background:var(--light);padding:1px 5px;border-radius:3px;">config.js</code> y sistema de componentes dinámicos generados en cliente.<br><br>Incluye hero con vídeo autoplay, catálogo de 13 cortes con grid responsivo, heroes de producto generados automáticamente desde config, formulario de presupuesto con validación y Formspree, y sistema de fallback anti-bucle para imágenes 404.</p>
-        <div class="tag-row" style="margin-bottom:14px;"><span class="tag-l">HTML · CSS · JS</span><span class="tag-l">SPA Router</span><span class="tag-l">Vanilla JS</span><span class="tag-l">Responsive</span><span class="tag-l">Formspree</span><span class="tag-l">CSS Grid</span></div>
-        <a href="https://oscarherruzo.github.io/patatas-prueba/#inicio" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:7px;background:#1E1508;color:#E8A020;padding:8px 17px;border-radius:6px;font-size:.78rem;font-weight:600;text-decoration:none;transition:background .2s,transform .2s;border:1px solid #C8860A;" onmouseover="this.style.background='#2B1F0E';this.style.transform='translateY(-2px)'" onmouseout="this.style.background='#1E1508';this.style.transform='none'">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-          Ver web →
-        </a>
       </div>
 
     </div>
