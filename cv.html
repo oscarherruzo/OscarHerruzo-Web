@@ -7,19 +7,17 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&family=DM+Serif+Display&display=swap" rel="stylesheet">
 <style>
-* { box-sizing: border-box; margin: 0; padding: 0; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
   --dark:#1A1D23; --mid:#374151; --gray:#6B7280;
   --light:#F7F8FA; --border:#E5E7EB; --green:#15803D; --accent:#A3E635;
   --cv-w: 794px;
 }
-
 body {
   font-family:'DM Sans',sans-serif; background:#EDEDEB; color:var(--dark);
   min-height:100vh; display:flex; flex-direction:column; align-items:center;
   padding:40px 0 60px;
 }
-
 .top-bar {
   width:100%; max-width:var(--cv-w);
   display:flex; justify-content:space-between; align-items:center;
@@ -32,21 +30,31 @@ body {
   border:none; border-radius:7px; padding:9px 18px;
   font-family:'DM Sans',sans-serif; font-size:.82rem; font-weight:500;
   cursor:pointer; display:inline-flex; align-items:center; gap:7px;
-  transition:background .2s; white-space:nowrap;
+  transition:background .2s, opacity .2s; white-space:nowrap;
 }
 .btn-pdf { background:var(--green); color:#fff; }
 .btn-pdf:hover { background:#166534; }
+.btn-pdf:disabled { opacity:.6; cursor:wait; }
 .btn-print { background:var(--dark); color:#fff; }
 .btn-print:hover { background:#374151; }
 
-.scale-shell { width:100%; max-width:var(--cv-w); }
+/* toast */
+.toast {
+  position:fixed; bottom:28px; left:50%; transform:translateX(-50%) translateY(16px);
+  background:var(--dark); color:#fff; padding:11px 22px;
+  border-radius:8px; font-size:.8rem; opacity:0; pointer-events:none;
+  transition:opacity .3s, transform .3s; z-index:9999; white-space:nowrap;
+  box-shadow:0 4px 24px rgba(0,0,0,.3);
+}
+.toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+.toast .acc { color:var(--accent); font-weight:600; }
 
+.scale-shell { width:100%; max-width:var(--cv-w); }
 #cvDoc {
   width:var(--cv-w); background:#fff;
   box-shadow:0 6px 48px rgba(0,0,0,.13);
   border-radius:4px; overflow:hidden; transform-origin:top left;
 }
-
 .cv-head {
   background:var(--dark); padding:18px 40px 16px;
   display:grid; grid-template-columns:1fr auto; gap:20px; align-items:center;
@@ -60,149 +68,104 @@ body {
 .ct-dot { width:5px; height:5px; background:var(--accent); border-radius:50%; flex-shrink:0; }
 
 .cv-body { display:grid; grid-template-columns:1fr 210px; }
-.cv-main { padding:24px 28px 24px 40px; border-right:1px solid var(--border); min-width:0; }
-.cv-side { padding:24px 20px; background:var(--light); min-width:0; }
+.cv-main { padding:22px 26px 22px 40px; border-right:1px solid var(--border); min-width:0; }
+.cv-side { padding:22px 18px; background:var(--light); min-width:0; }
 
-.sec { margin-bottom:18px; }
+.sec { margin-bottom:16px; }
 .sec-title {
   font-family:'DM Mono',monospace; font-size:.58rem; font-weight:500;
   text-transform:uppercase; letter-spacing:.15em; color:var(--gray);
-  margin-bottom:10px; padding-bottom:5px; border-bottom:1px solid var(--border);
+  margin-bottom:9px; padding-bottom:5px; border-bottom:1px solid var(--border);
   display:flex; align-items:center; gap:7px;
 }
 .sec-title::before { content:''; width:3px; height:9px; background:var(--dark); border-radius:2px; flex-shrink:0; }
 .summary { font-size:.64rem; color:var(--mid); line-height:1.55; font-weight:300; }
 .summary strong { color:var(--dark); font-weight:600; }
 
-.exp-item { margin-bottom:13px; padding-bottom:13px; border-bottom:1px solid #F3F4F6; }
+.exp-item { margin-bottom:12px; padding-bottom:12px; border-bottom:1px solid #F3F4F6; page-break-inside:avoid; break-inside:avoid; }
 .exp-item:last-child { border-bottom:none; margin-bottom:0; padding-bottom:0; }
-.exp-row { display:flex; justify-content:space-between; align-items:baseline; gap:8px; margin-bottom:1px; flex-wrap:wrap; }
-.exp-title { font-size:.83rem; font-weight:700; color:var(--dark); }
+.exp-row { display:flex; justify-content:space-between; align-items:baseline; gap:8px; margin-bottom:1px; flex-wrap:wrap; page-break-after:avoid; break-after:avoid; }
+.exp-title { font-size:.82rem; font-weight:700; color:var(--dark); }
 .exp-date  { font-family:'DM Mono',monospace; font-size:.6rem; color:var(--gray); white-space:nowrap; flex-shrink:0; }
-.exp-co    { font-size:.74rem; color:var(--green); font-weight:500; margin-bottom:1px; }
-.exp-type  { font-family:'DM Mono',monospace; font-size:.58rem; color:#9CA3AF; margin-bottom:5px; }
-
-.sub-proj { margin-top:5px; padding-top:5px; border-top:1px dashed #EFEFEF; }
-.sub-proj:first-of-type { border-top:none; padding-top:0; margin-top:3px; }
-.sub-title { font-size:.72rem; font-weight:600; color:var(--mid); margin-bottom:3px; display:flex; align-items:center; gap:5px; }
+.exp-co    { font-size:.73rem; color:var(--green); font-weight:500; margin-bottom:1px; }
+.exp-type  { font-family:'DM Mono',monospace; font-size:.58rem; color:#9CA3AF; margin-bottom:4px; }
+.sub-proj  { margin-top:4px; padding-top:4px; page-break-inside:avoid; break-inside:avoid; }
+.sub-title { font-size:.71rem; font-weight:600; color:var(--mid); margin-bottom:2px; display:flex; align-items:center; gap:5px; page-break-after:avoid; break-after:avoid; }
 .sub-title::before { content:'▸'; color:var(--green); font-size:.58rem; flex-shrink:0; }
-
 .bullets { list-style:none; padding:0; display:flex; flex-direction:column; gap:2px; }
-.bullets li { font-size:.72rem; color:var(--gray); line-height:1.5; padding-left:10px; position:relative; }
+.bullets li { font-size:.71rem; color:var(--gray); line-height:1.48; padding-left:10px; position:relative; page-break-inside:avoid; break-inside:avoid; }
 .bullets li::before { content:'○'; position:absolute; left:0; color:#D1D5DB; font-size:.52rem; top:3px; }
 .bullets li strong { color:var(--mid); font-weight:600; }
 
-.sk-item { margin-bottom:10px; }
-.sk-name { font-size:.73rem; font-weight:600; color:var(--dark); margin-bottom:3px; }
-.sk-bar-bg { background:var(--border); border-radius:2px; height:3px; overflow:hidden; margin-bottom:4px; }
+.sk-item { margin-bottom:9px; }
+.sk-name { font-size:.72rem; font-weight:600; color:var(--dark); margin-bottom:3px; }
+.sk-bar-bg { background:var(--border); border-radius:2px; height:3px; overflow:hidden; margin-bottom:3px; }
 .sk-bar-fill { height:100%; border-radius:2px; background:linear-gradient(90deg,var(--green),var(--accent)); }
 .sk-tags { display:flex; flex-wrap:wrap; gap:3px; }
-.sk-tag { font-family:'DM Mono',monospace; font-size:.55rem; color:var(--gray); background:#fff; border:1px solid var(--border); border-radius:3px; padding:1px 4px; white-space:nowrap; }
+.sk-tag { font-family:'DM Mono',monospace; font-size:.54rem; color:var(--gray); background:#fff; border:1px solid var(--border); border-radius:3px; padding:1px 4px; white-space:nowrap; }
 
-.edu-item { margin-bottom:9px; padding-bottom:9px; border-bottom:1px solid var(--border); }
+.edu-item { margin-bottom:8px; padding-bottom:8px; border-bottom:1px solid var(--border); }
 .edu-item:last-child { border-bottom:none; margin-bottom:0; padding-bottom:0; }
-.edu-title  { font-size:.72rem; font-weight:700; color:var(--dark); margin-bottom:2px; line-height:1.3; }
-.edu-place  { font-size:.68rem; color:var(--green); font-weight:500; margin-bottom:1px; }
+.edu-title  { font-size:.71rem; font-weight:700; color:var(--dark); margin-bottom:2px; line-height:1.3; }
+.edu-place  { font-size:.67rem; color:var(--green); font-weight:500; margin-bottom:1px; }
 .edu-date   { font-family:'DM Mono',monospace; font-size:.57rem; color:#9CA3AF; margin-bottom:2px; }
-.edu-detail { font-size:.65rem; color:var(--gray); line-height:1.45; }
+.edu-detail { font-size:.64rem; color:var(--gray); line-height:1.4; }
 
-.extra-item { font-size:.7rem; color:var(--gray); line-height:1.5; padding-left:10px; position:relative; margin-bottom:5px; }
+.cert-item { margin-bottom:7px; padding-bottom:7px; border-bottom:1px solid var(--border); display:flex; gap:7px; align-items:flex-start; }
+.cert-item:last-child { border-bottom:none; margin-bottom:0; padding-bottom:0; }
+.cert-dot  { width:6px; height:6px; background:var(--accent); border-radius:50%; flex-shrink:0; margin-top:4px; }
+.cert-name { font-size:.69rem; font-weight:600; color:var(--dark); line-height:1.3; margin-bottom:1px; }
+.cert-org  { font-size:.63rem; color:var(--green); margin-bottom:1px; }
+.cert-date { font-family:'DM Mono',monospace; font-size:.56rem; color:#9CA3AF; }
+
+.extra-item { font-size:.69rem; color:var(--gray); line-height:1.5; padding-left:10px; position:relative; margin-bottom:4px; }
 .extra-item::before { content:'▸'; position:absolute; left:0; color:var(--green); font-size:.58rem; top:2px; }
 .extra-item strong { color:var(--dark); font-weight:600; }
 .lang-row { display:flex; justify-content:space-between; align-items:center; margin-bottom:5px; }
-.lang-name { font-size:.73rem; font-weight:500; color:var(--dark); }
+.lang-name { font-size:.71rem; font-weight:500; color:var(--dark); }
 .lang-lvl  { font-family:'DM Mono',monospace; font-size:.57rem; color:var(--gray); background:#fff; border:1px solid var(--border); border-radius:3px; padding:1px 5px; }
 
-/* ═══════════════════════════════════════════════════
-   PRINT — renderizado idéntico al navegador
-═══════════════════════════════════════════════════ */
+/* ══ PRINT ══ */
 @media print {
-  .top-bar, .toast-pdf { display:none !important; }
-
+  .top-bar, .toast { display:none !important; }
   html, body {
-    background:#fff !important;
-    padding:0 !important; margin:0 !important;
+    background:#fff !important; padding:0 !important; margin:0 !important;
     display:block !important;
-    -webkit-print-color-adjust:exact !important;
-    print-color-adjust:exact !important;
-    color-adjust:exact !important;
+    -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important;
   }
-
-  .scale-shell {
-    max-width:100% !important;
-    width:100% !important;
-  }
-
-  #cvDoc {
-    width:100% !important;
-    box-shadow:none !important;
-    border-radius:0 !important;
-    transform:none !important;
-    overflow:visible !important;
-  }
-
-  /* Mantener layout de dos columnas */
-  .cv-body {
-    display:grid !important;
-    grid-template-columns:1fr 210px !important;
-  }
-
-  /* Fondos y colores */
+  .scale-shell { max-width:100% !important; width:100% !important; }
+  #cvDoc { width:100% !important; box-shadow:none !important; border-radius:0 !important; transform:none !important; overflow:visible !important; }
+  .cv-body { display:grid !important; grid-template-columns:1fr 210px !important; }
   .cv-head     { background:#1A1D23 !important; -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important; }
   .cv-side     { background:#F7F8FA !important; -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important; }
-  .sk-bar-fill { -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important; }
-  .ct-dot      { background:#A3E635 !important; -webkit-print-color-adjust:exact !important; }
   .cv-name em  { color:#A3E635 !important; }
-  .exp-co, .edu-place, .sub-title::before, .extra-item::before { -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important; }
-
-  /* Saltos de página */
-  .exp-item  { page-break-inside:avoid; break-inside:avoid; }
-  .sub-proj  { page-break-inside:avoid; break-inside:avoid; }
-  .edu-item  { page-break-inside:avoid; break-inside:avoid; }
-  .sk-item   { page-break-inside:avoid; break-inside:avoid; }
-  .sec-title { page-break-after:avoid;  break-after:avoid;  }
-  .exp-row   { page-break-after:avoid;  break-after:avoid;  }
-  .bullets li{ page-break-inside:avoid; break-inside:avoid; }
-
-  @page {
-    size: A4 portrait;
-    margin: 10mm 0 0 0;
-  }
-  @page :first {
-    margin: 0;
-  }
+  .ct-dot, .cert-dot { background:#A3E635 !important; -webkit-print-color-adjust:exact !important; }
+  .sk-bar-fill { -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important; }
+  .exp-item, .sub-proj, .edu-item, .sk-item, .cert-item { page-break-inside:avoid; break-inside:avoid; }
+  .sec-title, .exp-row { page-break-after:avoid; break-after:avoid; }
+  @page { size:A4 portrait; margin:0; }
 }
 
-/* Toast */
-.toast-pdf {
-  position:fixed; bottom:28px; left:50%; transform:translateX(-50%) translateY(20px);
-  background:var(--dark); color:#fff; padding:11px 22px;
-  border-radius:8px; font-size:.8rem; font-family:'DM Sans',sans-serif;
-  opacity:0; pointer-events:none;
-  transition:opacity .3s, transform .3s;
-  z-index:9999; white-space:nowrap;
-  box-shadow:0 4px 24px rgba(0,0,0,.3);
+@media(max-width:600px){
+  body { padding:16px 0 40px; }
+  .top-bar { padding:0 12px; flex-wrap:wrap; gap:8px; }
+  .btn-pdf, .btn-print { padding:8px 14px; font-size:.78rem; }
 }
-.toast-pdf.show { opacity:1; transform:translateX(-50%) translateY(0); }
-.toast-pdf .accent { color:var(--accent); font-weight:600; }
 </style>
 </head>
 <body>
 
-<div class="toast-pdf" id="toastPdf">
-  En el diálogo: cambia destino a <span class="accent">Guardar como PDF</span>
-</div>
+<div class="toast" id="toast"></div>
 
 <div class="top-bar">
   <a href="index.html">← Portfolio</a>
   <div class="btn-group">
-    <button class="btn-pdf" onclick="descargarPDF()">
+    <button class="btn-pdf" id="btnPdf" onclick="descargarPDF()">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-        <polyline points="7 10 12 15 17 10"/>
-        <line x1="12" y1="15" x2="12" y2="3"/>
+        <polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
       </svg>
-      Descargar PDF
+      <span id="btnPdfTxt">Descargar PDF</span>
     </button>
     <button class="btn-print" onclick="window.print()">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -225,7 +188,7 @@ body {
     <div class="cv-contacts">
       <div class="cv-ct"><span class="ct-dot"></span><a href="tel:+34602674339">+34 602 674 339</a></div>
       <div class="cv-ct"><span class="ct-dot"></span><a href="mailto:oscarherruzom@gmail.com">oscarherruzom@gmail.com</a></div>
-      <div class="cv-ct"><span class="ct-dot"></span><a href="https://linkedin.com/in/oscar-herruzo-montoya-640683214" target="_blank">linkedin.com/in/oscar-herruzo-montoya</a></div>
+      <div class="cv-ct"><span class="ct-dot"></span><a href="https://linkedin.com/in/oscar-herruzo-montoya-640683214" target="_blank">linkedin/oscar-herruzo-montoya</a></div>
       <div class="cv-ct"><span class="ct-dot"></span>Andújar, Jaén · España</div>
     </div>
   </div>
@@ -236,12 +199,14 @@ body {
       <div class="sec">
         <p class="sec-title">Perfil profesional</p>
         <p class="summary">
-          Desarrollador <strong>apasionado por los datos</strong>: tratarlos, transformarlos y llevarlos a su destino final.
-          Con experiencia en <strong>Datos y BI</strong> (Power BI, DAX avanzado, Star Schema, RLS),
-          <strong>ingeniería de datos</strong> (ETL con Python, SSIS, PL/SQL Oracle) y <strong>desarrollo full-stack</strong>
-          (Angular, NestJS, Flutter). Actualmente en <strong>Nter Tech Services</strong> asignado a
-          <strong>Santander · Riesgo de Modelos y Riesgos Crediticios Locales</strong>, liderando el ecosistema de reporting
-          de riesgos e impulsando la innovación con IA aplicada (DAX Assistant · POC 2026).
+          Desarrollador <strong>especializado en datos, BI e inteligencia artificial aplicada</strong>.
+          Experiencia en <strong>Power BI y DAX avanzado</strong> (Star Schema, RLS, Time Intelligence, RANKX),
+          <strong>ingeniería de datos</strong> (ETL con Python, SSIS, PL/SQL Oracle, Informatica PowerCenter) y
+          <strong>desarrollo full-stack</strong> (Angular, NestJS, TypeScript, Flutter). Actualmente en
+          <strong>Nter Tech Services</strong> asignado a <strong>Santander · Riesgo de Modelos y Riesgos Crediticios Locales</strong>,
+          liderando el ecosistema de reporting de riesgos. Autor del <strong>DAX Assistant</strong>
+          (POC · NFQ IA Challenge 2026): copiloto IA conectado a SQL Server en vivo, GDPR-safe,
+          fallback automático Groq → SambaNova → Gemini.
         </p>
       </div>
 
@@ -255,38 +220,23 @@ body {
           </div>
           <p class="exp-co">Nter Tech Services · Santander — Riesgo de Modelos y Riesgos Crediticios Locales</p>
           <p class="exp-type">Jornada completa · Híbrido · Jaén</p>
-          <ul class="bullets" style="margin:4px 0 5px 0;">
-            <li>Liderazgo del desarrollo end-to-end del ecosistema de reporting de gestión de riesgos: arquitectura de datos, entrega analítica, gobernanza e innovación con IA.</li>
-          </ul>
           <div class="sub-proj">
             <p class="sub-title">Arquitectura de Datos</p>
-            <ul class="bullets">
-              <li>Diseño y optimización de pipelines ETL para integrar datasets de alto volumen desde SQL Server a Power BI, estableciendo data lineage completo y estándares de calidad en los flujos críticos.</li>
-            </ul>
+            <ul class="bullets"><li>Pipelines ETL de alto volumen SQL Server → Power BI con data lineage completo y estándares de calidad en flujos críticos de riesgo.</li></ul>
           </div>
           <div class="sub-proj">
             <p class="sub-title">Desarrollo Analítico</p>
-            <ul class="bullets">
-              <li>Dashboards avanzados con DAX complejo para monitorizar métricas de rendimiento de modelos, indicadores de riesgo y soporte al reporting de compliance regulatorio.</li>
-            </ul>
+            <ul class="bullets"><li>Dashboards con DAX complejo (CALCULATE, VAR…RETURN, Time Intelligence, RANKX) para KPIs de rendimiento de modelos e indicadores de riesgo regulatorio.</li></ul>
           </div>
           <div class="sub-proj">
-            <p class="sub-title">Estandarización y Escalabilidad</p>
-            <ul class="bullets">
-              <li>Normalización del ecosistema de reporting desde cero — Star Schema, buenas prácticas UX/UI y arquitectura escalable diseñada para crecer con el negocio.</li>
-            </ul>
-          </div>
-          <div class="sub-proj">
-            <p class="sub-title">Seguridad y Gobernanza</p>
-            <ul class="bullets">
-              <li>Configuración de Row-Level Security (RLS) y refresco automatizado en Power BI Service, garantizando disponibilidad 24/7 con acceso controlado por roles.</li>
-            </ul>
+            <p class="sub-title">Estandarización y Gobernanza</p>
+            <ul class="bullets"><li>Normalización del ecosistema de reporting desde cero — Star Schema, RLS por roles, refresco automatizado en Power BI Service (24/7).</li></ul>
           </div>
           <div class="sub-proj">
             <p class="sub-title">Innovación con IA — DAX Assistant (POC · 2026)</p>
             <ul class="bullets">
-              <li>Identificación de ineficiencias en los flujos de desarrollo DAX y construcción independiente de un copiloto IA para resolverlas.</li>
-              <li>Conecta a SQL Server, lee metadatos del schema en vivo y usa Llama 3.3 70B (Groq / SambaNova / Gemini fallback) para generar DAX listo para producción. <strong>GDPR-safe by design.</strong></li>
+              <li>Copiloto IA (Streamlit + Python) que conecta a SQL Server en vivo, lee metadatos y genera DAX de producción con Llama 3.3 70B. Fallback Groq → SambaNova → Gemini. <strong>GDPR-safe by design.</strong></li>
+              <li>Presentado y validado como solución de innovación real en el equipo de Santander.</li>
             </ul>
           </div>
         </div>
@@ -299,39 +249,36 @@ body {
           <p class="exp-co">Nter Tech Services</p>
           <p class="exp-type">Prácticas · Híbrido · Jaén</p>
           <div class="sub-proj">
-            <p class="sub-title">ETL Control de Ventas — PL/SQL (Oracle Database)</p>
-            <ul class="bullets">
-              <li>Modelo relacional de control de ventas: estructuras, paquetes, procedimientos, funciones y disparadores de integridad en Oracle SQL Developer.</li>
-            </ul>
+            <p class="sub-title">ETL Control de Ventas — PL/SQL (Oracle)</p>
+            <ul class="bullets"><li>Modelo relacional completo: estructuras, paquetes, procedimientos, funciones y disparadores de integridad en Oracle SQL Developer.</li></ul>
           </div>
           <div class="sub-proj">
             <p class="sub-title">ETL Aseguradora — SSIS</p>
-            <ul class="bullets">
-              <li>Pipeline SSIS para carga desde ficheros con validación técnica, funcional y de integridad mediante procedimientos T-SQL.</li>
-            </ul>
+            <ul class="bullets"><li>Pipeline SSIS con validación en tres niveles (técnica, funcional, integridad referencial) mediante T-SQL.</li></ul>
           </div>
           <div class="sub-proj">
             <p class="sub-title">ETL Python + Power BI</p>
             <ul class="bullets">
-              <li>Scripts de extracción, limpieza y transformación con Pandas/NumPy desde BBDD, Excel y CSV. <strong>Reducción del 82%</strong> en tiempo de preparación de datos.</li>
-              <li>Dashboards con DAX avanzado y M (Power Query) para KPIs críticos. Entorno de analítica de autoservicio en Looker Studio.</li>
+              <li>Scripts Pandas/NumPy desde BBDD, Excel y CSV. <strong>Reducción del 82%</strong> en tiempo de preparación de datos.</li>
+              <li>Dashboards DAX avanzado + M (Power Query) para KPIs. Self-service analytics en Looker Studio.</li>
             </ul>
+          </div>
+          <div class="sub-proj">
+            <p class="sub-title">ETL Consolidado — Google Apps Script</p>
+            <ul class="bullets"><li>Sistema modular (8 ficheros .gs) para consolidar datos de Mentoring y Staff desde múltiples Sheets. Reporting automático por email y triggers con PropertiesService.</li></ul>
           </div>
         </div>
 
         <div class="exp-item">
           <div class="exp-row">
-            <span class="exp-title">Becario Desarrollo Web y Software</span>
+            <span class="exp-title">Becario Desarrollo Web Full-Stack</span>
             <span class="exp-date">Dic. 2024 — Abr. 2025</span>
           </div>
           <p class="exp-co">Ioonic Sistemas Informáticos, SL · En remoto · Madrid</p>
           <p class="exp-type">Prácticas</p>
           <div class="sub-proj">
-            <p class="sub-title">App 'Licitaciones' — Full-Stack</p>
-            <ul class="bullets">
-              <li>Aplicación desde cero para análisis de licitaciones públicas y gestión de ganadores en subasta. <strong>Stack:</strong> Angular · JavaScript · MariaDB.</li>
-              <li>Webs corporativas con WordPress + PHP + JavaScript + HTML/CSS.</li>
-            </ul>
+            <p class="sub-title">App 'Licitaciones' — Angular + MariaDB</p>
+            <ul class="bullets"><li>Aplicación desde cero para análisis de licitaciones públicas y gestión de ganadores en subasta. SDLC completo con Angular, JavaScript y MariaDB.</li></ul>
           </div>
         </div>
 
@@ -341,14 +288,8 @@ body {
             <span class="exp-date">Mar. 2023 — Jun. 2023</span>
           </div>
           <p class="exp-co">AAG Insight Strategy Concept · Presencial · Andújar</p>
-          <p class="exp-type">Prácticas</p>
-          <div class="sub-proj">
-            <p class="sub-title">App 'Trajes' — Back-End Mobile</p>
-            <ul class="bullets">
-              <li>Aplicación desde cero para gestión de pedidos y compra de una marca de moda. <strong>Stack:</strong> FlutterFlow · Flutter · Firebase.</li>
-              <li>Webs corporativas con WordPress + PHP + HTML/CSS.</li>
-            </ul>
-          </div>
+          <p class="exp-type">Prácticas · Agile/Scrum</p>
+          <ul class="bullets" style="margin-top:3px;"><li>App de gestión de pedidos de moda con FlutterFlow · Flutter · Firebase. Webs corporativas con WordPress + PHP.</li></ul>
         </div>
 
         <div class="exp-item">
@@ -358,9 +299,7 @@ body {
           </div>
           <p class="exp-co">Cubit Technology · Viena, Austria</p>
           <p class="exp-type">Prácticas · Internacional</p>
-          <ul class="bullets" style="margin-top:4px;">
-            <li>Administración de redes SAN y DNS en entorno corporativo internacional.</li>
-          </ul>
+          <ul class="bullets" style="margin-top:3px;"><li>Administración de redes SAN y DNS en entorno corporativo internacional.</li></ul>
         </div>
 
         <div class="exp-item">
@@ -370,48 +309,10 @@ body {
           </div>
           <p class="exp-co">Dynos · Andújar</p>
           <p class="exp-type">Prácticas</p>
-          <ul class="bullets" style="margin-top:4px;">
-            <li>Reparación y mantenimiento de equipos, gestión DNS y soporte técnico.</li>
-          </ul>
+          <ul class="bullets" style="margin-top:3px;"><li>Reparación y mantenimiento de equipos, gestión DNS y soporte técnico presencial.</li></ul>
         </div>
 
-      </div>
-    </div><!-- /cv-main -->
-
-    <div class="cv-side">
-      <div class="sec">
-        <p class="sec-title">Tecnologías</p>
-        <div class="sk-item">
-          <p class="sk-name">Power BI y DAX</p>
-          <div class="sk-bar-bg"><div class="sk-bar-fill" style="width:94%"></div></div>
-          <div class="sk-tags"><span class="sk-tag">DAX avanzado</span><span class="sk-tag">RLS</span><span class="sk-tag">Star Schema</span><span class="sk-tag">Intel. Temporal</span><span class="sk-tag">PBI Service</span></div>
-        </div>
-        <div class="sk-item">
-          <p class="sk-name">Python</p>
-          <div class="sk-bar-bg"><div class="sk-bar-fill" style="width:88%"></div></div>
-          <div class="sk-tags"><span class="sk-tag">Pandas</span><span class="sk-tag">NumPy</span><span class="sk-tag">SQLAlchemy</span><span class="sk-tag">Streamlit</span></div>
-        </div>
-        <div class="sk-item">
-          <p class="sk-name">SQL y Bases de datos</p>
-          <div class="sk-bar-bg"><div class="sk-bar-fill" style="width:86%"></div></div>
-          <div class="sk-tags"><span class="sk-tag">SQL Server</span><span class="sk-tag">PL/SQL</span><span class="sk-tag">Oracle</span><span class="sk-tag">MySQL</span><span class="sk-tag">MariaDB</span></div>
-        </div>
-        <div class="sk-item">
-          <p class="sk-name">ETL e Integración</p>
-          <div class="sk-bar-bg"><div class="sk-bar-fill" style="width:85%"></div></div>
-          <div class="sk-tags"><span class="sk-tag">SSIS</span><span class="sk-tag">T-SQL</span><span class="sk-tag">Power Query</span><span class="sk-tag">Apps Script</span></div>
-        </div>
-        <div class="sk-item">
-          <p class="sk-name">IA y Modelos de Lenguaje</p>
-          <div class="sk-bar-bg"><div class="sk-bar-fill" style="width:77%"></div></div>
-          <div class="sk-tags"><span class="sk-tag">Groq</span><span class="sk-tag">Gemini</span><span class="sk-tag">Llama 3.3</span><span class="sk-tag">Ing. de Prompts</span></div>
-        </div>
-        <div class="sk-item">
-          <p class="sk-name">Desarrollo Full-Stack</p>
-          <div class="sk-bar-bg"><div class="sk-bar-fill" style="width:80%"></div></div>
-          <div class="sk-tags"><span class="sk-tag">Angular</span><span class="sk-tag">NestJS</span><span class="sk-tag">TypeScript</span><span class="sk-tag">Flutter</span><span class="sk-tag">Java</span><span class="sk-tag">Spring Boot</span><span class="sk-tag">WordPress</span><span class="sk-tag">Git</span></div>
-        </div>
-      </div>
+      </div><!-- /sec experiencia -->
 
       <div class="sec">
         <p class="sec-title">Formación</p>
@@ -425,40 +326,62 @@ body {
           <p class="edu-title">CFGS Desarrollo de Aplicaciones Web (DAW)</p>
           <p class="edu-place">CEAC FP Oficial</p>
           <p class="edu-date">2024 — 2025</p>
-          <p class="edu-detail">HTML · CSS · JavaScript · PHP · SQL</p>
-        </div>
-        <div class="edu-item">
-          <p class="edu-title">Especialista en Ciberseguridad</p>
-          <p class="edu-place">EIP International Business School</p>
-          <p class="edu-date">Mar. 2023 — Jul. 2023</p>
-          <p class="edu-detail">Hacking Ético · RGPD · LOPDGDD · Forense · Criptografía</p>
-        </div>
-        <div class="edu-item">
-          <p class="edu-title">AWS Cloud Practitioner (en curso)</p>
-          <p class="edu-place">Amazon Web Services</p>
-          <p class="edu-detail">CLF-C02 → Objetivo: Data Engineer Associate</p>
+          <p class="edu-detail">HTML · CSS · JavaScript · PHP · SQL · Java</p>
         </div>
       </div>
 
+    </div><!-- /cv-main -->
+
+    <div class="cv-side">
+
       <div class="sec">
-        <p class="sec-title">Otros méritos</p>
-        <div class="extra-item"><strong>Spring Boot</strong> — Curso de especialidad (CEAC FP Oficial)</div>
-        <div class="extra-item"><strong>Ciberseguridad</strong> — Especialista (EIP Posgrados)</div>
-        <div class="extra-item"><strong>Scrum / Agile</strong> — Metodologías ágiles (EFA Moratalaz)</div>
-        <div class="extra-item"><strong>GitLab y GitHub</strong> — Control de versiones en equipo</div>
+        <p class="sec-title">Tecnologías</p>
+        <div class="sk-item">
+          <p class="sk-name">Power BI y DAX</p>
+          <div class="sk-bar-bg"><div class="sk-bar-fill" style="width:94%"></div></div>
+          <div class="sk-tags"><span class="sk-tag">DAX avanzado</span><span class="sk-tag">RLS</span><span class="sk-tag">Star Schema</span><span class="sk-tag">Time Intel.</span><span class="sk-tag">PBI Service</span><span class="sk-tag">Power Query</span></div>
+        </div>
+        <div class="sk-item">
+          <p class="sk-name">Python</p>
+          <div class="sk-bar-bg"><div class="sk-bar-fill" style="width:88%"></div></div>
+          <div class="sk-tags"><span class="sk-tag">Pandas</span><span class="sk-tag">NumPy</span><span class="sk-tag">SQLAlchemy</span><span class="sk-tag">Streamlit</span><span class="sk-tag">ReportLab</span></div>
+        </div>
+        <div class="sk-item">
+          <p class="sk-name">SQL y Bases de datos</p>
+          <div class="sk-bar-bg"><div class="sk-bar-fill" style="width:86%"></div></div>
+          <div class="sk-tags"><span class="sk-tag">SQL Server</span><span class="sk-tag">T-SQL</span><span class="sk-tag">PL/SQL</span><span class="sk-tag">Oracle</span><span class="sk-tag">MySQL</span><span class="sk-tag">MariaDB</span></div>
+        </div>
+        <div class="sk-item">
+          <p class="sk-name">ETL e Integración</p>
+          <div class="sk-bar-bg"><div class="sk-bar-fill" style="width:85%"></div></div>
+          <div class="sk-tags"><span class="sk-tag">SSIS</span><span class="sk-tag">Apps Script</span><span class="sk-tag">Looker Studio</span><span class="sk-tag">Informatica PC</span></div>
+        </div>
+        <div class="sk-item">
+          <p class="sk-name">IA y LLMs</p>
+          <div class="sk-bar-bg"><div class="sk-bar-fill" style="width:77%"></div></div>
+          <div class="sk-tags"><span class="sk-tag">Groq</span><span class="sk-tag">Gemini</span><span class="sk-tag">Llama 3.3</span><span class="sk-tag">Prompt Eng.</span><span class="sk-tag">RAG</span></div>
+        </div>
+        <div class="sk-item">
+          <p class="sk-name">Full-Stack</p>
+          <div class="sk-bar-bg"><div class="sk-bar-fill" style="width:80%"></div></div>
+          <div class="sk-tags"><span class="sk-tag">Angular</span><span class="sk-tag">NestJS</span><span class="sk-tag">TypeScript</span><span class="sk-tag">Next.js</span><span class="sk-tag">Flutter</span><span class="sk-tag">Java</span><span class="sk-tag">Spring Boot</span><span class="sk-tag">Git</span></div>
+        </div>
       </div>
 
       <div class="sec">
         <p class="sec-title">Idiomas</p>
         <div class="lang-row"><span class="lang-name">Español</span><span class="lang-lvl">Nativo</span></div>
-        <div class="lang-row"><span class="lang-name">Inglés</span><span class="lang-lvl">Profesional</span></div>
+        <div class="lang-row"><span class="lang-name">Inglés</span><span class="lang-lvl">Profesional B2</span></div>
       </div>
-    </div><!-- /cv-side -->
-  </div><!-- /cv-body -->
-</div><!-- /#cvDoc -->
-</div><!-- /.scale-shell -->
+
+    </div>
+  </div>
+
+</div>
+</div>
 
 <script>
+/* ESCALA */
 const CV_W = 794;
 function scalePage() {
   const shell = document.getElementById('scaleShell');
@@ -477,15 +400,141 @@ function scalePage() {
 }
 scalePage();
 window.addEventListener('resize', scalePage);
-// Esperar fuentes para medir altura real
 document.fonts.ready.then(scalePage);
 window.addEventListener('load', scalePage);
 
-function descargarPDF() {
-  const toast = document.getElementById('toastPdf');
-  toast.classList.add('show');
-  setTimeout(() => toast.classList.remove('show'), 5000);
-  setTimeout(() => window.print(), 350);
+/* TOAST */
+function showToast(html, dur=3500) {
+  const t = document.getElementById('toast');
+  t.innerHTML = html;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), dur);
+}
+
+/* DESCARGA DIRECTA PDF */
+async function descargarPDF() {
+  const btn = document.getElementById('btnPdf');
+  const txt = document.getElementById('btnPdfTxt');
+  btn.disabled = true;
+  txt.textContent = 'Generando…';
+  showToast('⏳ Generando PDF, espera un momento…', 15000);
+
+  function runExport() {
+    const doc   = document.getElementById('cvDoc');
+    const shell = document.getElementById('scaleShell');
+
+    // Guardar estado actual
+    const prevT       = doc.style.transform;
+    const prevTO      = doc.style.transformOrigin;
+    const prevH       = shell.style.height;
+    const prevBD      = document.body.style.display;
+    const prevBP      = document.body.style.padding;
+    const prevBAI     = document.body.style.alignItems;
+    const prevBBG     = document.body.style.background;
+
+    // Resetear layout del body para captura limpia sin offset
+    doc.style.transform       = 'none';
+    doc.style.transformOrigin = 'top left';
+    shell.style.height        = 'auto';
+    document.body.style.display    = 'block';
+    document.body.style.padding    = '0';
+    document.body.style.alignItems = 'unset';
+    document.body.style.background = '#fff';
+    window.scrollTo(0, 0);
+
+    function restore() {
+      doc.style.transform            = prevT;
+      doc.style.transformOrigin      = prevTO;
+      shell.style.height             = prevH;
+      document.body.style.display    = prevBD;
+      document.body.style.padding    = prevBP;
+      document.body.style.alignItems = prevBAI;
+      document.body.style.background = prevBBG;
+      scalePage();
+      btn.disabled    = false;
+      txt.textContent = 'Descargar PDF';
+    }
+
+    const opt = {
+      margin:      0,
+      filename:    'CV_Oscar_Herruzo_Montoya.pdf',
+      image:       { type:'jpeg', quality:0.99 },
+      html2canvas: {
+        scale:           2,
+        useCORS:         true,
+        allowTaint:      true,
+        backgroundColor: '#ffffff',
+        width:           794,
+        windowWidth:     794,
+        scrollX:         0,
+        scrollY:         0,
+        x:               0,
+        y:               0,
+        logging:         false
+      },
+      jsPDF:     { unit:'mm', format:'a4', orientation:'portrait' },
+      pagebreak: { mode:['css','legacy'] },
+      margin:    [0, 0, 12, 0]
+    };
+
+    html2pdf()
+      .set(opt)
+      .from(doc)
+      .toPdf()
+      .get('pdf')
+      .then(function(pdf) {
+        const total = pdf.internal.getNumberOfPages();
+        for (let i = 2; i <= total; i++) {
+          pdf.setPage(i);
+          // Zona blanca que cubre el contenido bajo la cabecera (header + margen)
+          pdf.setFillColor(255, 255, 255);
+          pdf.rect(0, 0, 210, 20, 'F');
+          // Franja oscura cabecera
+          pdf.setFillColor(26, 29, 35);
+          pdf.rect(0, 0, 210, 11, 'F');
+          // Nombre en blanco negrita
+          pdf.setTextColor(255, 255, 255);
+          pdf.setFont('helvetica', 'bold');
+          pdf.setFontSize(7.5);
+          pdf.text('Óscar Herruzo Montoya', 8, 7.2);
+          // Punto separador verde
+          pdf.setTextColor(163, 230, 53);
+          pdf.text('·', 57, 7.2);
+          // Datos de contacto en gris
+          pdf.setTextColor(156, 163, 175);
+          pdf.setFont('helvetica', 'normal');
+          pdf.text('Data & BI Developer  ·  oscarherruzom@gmail.com  ·  +34 602 674 339', 62, 7.2);
+          // Número de página alineado a la derecha
+          pdf.setTextColor(107, 114, 128);
+          pdf.setFontSize(6.5);
+          pdf.text(`${i} / ${total}`, 202, 7.2, { align: 'right' });
+        }
+      })
+      .save()
+      .then(() => {
+        restore();
+        showToast('✓ <span class="acc">PDF descargado correctamente</span>');
+      })
+      .catch(err => {
+        console.error(err);
+        restore();
+        showToast('⚠️ Error — usa el botón <strong>Imprimir</strong> y guarda como PDF');
+      });
+  }
+
+  if (typeof html2pdf !== 'undefined') {
+    runExport();
+  } else {
+    const s = document.createElement('script');
+    s.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js';
+    s.onload  = runExport;
+    s.onerror = () => {
+      btn.disabled = false;
+      txt.textContent = 'Descargar PDF';
+      showToast('Sin conexión — usa <strong>Imprimir → Guardar como PDF</strong>');
+    };
+    document.head.appendChild(s);
+  }
 }
 </script>
 </body>
