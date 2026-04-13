@@ -7,6 +7,12 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&family=DM+Serif+Display&display=swap" rel="stylesheet">
 <style>
+/* Bloquear el aumento automático de fuentes en móviles (Causa principal de roturas) */
+html, body, * { 
+  -webkit-text-size-adjust: 100% !important; 
+  text-size-adjust: 100% !important; 
+}
+
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
   --dark:#1A1D23; --mid:#374151; --gray:#6B7280;
@@ -448,15 +454,26 @@ async function descargarPDF() {
 
   async function runExport() {
     var doc = document.getElementById('cvDoc');
+    var shell = document.getElementById('scaleShell');
+
+    /* === MAGIA PARA MÓVILES: Quitar el zoom visual temporalmente === */
+    var prevTransform = doc.style.transform;
+    var prevOrigin = doc.style.transformOrigin;
+    var prevHeight = shell.style.height;
+
+    doc.style.transform = 'none';
+    doc.style.transformOrigin = 'top left';
+    shell.style.height = 'auto';
+    shell.style.overflow = 'visible'; 
+
+    window.scrollTo(0, 0);
 
     await document.fonts.ready;
     await new Promise(function(r){ setTimeout(r, 400); });
 
-    /* MARGEN SUPERIOR A 21: Para que respire bajo la cabecera */
     var opt = {
       margin:       [21, 0, 16, 0], 
       filename:     'CV_Oscar_Herruzo_Montoya.pdf',
-      /* CONFIGURACIÓN AVOID: Asegura que NINGÚN item se corte por la mitad */
       pagebreak:    { mode: ['css', 'legacy'], avoid: ['.exp-item', '.edu-item', '.sec-title'] },
       image:        { type: 'jpeg', quality: 0.98 },
       html2canvas: {
@@ -474,6 +491,20 @@ async function descargarPDF() {
           clonedDoc.documentElement.style.fontSize = '16px';
           clonedDoc.body.style.cssText = 'width:794px!important; margin:0!important; padding:0!important; display:block!important; background:#fff!important; text-align:left!important;';
           clonedDoc.documentElement.style.cssText = 'width:794px!important; margin:0!important; padding:0!important;';
+
+          var pbStyle = clonedDoc.createElement('style');
+          pbStyle.innerHTML = `
+            html, body, * { -webkit-text-size-adjust: 100% !important; text-size-adjust: 100% !important; }
+            .exp-item, .sub-proj, .edu-item, .sk-item, .cert-item {
+              page-break-inside: avoid !important;
+              break-inside: avoid !important;
+            }
+            .sec-title, .exp-row, .sub-title {
+              page-break-after: avoid !important;
+              break-after: avoid !important;
+            }
+          `;
+          clonedDoc.head.appendChild(pbStyle);
 
           var shellClone = clonedDoc.getElementById('scaleShell');
           if (shellClone) {
@@ -568,6 +599,13 @@ async function descargarPDF() {
       btn.disabled = false;
       txt.textContent = 'Descargar PDF';
       showToast('⚠️ Error — usa el botón <strong>Imprimir</strong> y guarda como PDF');
+    } finally {
+      /* === DEVOLVER EL MÓVIL A LA NORMALIDAD === */
+      doc.style.transform = prevTransform;
+      doc.style.transformOrigin = prevOrigin;
+      shell.style.height = prevHeight;
+      shell.style.overflow = 'hidden';
+      scalePage();
     }
   }
 
