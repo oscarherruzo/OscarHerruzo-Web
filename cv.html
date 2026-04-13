@@ -7,10 +7,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&family=DM+Serif+Display&display=swap" rel="stylesheet">
 <style>
-/* Bloquear el aumento automático de fuentes en móviles (Causa principal de roturas) */
+/* Reset para móviles */
 html, body, * { 
-  -webkit-text-size-adjust: 100% !important; 
-  text-size-adjust: 100% !important; 
+  -webkit-text-size-adjust: none !important; 
+  text-size-adjust: none !important; 
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -28,6 +28,8 @@ body {
   padding:40px 0 60px;
   overflow-x: hidden;
 }
+
+/* Barra superior minimalista */
 .top-bar {
   width:100%; max-width:var(--cv-w);
   display:flex; justify-content:space-between; align-items:center;
@@ -35,29 +37,8 @@ body {
 }
 .top-bar a { font-family:'DM Mono',monospace; font-size:.72rem; color:#9CA3AF; text-decoration:none; }
 .top-bar a:hover { color:var(--dark); }
-.btn-group { display:flex; gap:8px; flex-wrap:wrap; }
-.btn-pdf, .btn-print {
-  border:none; border-radius:7px; padding:9px 18px;
-  font-family:'DM Sans',sans-serif; font-size:.82rem; font-weight:500;
-  cursor:pointer; display:inline-flex; align-items:center; gap:7px;
-  transition:background .2s, opacity .2s; white-space:nowrap;
-}
-.btn-pdf { background:var(--green); color:#fff; }
-.btn-pdf:hover { background:#166534; }
-.btn-pdf:disabled { opacity:.6; cursor:wait; }
-.btn-print { background:var(--dark); color:#fff; }
-.btn-print:hover { background:#374151; }
 
-.toast {
-  position:fixed; bottom:28px; left:50%; transform:translateX(-50%) translateY(16px);
-  background:var(--dark); color:#fff; padding:11px 22px;
-  border-radius:8px; font-size:.8rem; opacity:0; pointer-events:none;
-  transition:opacity .3s, transform .3s; z-index:9999; white-space:nowrap;
-  box-shadow:0 4px 24px rgba(0,0,0,.3);
-}
-.toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
-.toast .acc { color:var(--accent); font-weight:600; }
-
+/* Contenedor del CV */
 .scale-shell {
   width:100%;
   max-width:var(--cv-w);
@@ -68,6 +49,8 @@ body {
   box-shadow:0 6px 48px rgba(0,0,0,.13);
   border-radius:4px; overflow:hidden; transform-origin:top left;
 }
+
+/* Cabecera Principal */
 .cv-head {
   background:var(--dark); padding:18px 40px 16px;
   display:grid; grid-template-columns:1fr auto; gap:20px; align-items:center;
@@ -80,6 +63,7 @@ body {
 .cv-ct a { color:#D1D5DB; text-decoration:none; }
 .ct-dot { width:5px; height:5px; background:var(--accent); border-radius:50%; flex-shrink:0; }
 
+/* Cuerpo del CV a 2 columnas */
 .cv-body {
   display:grid;
   grid-template-columns:1fr 210px;
@@ -88,6 +72,7 @@ body {
 .cv-main { padding:22px 26px 22px 40px; border-right:1px solid var(--border); min-width:0; }
 .cv-side { padding:22px 18px; min-width:0; }
 
+/* Estructura general de las secciones */
 .sec { margin-bottom:16px; }
 .sec-title {
   font-family:'DM Mono',monospace; font-size:.58rem; font-weight:500;
@@ -135,69 +120,20 @@ body {
 .cert-org  { font-size:.63rem; color:var(--green); margin-bottom:1px; }
 .cert-date { font-family:'DM Mono',monospace; font-size:.56rem; color:#9CA3AF; }
 
-.extra-item { font-size:.69rem; color:var(--gray); line-height:1.5; padding-left:10px; position:relative; margin-bottom:4px; }
-.extra-item::before { content:'▸'; position:absolute; left:0; color:var(--green); font-size:.58rem; top:2px; }
-.extra-item strong { color:var(--dark); font-weight:600; }
 .lang-row { display:flex; justify-content:space-between; align-items:center; margin-bottom:5px; }
 .lang-name { font-size:.71rem; font-weight:500; color:var(--dark); }
 .lang-lvl  { font-family:'DM Mono',monospace; font-size:.57rem; color:var(--gray); background:#fff; border:1px solid var(--border); border-radius:3px; padding:1px 5px; }
 
-/* ══ PRINT ══ */
-@media print {
-  .top-bar, .toast { display:none !important; }
-  html, body {
-    background:#fff !important; padding:0 !important; margin:0 !important;
-    display:block !important;
-    -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important;
-  }
-  .scale-shell { max-width:100% !important; width:100% !important; }
-  #cvDoc { width:100% !important; box-shadow:none !important; border-radius:0 !important; transform:none !important; overflow:visible !important; }
-  .cv-body {
-    display:grid !important;
-    grid-template-columns:1fr 210px !important;
-    background: linear-gradient(to right, #fff calc(100% - 210px), #F7F8FA calc(100% - 210px)) !important;
-    -webkit-print-color-adjust:exact !important;
-    print-color-adjust:exact !important;
-  }
-  .cv-head     { background:#1A1D23 !important; -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important; }
-  .cv-side     { background:#F7F8FA !important; -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important; }
-  .cv-name em  { color:#A3E635 !important; }
-  .ct-dot, .cert-dot { background:#A3E635 !important; -webkit-print-color-adjust:exact !important; }
-  .sk-bar-fill { -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important; }
-  .exp-item, .sub-proj, .edu-item, .sk-item, .cert-item { page-break-inside:avoid; break-inside:avoid; }
-  .sec-title, .exp-row { page-break-after:avoid; break-after:avoid; }
-  @page { size:A4 portrait; margin:0; }
-}
-
 @media(max-width:600px){
   body { padding:16px 0 40px; }
-  .top-bar { padding:0 12px; flex-wrap:wrap; gap:8px; }
-  .btn-pdf, .btn-print { padding:8px 14px; font-size:.78rem; }
+  .top-bar { padding:0 12px; }
 }
 </style>
 </head>
 <body>
 
-<div class="toast" id="toast"></div>
-
 <div class="top-bar">
   <a href="index.html">← Portfolio</a>
-  <div class="btn-group">
-    <button class="btn-pdf" id="btnPdf" onclick="descargarPDF()">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-        <polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
-      </svg>
-      <span id="btnPdfTxt">Descargar PDF</span>
-    </button>
-    <button class="btn-print" onclick="window.print()">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/>
-        <rect x="6" y="14" width="12" height="8"/>
-      </svg>
-      Imprimir
-    </button>
-  </div>
 </div>
 
 <div class="scale-shell" id="scaleShell">
@@ -291,8 +227,6 @@ body {
             <ul class="bullets"><li>Sistema modular (8 ficheros .gs) para consolidar datos de Mentoring y Staff desde múltiples Sheets. Reporting automático por email y triggers con PropertiesService.</li></ul>
           </div>
         </div>
-
-        <div class="html2pdf__page-break"></div>
 
         <div class="exp-item">
           <div class="exp-row">
@@ -406,12 +340,14 @@ body {
 </div>
 
 <script>
+/* Carga el email dinámicamente */
 (function(){
   const u = 'oscarherruzom', d = 'gmail.com', e = u + '@' + d;
   const a = document.getElementById('cvEmail');
   if (a) { a.textContent = e; a.href = 'mailto:' + e; }
 })();
 
+/* Escalado para que siempre encaje en pantalla */
 const CV_W = 794;
 
 function scalePage() {
@@ -436,193 +372,6 @@ scalePage();
 window.addEventListener('resize', scalePage);
 document.fonts.ready.then(scalePage);
 window.addEventListener('load', scalePage);
-
-function showToast(html, dur) {
-  dur = dur || 3500;
-  const t = document.getElementById('toast');
-  t.innerHTML = html;
-  t.classList.add('show');
-  setTimeout(function(){ t.classList.remove('show'); }, dur);
-}
-
-async function descargarPDF() {
-  var btn = document.getElementById('btnPdf');
-  var txt = document.getElementById('btnPdfTxt');
-  btn.disabled = true;
-  txt.textContent = 'Generando…';
-  showToast('⏳ Generando PDF, espera un momento…', 20000);
-
-  async function runExport() {
-    var doc = document.getElementById('cvDoc');
-    var shell = document.getElementById('scaleShell');
-
-    /* === MAGIA PARA MÓVILES: Quitar el zoom visual temporalmente === */
-    var prevTransform = doc.style.transform;
-    var prevOrigin = doc.style.transformOrigin;
-    var prevHeight = shell.style.height;
-
-    doc.style.transform = 'none';
-    doc.style.transformOrigin = 'top left';
-    shell.style.height = 'auto';
-    shell.style.overflow = 'visible'; 
-
-    window.scrollTo(0, 0);
-
-    await document.fonts.ready;
-    await new Promise(function(r){ setTimeout(r, 400); });
-
-    var opt = {
-      margin:       [21, 0, 16, 0], 
-      filename:     'CV_Oscar_Herruzo_Montoya.pdf',
-      pagebreak:    { mode: ['css', 'legacy'], avoid: ['.exp-item', '.edu-item', '.sec-title'] },
-      image:        { type: 'jpeg', quality: 0.98 },
-      html2canvas: {
-        scale:           2,
-        useCORS:         true,
-        allowTaint:      true,
-        backgroundColor: '#ffffff',
-        width:           794,    
-        windowWidth:     794,    
-        scrollX:         0,      
-        scrollY:         0,      
-        x:               0,      
-        y:               0,      
-        onclone: function(clonedDoc) {
-          clonedDoc.documentElement.style.fontSize = '16px';
-          clonedDoc.body.style.cssText = 'width:794px!important; margin:0!important; padding:0!important; display:block!important; background:#fff!important; text-align:left!important;';
-          clonedDoc.documentElement.style.cssText = 'width:794px!important; margin:0!important; padding:0!important;';
-
-          var pbStyle = clonedDoc.createElement('style');
-          pbStyle.innerHTML = `
-            html, body, * { -webkit-text-size-adjust: 100% !important; text-size-adjust: 100% !important; }
-            .exp-item, .sub-proj, .edu-item, .sk-item, .cert-item {
-              page-break-inside: avoid !important;
-              break-inside: avoid !important;
-            }
-            .sec-title, .exp-row, .sub-title {
-              page-break-after: avoid !important;
-              break-after: avoid !important;
-            }
-          `;
-          clonedDoc.head.appendChild(pbStyle);
-
-          var shellClone = clonedDoc.getElementById('scaleShell');
-          if (shellClone) {
-            shellClone.style.cssText = 'width:794px!important; max-width:794px!important; margin:0!important; padding:0!important; overflow:visible!important;';
-          }
-
-          var cvClone = clonedDoc.getElementById('cvDoc');
-          if (cvClone) {
-            cvClone.style.cssText = 'transform:none!important; width:794px!important; min-width:794px!important; margin:0!important; box-shadow:none!important; border-radius:0!important; left:0!important; top:0!important; position:relative!important;';
-            
-            var cb = cvClone.querySelector('.cv-body');
-            if (cb) {
-              cb.style.minHeight = cvClone.scrollHeight + 'px';
-              cb.style.background = 'linear-gradient(to right, #ffffff calc(100% - 210px), #F7F8FA calc(100% - 210px))';
-            }
-          }
-
-          var topBar = clonedDoc.querySelector('.top-bar');
-          if (topBar) topBar.style.display = 'none';
-          var toast = clonedDoc.getElementById('toast');
-          if (toast) toast.style.display = 'none';
-        }
-      },
-      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-    };
-
-    try {
-      var worker = html2pdf().set(opt).from(doc);
-      var pdf    = await worker.toPdf().get('pdf');
-
-      var total = pdf.internal.getNumberOfPages();
-      var sidebarX = 210 - (210 * 210 / 794);  
-      var sidebarW = 210 * 210 / 794;          
-
-      for (var i = 1; i <= total; i++) {
-        pdf.setPage(i);
-        
-        if (i >= 2) {
-          pdf.setFillColor(247, 248, 250);
-          pdf.rect(sidebarX, 0, sidebarW, 21, 'F'); 
-          pdf.rect(sidebarX, 281, sidebarW, 16, 'F'); 
-          
-          pdf.setDrawColor(229, 231, 235);
-          pdf.setLineWidth(0.3);
-          pdf.line(sidebarX, 0, sidebarX, 21); 
-          pdf.line(sidebarX, 281, sidebarX, 297); 
-        }
-
-        if (i === 1) {
-          pdf.setFillColor(26, 29, 35);
-          pdf.rect(0, 0, 210, 21, 'F'); 
-        } else {
-          pdf.setFillColor(26, 29, 35);
-          pdf.rect(0, 0, 210, 13, 'F'); 
-
-          pdf.setFillColor(255, 255, 255);
-          pdf.rect(0, 13, sidebarX, 8, 'F');
-
-          pdf.setTextColor(255, 255, 255);
-          pdf.setFont('helvetica', 'bold');
-          pdf.setFontSize(7.5);
-          pdf.text('Óscar Herruzo Montoya', 8, 8.5);
-          pdf.setTextColor(163, 230, 53);
-          pdf.text('·', 57, 8.5);
-          pdf.setTextColor(156, 163, 175);
-          pdf.setFont('helvetica', 'normal');
-          pdf.text('Data & BI Developer  ·  oscarherruzom@gmail.com  ·  +34 602 674 339', 62, 8.5);
-        }
-
-        pdf.setFillColor(255, 255, 255);
-        pdf.rect(0, 281, sidebarX, 16, 'F'); 
-
-        pdf.setDrawColor(229, 231, 235);
-        pdf.setLineWidth(0.3);
-        pdf.line(12, 283, 198, 283); 
-
-        pdf.setTextColor(156, 163, 175);
-        pdf.setFont('helvetica', 'normal');
-        pdf.setFontSize(6.5);
-        pdf.text('Óscar Herruzo Montoya — Curriculum Vitae', 12, 288.5);
-        pdf.text('Página ' + i + ' de ' + total, 198, 288.5, { align: 'right' });
-      }
-
-      await pdf.save('CV_Oscar_Herruzo_Montoya.pdf');
-      
-      btn.disabled = false;
-      txt.textContent = 'Descargar PDF';
-      showToast('✓ <span class="acc">PDF descargado correctamente</span>');
-
-    } catch(err) {
-      console.error(err);
-      btn.disabled = false;
-      txt.textContent = 'Descargar PDF';
-      showToast('⚠️ Error — usa el botón <strong>Imprimir</strong> y guarda como PDF');
-    } finally {
-      /* === DEVOLVER EL MÓVIL A LA NORMALIDAD === */
-      doc.style.transform = prevTransform;
-      doc.style.transformOrigin = prevOrigin;
-      shell.style.height = prevHeight;
-      shell.style.overflow = 'hidden';
-      scalePage();
-    }
-  }
-
-  if (typeof html2pdf !== 'undefined') {
-    runExport();
-  } else {
-    var s    = document.createElement('script');
-    s.src    = 'https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js';
-    s.onload = runExport;
-    s.onerror = function() {
-      btn.disabled    = false;
-      txt.textContent = 'Descargar PDF';
-      showToast('Sin conexión — usa <strong>Imprimir → Guardar como PDF</strong>');
-    };
-    document.head.appendChild(s);
-  }
-}
 </script>
 </body>
 </html>
