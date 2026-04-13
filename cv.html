@@ -468,7 +468,7 @@ async function descargarPDF() {
     /* fix banda gris: cv-body necesita ocupar al menos la altura total del doc */
     const cvBody = doc.querySelector('.cv-body');
     const prevCvBodyStyle = cvBody ? (cvBody.getAttribute('style') || '') : '';
-    if (cvBody) cvBody.style.minHeight = doc.scrollHeight + 'px';
+    //if (cvBody) cvBody.style.minHeight = doc.scrollHeight + 'px';
 
     window.scrollTo(0, 0);
 
@@ -493,25 +493,21 @@ async function descargarPDF() {
         y:               0,
         logging:         false,
         onclone: (clonedDoc) => {
-          /* fix fuentes móvil: bloquear text-autosizing del navegador */
-          const fixStyle = clonedDoc.createElement('style');
-          fixStyle.textContent = `
-            html { font-size: 16px !important; zoom: 1 !important; }
-            * { -webkit-text-size-adjust: none !important;
-                text-size-adjust: none !important;
-                -moz-text-size-adjust: none !important; }
-          `;
-          clonedDoc.head.appendChild(fixStyle);
-          clonedDoc.documentElement.style.fontSize = '16px';
-          clonedDoc.body.style.cssText = 'display:block!important;padding:0!important;min-width:794px!important;background:#fff!important;';
-          const vp = clonedDoc.querySelector('meta[name="viewport"]');
-          if (vp) vp.setAttribute('content', 'width=794, initial-scale=1, maximum-scale=1');
           const cd = clonedDoc.getElementById('cvDoc');
+          const cb = cd.querySelector('.cv-body');
+          
+          // Forzar que el documento clonado ignore el escalado del móvil
+          clonedDoc.documentElement.style.fontSize = '16px';
+          clonedDoc.body.style.width = '794px';
+          
           if (cd) {
-            cd.style.cssText = 'transform:none!important;width:794px!important;min-width:794px!important;';
-            /* fix banda gris: extender cv-body hasta el final del documento */
-            const cb = cd.querySelector('.cv-body');
-            if (cb) cb.style.minHeight = cd.scrollHeight + 'px';
+            cd.style.display = 'block';
+            cd.style.transform = 'none';
+            // Importante: Eliminar cualquier min-height previo que pueda estar causando el hueco
+            if (cb) {
+              cb.style.minHeight = '100%'; 
+              cb.style.height = 'auto';
+            }
           }
         }
       },
