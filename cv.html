@@ -14,7 +14,6 @@
   --cv-w: 794px;
 }
 
-/* Evitar scroll horizontal en móvil */
 html { overflow-x: hidden; }
 
 body {
@@ -43,7 +42,6 @@ body {
 .btn-print { background:var(--dark); color:#fff; }
 .btn-print:hover { background:#374151; }
 
-/* toast */
 .toast {
   position:fixed; bottom:28px; left:50%; transform:translateX(-50%) translateY(16px);
   background:var(--dark); color:#fff; padding:11px 22px;
@@ -54,11 +52,10 @@ body {
 .toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
 .toast .acc { color:var(--accent); font-weight:600; }
 
-/* ── Shell que contiene el CV ── */
 .scale-shell {
   width:100%;
   max-width:var(--cv-w);
-  overflow: hidden; /* corta el desbordamiento horizontal en móvil */
+  overflow: hidden; 
 }
 #cvDoc {
   width:var(--cv-w); background:#fff;
@@ -147,7 +144,7 @@ body {
     display:block !important;
     -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important;
   }
-  .scale-shell { max-width:100% !important; width:100% !important; overflow:visible !important; }
+  .scale-shell { max-width:100% !important; width:100% !important; }
   #cvDoc { width:100% !important; box-shadow:none !important; border-radius:0 !important; transform:none !important; overflow:visible !important; }
   .cv-body {
     display:grid !important;
@@ -332,7 +329,7 @@ body {
           <ul class="bullets" style="margin-top:3px;"><li>Reparación y mantenimiento de equipos, gestión DNS y soporte técnico presencial.</li></ul>
         </div>
 
-      </div><!-- /sec experiencia -->
+      </div>
 
       <div class="sec">
         <p class="sec-title">Formación</p>
@@ -350,7 +347,7 @@ body {
         </div>
       </div>
 
-    </div><!-- /cv-main -->
+    </div>
 
     <div class="cv-side">
 
@@ -401,37 +398,28 @@ body {
 </div>
 
 <script>
-/* EMAIL — construido por JS para evitar detección de scrapers */
 (function(){
   const u = 'oscarherruzom', d = 'gmail.com', e = u + '@' + d;
   const a = document.getElementById('cvEmail');
   if (a) { a.textContent = e; a.href = 'mailto:' + e; }
 })();
 
-/* ══ ESCALA MÓVIL ══
-   Se resetea el transform antes de medir offsetHeight para obtener
-   la altura real del documento (no la comprimida), y se calcula el
-   alto del shell a partir de ahí.
-*/
 const CV_W = 794;
 
 function scalePage() {
   const shell = document.getElementById('scaleShell');
   const doc   = document.getElementById('cvDoc');
 
-  // 1. Resetear primero para medir correctamente
   doc.style.transform       = '';
   doc.style.transformOrigin = '';
   shell.style.height        = '';
 
-  // 2. Ancho disponible (con un pequeño margen para evitar scroll en móvil)
   const avail = Math.min(shell.offsetWidth, window.innerWidth - 2);
 
   if (avail < CV_W) {
     const s = avail / CV_W;
     doc.style.transform       = 'scale(' + s + ')';
     doc.style.transformOrigin = 'top left';
-    // offsetHeight NO se ve afectado por transform → altura real del doc
     shell.style.height = (doc.offsetHeight * s) + 'px';
   }
 }
@@ -441,7 +429,6 @@ window.addEventListener('resize', scalePage);
 document.fonts.ready.then(scalePage);
 window.addEventListener('load', scalePage);
 
-/* ══ TOAST ══ */
 function showToast(html, dur) {
   dur = dur || 3500;
   const t = document.getElementById('toast');
@@ -450,16 +437,7 @@ function showToast(html, dur) {
   setTimeout(function(){ t.classList.remove('show'); }, dur);
 }
 
-/* ══ DESCARGA PDF ══
-   Correcciones aplicadas:
-   1. Se pasa explícitamente `height` a html2canvas para capturar todo
-      el contenido sin cortes.
-   2. Se elimina la detección heurística de "página vacía" que borraba
-      páginas reales al comparar longitud de stream JSON.
-   3. Se usa `windowHeight` igual al scrollHeight real para que
-      html2canvas no recorte el canvas.
-   4. El restore() ya no depende de cvBody capturado fuera de try/catch.
-*/
+/* ══ DESCARGA PDF CORREGIDA PARA ALINEACIÓN ══ */
 async function descargarPDF() {
   var btn = document.getElementById('btnPdf');
   var txt = document.getElementById('btnPdfTxt');
@@ -468,84 +446,58 @@ async function descargarPDF() {
   showToast('⏳ Generando PDF, espera un momento…', 20000);
 
   async function runExport() {
-    var doc   = document.getElementById('cvDoc');
+    var doc = document.getElementById('cvDoc');
     var shell = document.getElementById('scaleShell');
 
-    /* — guardar estado — */
-    var prevDocStyle  = doc.getAttribute('style')                   || '';
-    var prevBodyStyle = document.body.getAttribute('style')         || '';
-    var prevHtmlFS    = document.documentElement.style.fontSize     || '';
-    var prevShellH    = shell.style.height;
-    var prevShellO    = shell.style.overflow;
-
-    function restore() {
-      doc.setAttribute('style', prevDocStyle);
-      document.body.setAttribute('style', prevBodyStyle);
-      document.documentElement.style.fontSize = prevHtmlFS;
-      shell.style.height   = prevShellH;
-      shell.style.overflow = prevShellO;
-      scalePage();
-      btn.disabled    = false;
-      txt.textContent = 'Descargar PDF';
-    }
-
-    /* — forzar layout escritorio para captura — */
-    document.documentElement.style.fontSize = '16px';
-    doc.style.cssText = [
-      'transform:none!important',
-      'transform-origin:top left',
-      'width:794px!important',
-      'min-width:794px!important'
-    ].join(';');
-    shell.style.height   = 'auto';
-    shell.style.overflow = 'visible';
-    document.body.style.cssText = [
-      'display:block!important',
-      'padding:0!important',
-      'align-items:unset!important',
-      'background:#fff!important',
-      'min-width:794px!important'
-    ].join(';');
-
-    window.scrollTo(0, 0);
     await document.fonts.ready;
-    /* Espera adicional para que el reflow termine */
-    await new Promise(function(r){ setTimeout(r, 600); });
-
-    /* Altura real del documento en layout de escritorio */
-    var realHeight = doc.scrollHeight;
+    await new Promise(function(r){ setTimeout(r, 400); });
 
     var opt = {
-      margin:   [0, 0, 0, 0],
-      filename: 'CV_Oscar_Herruzo_Montoya.pdf',
-      image:    { type: 'jpeg', quality: 0.98 },
+      margin:       0,
+      filename:     'CV_Oscar_Herruzo_Montoya.pdf',
+      pagebreak:    { mode: ['css', 'legacy'] },
+      image:        { type: 'jpeg', quality: 0.98 },
       html2canvas: {
         scale:           2,
         useCORS:         true,
         allowTaint:      true,
         backgroundColor: '#ffffff',
-        width:           794,
-        height:          realHeight,   /* ← captura todo el contenido */
-        windowWidth:     794,
-        windowHeight:    realHeight,   /* ← evita recorte por viewport */
-        scrollX:         0,
-        scrollY:         0,
-        logging:         false,
+        width:           794,    /* Ancho exacto del canvas de captura */
+        windowWidth:     794,    /* Forzar que el viewport de captura sea de 794px */
+        scrollX:         0,      /* Asegurar que empiece en el origen X */
+        scrollY:         0,      /* Asegurar que empiece en el origen Y */
+        x:               0,      /* Desplazamiento X a cero */
+        y:               0,      /* Desplazamiento Y a cero */
         onclone: function(clonedDoc) {
-          var cd = clonedDoc.getElementById('cvDoc');
-          var cb = cd ? cd.querySelector('.cv-body') : null;
+          /* MODIFICACIONES SOLO EN EL CLON PARA NO ROMPER TU VISTA */
           clonedDoc.documentElement.style.fontSize = '16px';
-          clonedDoc.body.style.cssText = 'display:block;padding:0;background:#fff;width:794px;overflow:visible;';
-          if (cd) {
-            cd.style.transform   = 'none';
-            cd.style.width       = '794px';
-            cd.style.minWidth    = '794px';
-            cd.style.overflow    = 'visible';
+          
+          /* Forzar que el body y html del clon no tengan márgenes ni rellenos que desplacen el contenido */
+          clonedDoc.body.style.cssText = 'width:794px!important; margin:0!important; padding:0!important; display:block!important; background:#fff!important; text-align:left!important;';
+          clonedDoc.documentElement.style.cssText = 'width:794px!important; margin:0!important; padding:0!important;';
+
+          var shellClone = clonedDoc.getElementById('scaleShell');
+          if (shellClone) {
+            shellClone.style.cssText = 'width:794px!important; max-width:794px!important; margin:0!important; padding:0!important; overflow:visible!important;';
           }
-          if (cb) {
-            cb.style.height    = 'auto';
-            cb.style.minHeight = '0';
+
+          var cvClone = clonedDoc.getElementById('cvDoc');
+          if (cvClone) {
+            /* Resetear transformaciones y fijar posición absoluta al origen */
+            cvClone.style.cssText = 'transform:none!important; width:794px!important; min-width:794px!important; margin:0!important; box-shadow:none!important; border-radius:0!important; left:0!important; top:0!important; position:relative!important;';
+            
+            /* Fix para la banda gris (sidebar) */
+            var cb = cvClone.querySelector('.cv-body');
+            if (cb) {
+              cb.style.minHeight = cvClone.scrollHeight + 'px';
+            }
           }
+
+          /* Ocultar elementos innecesarios en el PDF */
+          var topBar = clonedDoc.querySelector('.top-bar');
+          if (topBar) topBar.style.display = 'none';
+          var toast = clonedDoc.getElementById('toast');
+          if (toast) toast.style.display = 'none';
         }
       },
       jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
@@ -555,24 +507,19 @@ async function descargarPDF() {
       var worker = html2pdf().set(opt).from(doc);
       var pdf    = await worker.toPdf().get('pdf');
 
-      /* — cabecera + banda gris sidebar en páginas 2+ — */
       var total    = pdf.internal.getNumberOfPages();
-      var sidebarX = 210 - (210 * 210 / 794);  /* ~154.5 mm */
-      var sidebarW = 210 * 210 / 794;           /* ~55.5 mm  */
+      var sidebarX = 210 - (210 * 210 / 794);  
+      var sidebarW = 210 * 210 / 794;          
 
       for (var i = 2; i <= total; i++) {
         pdf.setPage(i);
-        /* banda gris lateral */
         pdf.setFillColor(247, 248, 250);
         pdf.rect(sidebarX, 0, sidebarW, 297, 'F');
-        /* línea divisoria */
         pdf.setDrawColor(229, 231, 235);
         pdf.setLineWidth(0.3);
         pdf.line(sidebarX, 0, sidebarX, 297);
-        /* zona blanca bajo el header */
         pdf.setFillColor(255, 255, 255);
         pdf.rect(0, 0, sidebarX, 20, 'F');
-        /* franja oscura header — ancho completo */
         pdf.setFillColor(26, 29, 35);
         pdf.rect(0, 0, 210, 11, 'F');
         pdf.setTextColor(255, 255, 255);
@@ -590,11 +537,15 @@ async function descargarPDF() {
       }
 
       await pdf.save('CV_Oscar_Herruzo_Montoya.pdf');
-      restore();
+      
+      btn.disabled = false;
+      txt.textContent = 'Descargar PDF';
       showToast('✓ <span class="acc">PDF descargado correctamente</span>');
+
     } catch(err) {
       console.error(err);
-      restore();
+      btn.disabled = false;
+      txt.textContent = 'Descargar PDF';
       showToast('⚠️ Error — usa el botón <strong>Imprimir</strong> y guarda como PDF');
     }
   }
