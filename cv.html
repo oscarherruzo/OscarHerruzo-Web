@@ -67,9 +67,13 @@ body {
 .cv-ct a { color:#D1D5DB; text-decoration:none; }
 .ct-dot { width:5px; height:5px; background:var(--accent); border-radius:50%; flex-shrink:0; }
 
-.cv-body { display:grid; grid-template-columns:1fr 210px; }
+.cv-body {
+  display:grid;
+  grid-template-columns:1fr 210px;
+  background: linear-gradient(to right, #fff calc(100% - 210px), var(--light) calc(100% - 210px));
+}
 .cv-main { padding:22px 26px 22px 40px; border-right:1px solid var(--border); min-width:0; }
-.cv-side { padding:22px 18px; background:var(--light); min-width:0; }
+.cv-side { padding:22px 18px; min-width:0; }
 
 .sec { margin-bottom:16px; }
 .sec-title {
@@ -135,7 +139,13 @@ body {
   }
   .scale-shell { max-width:100% !important; width:100% !important; }
   #cvDoc { width:100% !important; box-shadow:none !important; border-radius:0 !important; transform:none !important; overflow:visible !important; }
-  .cv-body { display:grid !important; grid-template-columns:1fr 210px !important; }
+  .cv-body {
+    display:grid !important;
+    grid-template-columns:1fr 210px !important;
+    background: linear-gradient(to right, #fff calc(100% - 210px), #F7F8FA calc(100% - 210px)) !important;
+    -webkit-print-color-adjust:exact !important;
+    print-color-adjust:exact !important;
+  }
   .cv-head     { background:#1A1D23 !important; -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important; }
   .cv-side     { background:#F7F8FA !important; -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important; }
   .cv-name em  { color:#A3E635 !important; }
@@ -187,7 +197,7 @@ body {
     </div>
     <div class="cv-contacts">
       <div class="cv-ct"><span class="ct-dot"></span><a href="tel:+34602674339">+34 602 674 339</a></div>
-      <div class="cv-ct"><span class="ct-dot"></span><a href="mailto:oscarherruzom@gmail.com">oscarherruzom@gmail.com</a></div>
+      <div class="cv-ct"><span class="ct-dot"></span><a id="cvEmail" href="#"></a></div>
       <div class="cv-ct"><span class="ct-dot"></span><a href="https://linkedin.com/in/oscar-herruzo-montoya-640683214" target="_blank">linkedin/oscar-herruzo-montoya</a></div>
       <div class="cv-ct"><span class="ct-dot"></span>Andújar, Jaén · España</div>
     </div>
@@ -381,6 +391,12 @@ body {
 </div>
 
 <script>
+/* EMAIL — construido por JS para evitar detección de scrapers y Cloudflare */
+(function(){
+  const u = 'oscarherruzom', d = 'gmail.com', e = u + '@' + d;
+  const a = document.getElementById('cvEmail');
+  if (a) { a.textContent = e; a.href = 'mailto:' + e; }
+})();
 /* ESCALA */
 const CV_W = 794;
 function scalePage() {
@@ -419,33 +435,25 @@ async function descargarPDF() {
   txt.textContent = 'Generando…';
   showToast('⏳ Generando PDF, espera un momento…', 15000);
 
-  function runExport() {
+  async function runExport() {
     const doc   = document.getElementById('cvDoc');
     const shell = document.getElementById('scaleShell');
 
-    // Guardar estado actual
-    const prevT       = doc.style.transform;
-    const prevTO      = doc.style.transformOrigin;
-    const prevH       = shell.style.height;
-    const prevBD      = document.body.style.display;
-    const prevBP      = document.body.style.padding;
-    const prevBAI     = document.body.style.alignItems;
-    const prevBBG     = document.body.style.background;
-
-    // Resetear layout del body para captura limpia sin offset
-    doc.style.transform       = 'none';
-    doc.style.transformOrigin = 'top left';
-    shell.style.height        = 'auto';
-    document.body.style.display    = 'block';
-    document.body.style.padding    = '0';
-    document.body.style.alignItems = 'unset';
-    document.body.style.background = '#fff';
-    window.scrollTo(0, 0);
+    const prevT   = doc.style.transform;
+    const prevTO  = doc.style.transformOrigin;
+    const prevH   = shell.style.height;
+    const prevBD  = document.body.style.display;
+    const prevBP  = document.body.style.padding;
+    const prevBAI = document.body.style.alignItems;
+    const prevBBG = document.body.style.background;
 
     function restore() {
       doc.style.transform            = prevT;
       doc.style.transformOrigin      = prevTO;
+      doc.style.width                = '';
+      doc.style.minWidth             = '';
       shell.style.height             = prevH;
+      shell.style.overflow           = '';
       document.body.style.display    = prevBD;
       document.body.style.padding    = prevBP;
       document.body.style.alignItems = prevBAI;
@@ -455,8 +463,25 @@ async function descargarPDF() {
       txt.textContent = 'Descargar PDF';
     }
 
+    // Forzar 794px reales en el elemento — crítico en móvil
+    doc.style.transform    = 'none';
+    doc.style.transformOrigin = 'top left';
+    doc.style.width        = '794px';
+    doc.style.minWidth     = '794px';
+    shell.style.height     = 'auto';
+    shell.style.overflow   = 'visible';
+    document.body.style.display    = 'block';
+    document.body.style.padding    = '0';
+    document.body.style.alignItems = 'unset';
+    document.body.style.background = '#fff';
+    window.scrollTo(0, 0);
+
+    // Esperar fonts + reflow antes de capturar
+    await document.fonts.ready;
+    await new Promise(r => setTimeout(r, 400));
+
     const opt = {
-      margin:      0,
+      margin:      [0, 0, 12, 0],
       filename:    'CV_Oscar_Herruzo_Montoya.pdf',
       image:       { type:'jpeg', quality:0.99 },
       html2canvas: {
@@ -470,11 +495,19 @@ async function descargarPDF() {
         scrollY:         0,
         x:               0,
         y:               0,
-        logging:         false
+        logging:         false,
+        onclone: (cloned) => {
+          // Asegurar que en el clon el doc también tiene 794px
+          const clonedDoc = cloned.getElementById('cvDoc');
+          if (clonedDoc) {
+            clonedDoc.style.width    = '794px';
+            clonedDoc.style.minWidth = '794px';
+            clonedDoc.style.transform = 'none';
+          }
+        }
       },
       jsPDF:     { unit:'mm', format:'a4', orientation:'portrait' },
-      pagebreak: { mode:['css','legacy'] },
-      margin:    [0, 0, 12, 0]
+      pagebreak: { mode:['css','legacy'] }
     };
 
     html2pdf()
@@ -529,7 +562,7 @@ async function descargarPDF() {
     s.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js';
     s.onload  = runExport;
     s.onerror = () => {
-      btn.disabled = false;
+      btn.disabled    = false;
       txt.textContent = 'Descargar PDF';
       showToast('Sin conexión — usa <strong>Imprimir → Guardar como PDF</strong>');
     };
