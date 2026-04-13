@@ -286,6 +286,8 @@ body {
           </div>
         </div>
 
+        <div class="html2pdf__page-break"></div>
+
         <div class="exp-item">
           <div class="exp-row">
             <span class="exp-title">Becario Desarrollo Web Full-Stack</span>
@@ -437,7 +439,6 @@ function showToast(html, dur) {
   setTimeout(function(){ t.classList.remove('show'); }, dur);
 }
 
-/* ══ DESCARGA PDF CORREGIDA PARA ALINEACIÓN ══ */
 async function descargarPDF() {
   var btn = document.getElementById('btnPdf');
   var txt = document.getElementById('btnPdfTxt');
@@ -447,32 +448,30 @@ async function descargarPDF() {
 
   async function runExport() {
     var doc = document.getElementById('cvDoc');
-    var shell = document.getElementById('scaleShell');
 
     await document.fonts.ready;
     await new Promise(function(r){ setTimeout(r, 400); });
 
+    /* MARGEN SUPERIOR A 21: Para que respire bajo la cabecera */
     var opt = {
-      margin:       0,
+      margin:       [21, 0, 16, 0], 
       filename:     'CV_Oscar_Herruzo_Montoya.pdf',
-      pagebreak:    { mode: ['css', 'legacy'] },
+      /* CONFIGURACIÓN AVOID: Asegura que NINGÚN item se corte por la mitad */
+      pagebreak:    { mode: ['css', 'legacy'], avoid: ['.exp-item', '.edu-item', '.sec-title'] },
       image:        { type: 'jpeg', quality: 0.98 },
       html2canvas: {
         scale:           2,
         useCORS:         true,
         allowTaint:      true,
         backgroundColor: '#ffffff',
-        width:           794,    /* Ancho exacto del canvas de captura */
-        windowWidth:     794,    /* Forzar que el viewport de captura sea de 794px */
-        scrollX:         0,      /* Asegurar que empiece en el origen X */
-        scrollY:         0,      /* Asegurar que empiece en el origen Y */
-        x:               0,      /* Desplazamiento X a cero */
-        y:               0,      /* Desplazamiento Y a cero */
+        width:           794,    
+        windowWidth:     794,    
+        scrollX:         0,      
+        scrollY:         0,      
+        x:               0,      
+        y:               0,      
         onclone: function(clonedDoc) {
-          /* MODIFICACIONES SOLO EN EL CLON PARA NO ROMPER TU VISTA */
           clonedDoc.documentElement.style.fontSize = '16px';
-          
-          /* Forzar que el body y html del clon no tengan márgenes ni rellenos que desplacen el contenido */
           clonedDoc.body.style.cssText = 'width:794px!important; margin:0!important; padding:0!important; display:block!important; background:#fff!important; text-align:left!important;';
           clonedDoc.documentElement.style.cssText = 'width:794px!important; margin:0!important; padding:0!important;';
 
@@ -483,17 +482,15 @@ async function descargarPDF() {
 
           var cvClone = clonedDoc.getElementById('cvDoc');
           if (cvClone) {
-            /* Resetear transformaciones y fijar posición absoluta al origen */
             cvClone.style.cssText = 'transform:none!important; width:794px!important; min-width:794px!important; margin:0!important; box-shadow:none!important; border-radius:0!important; left:0!important; top:0!important; position:relative!important;';
             
-            /* Fix para la banda gris (sidebar) */
             var cb = cvClone.querySelector('.cv-body');
             if (cb) {
               cb.style.minHeight = cvClone.scrollHeight + 'px';
+              cb.style.background = 'linear-gradient(to right, #ffffff calc(100% - 210px), #F7F8FA calc(100% - 210px))';
             }
           }
 
-          /* Ocultar elementos innecesarios en el PDF */
           var topBar = clonedDoc.querySelector('.top-bar');
           if (topBar) topBar.style.display = 'none';
           var toast = clonedDoc.getElementById('toast');
@@ -507,33 +504,57 @@ async function descargarPDF() {
       var worker = html2pdf().set(opt).from(doc);
       var pdf    = await worker.toPdf().get('pdf');
 
-      var total    = pdf.internal.getNumberOfPages();
+      var total = pdf.internal.getNumberOfPages();
       var sidebarX = 210 - (210 * 210 / 794);  
       var sidebarW = 210 * 210 / 794;          
 
-      for (var i = 2; i <= total; i++) {
+      for (var i = 1; i <= total; i++) {
         pdf.setPage(i);
-        pdf.setFillColor(247, 248, 250);
-        pdf.rect(sidebarX, 0, sidebarW, 297, 'F');
+        
+        if (i >= 2) {
+          pdf.setFillColor(247, 248, 250);
+          pdf.rect(sidebarX, 0, sidebarW, 21, 'F'); 
+          pdf.rect(sidebarX, 281, sidebarW, 16, 'F'); 
+          
+          pdf.setDrawColor(229, 231, 235);
+          pdf.setLineWidth(0.3);
+          pdf.line(sidebarX, 0, sidebarX, 21); 
+          pdf.line(sidebarX, 281, sidebarX, 297); 
+        }
+
+        if (i === 1) {
+          pdf.setFillColor(26, 29, 35);
+          pdf.rect(0, 0, 210, 21, 'F'); 
+        } else {
+          pdf.setFillColor(26, 29, 35);
+          pdf.rect(0, 0, 210, 13, 'F'); 
+
+          pdf.setFillColor(255, 255, 255);
+          pdf.rect(0, 13, sidebarX, 8, 'F');
+
+          pdf.setTextColor(255, 255, 255);
+          pdf.setFont('helvetica', 'bold');
+          pdf.setFontSize(7.5);
+          pdf.text('Óscar Herruzo Montoya', 8, 8.5);
+          pdf.setTextColor(163, 230, 53);
+          pdf.text('·', 57, 8.5);
+          pdf.setTextColor(156, 163, 175);
+          pdf.setFont('helvetica', 'normal');
+          pdf.text('Data & BI Developer  ·  oscarherruzom@gmail.com  ·  +34 602 674 339', 62, 8.5);
+        }
+
+        pdf.setFillColor(255, 255, 255);
+        pdf.rect(0, 281, sidebarX, 16, 'F'); 
+
         pdf.setDrawColor(229, 231, 235);
         pdf.setLineWidth(0.3);
-        pdf.line(sidebarX, 0, sidebarX, 297);
-        pdf.setFillColor(255, 255, 255);
-        pdf.rect(0, 0, sidebarX, 20, 'F');
-        pdf.setFillColor(26, 29, 35);
-        pdf.rect(0, 0, 210, 11, 'F');
-        pdf.setTextColor(255, 255, 255);
-        pdf.setFont('helvetica', 'bold');
-        pdf.setFontSize(7.5);
-        pdf.text('Óscar Herruzo Montoya', 8, 7.2);
-        pdf.setTextColor(163, 230, 53);
-        pdf.text('·', 57, 7.2);
+        pdf.line(12, 283, 198, 283); 
+
         pdf.setTextColor(156, 163, 175);
         pdf.setFont('helvetica', 'normal');
-        pdf.text('Data & BI Developer  ·  oscarherruzom@gmail.com  ·  +34 602 674 339', 62, 7.2);
-        pdf.setTextColor(107, 114, 128);
         pdf.setFontSize(6.5);
-        pdf.text(i + ' / ' + total, 202, 7.2, { align: 'right' });
+        pdf.text('Óscar Herruzo Montoya — Curriculum Vitae', 12, 288.5);
+        pdf.text('Página ' + i + ' de ' + total, 198, 288.5, { align: 'right' });
       }
 
       await pdf.save('CV_Oscar_Herruzo_Montoya.pdf');
