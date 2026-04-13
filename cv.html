@@ -433,55 +433,51 @@ async function descargarPDF() {
   const txt = document.getElementById('btnPdfTxt');
   btn.disabled = true;
   txt.textContent = 'Generando…';
-  showToast('⏳ Generando PDF, espera un momento…', 15000);
+  showToast('⏳ Generando PDF, espera un momento…', 20000);
 
   async function runExport() {
     const doc   = document.getElementById('cvDoc');
     const shell = document.getElementById('scaleShell');
 
-    const prevT   = doc.style.transform;
-    const prevTO  = doc.style.transformOrigin;
-    const prevH   = shell.style.height;
-    const prevBD  = document.body.style.display;
-    const prevBP  = document.body.style.padding;
-    const prevBAI = document.body.style.alignItems;
-    const prevBBG = document.body.style.background;
+    /* — guardar estado — */
+    const prevDocStyle  = doc.getAttribute('style') || '';
+    const prevBodyStyle = document.body.getAttribute('style') || '';
+    const prevShellH    = shell.style.height;
+    const prevShellO    = shell.style.overflow;
+    const prevHtmlFS    = document.documentElement.style.fontSize;
 
     function restore() {
-      doc.style.transform            = prevT;
-      doc.style.transformOrigin      = prevTO;
-      doc.style.width                = '';
-      doc.style.minWidth             = '';
-      shell.style.height             = prevH;
-      shell.style.overflow           = '';
-      document.body.style.display    = prevBD;
-      document.body.style.padding    = prevBP;
-      document.body.style.alignItems = prevBAI;
-      document.body.style.background = prevBBG;
+      doc.setAttribute('style', prevDocStyle);
+      document.body.setAttribute('style', prevBodyStyle);
+      document.documentElement.style.fontSize = prevHtmlFS;
+      if (cvBody) cvBody.setAttribute('style', prevCvBodyStyle);
+      shell.style.height   = prevShellH;
+      shell.style.overflow = prevShellO;
       scalePage();
       btn.disabled    = false;
       txt.textContent = 'Descargar PDF';
     }
 
-    // Forzar 794px reales en el elemento — crítico en móvil
-    doc.style.transform    = 'none';
-    doc.style.transformOrigin = 'top left';
-    doc.style.width        = '794px';
-    doc.style.minWidth     = '794px';
-    shell.style.height     = 'auto';
-    shell.style.overflow   = 'visible';
-    document.body.style.display    = 'block';
-    document.body.style.padding    = '0';
-    document.body.style.alignItems = 'unset';
-    document.body.style.background = '#fff';
+    /* — forzar layout de escritorio para la captura — */
+    document.documentElement.style.fontSize = '16px';
+    doc.style.cssText  = 'transform:none!important;transform-origin:top left;width:794px!important;min-width:794px!important;';
+    shell.style.height   = 'auto';
+    shell.style.overflow = 'visible';
+    document.body.style.cssText = 'display:block!important;padding:0!important;align-items:unset!important;background:#fff!important;min-width:794px!important;';
+
+    /* fix banda gris: cv-body necesita ocupar al menos la altura total del doc */
+    const cvBody = doc.querySelector('.cv-body');
+    const prevCvBodyStyle = cvBody ? (cvBody.getAttribute('style') || '') : '';
+    if (cvBody) cvBody.style.minHeight = doc.scrollHeight + 'px';
+
     window.scrollTo(0, 0);
 
-    // Esperar fonts + reflow antes de capturar
+    /* — esperar fuentes y reflow — */
     await document.fonts.ready;
-    await new Promise(r => setTimeout(r, 400));
+    await new Promise(r => setTimeout(r, 500));
 
     const opt = {
-      margin:      [0, 0, 12, 0],
+      margin:      [0, 0, 6, 0],
       filename:    'CV_Oscar_Herruzo_Montoya.pdf',
       image:       { type:'jpeg', quality:0.99 },
       html2canvas: {
@@ -496,72 +492,88 @@ async function descargarPDF() {
         x:               0,
         y:               0,
         logging:         false,
-        onclone: (cloned) => {
-          // Asegurar que en el clon el doc también tiene 794px
-          const clonedDoc = cloned.getElementById('cvDoc');
-          if (clonedDoc) {
-            clonedDoc.style.width    = '794px';
-            clonedDoc.style.minWidth = '794px';
-            clonedDoc.style.transform = 'none';
-          }
+        onclone: (clonedDoc) => {
+          /* fix móvil en el clon que html2canvas renderiza */
+          clonedDoc.documentElement.style.fontSize = '16px';
+          clonedDoc.body.style.cssText = 'display:block!important;padding:0!important;min-width:794px!important;background:#fff!important;';
+          const vp = clonedDoc.querySelector('meta[name="viewport"]');
+          if (vp) vp.setAttribute('content', 'width=794, initial-scale=1');
+          const cd = clonedDoc.getElementById('cvDoc');
+          if (cd) cd.style.cssText = 'transform:none!important;width:794px!important;min-width:794px!important;';
         }
       },
       jsPDF:     { unit:'mm', format:'a4', orientation:'portrait' },
       pagebreak: { mode:['css','legacy'] }
     };
 
-    html2pdf()
-      .set(opt)
-      .from(doc)
-      .toPdf()
-      .get('pdf')
-      .then(function(pdf) {
-        const total = pdf.internal.getNumberOfPages();
-        for (let i = 2; i <= total; i++) {
-          pdf.setPage(i);
-          // Zona blanca que cubre el contenido bajo la cabecera (header + margen)
-          pdf.setFillColor(255, 255, 255);
-          pdf.rect(0, 0, 210, 20, 'F');
-          // Franja oscura cabecera
-          pdf.setFillColor(26, 29, 35);
-          pdf.rect(0, 0, 210, 11, 'F');
-          // Nombre en blanco negrita
-          pdf.setTextColor(255, 255, 255);
-          pdf.setFont('helvetica', 'bold');
-          pdf.setFontSize(7.5);
-          pdf.text('Óscar Herruzo Montoya', 8, 7.2);
-          // Punto separador verde
-          pdf.setTextColor(163, 230, 53);
-          pdf.text('·', 57, 7.2);
-          // Datos de contacto en gris
-          pdf.setTextColor(156, 163, 175);
-          pdf.setFont('helvetica', 'normal');
-          pdf.text('Data & BI Developer  ·  oscarherruzom@gmail.com  ·  +34 602 674 339', 62, 7.2);
-          // Número de página alineado a la derecha
-          pdf.setTextColor(107, 114, 128);
-          pdf.setFontSize(6.5);
-          pdf.text(`${i} / ${total}`, 202, 7.2, { align: 'right' });
+    try {
+      const worker = html2pdf().set(opt).from(doc);
+      const pdf    = await worker.toPdf().get('pdf');
+
+      /* — eliminar última página si está vacía — */
+      let total = pdf.internal.getNumberOfPages();
+      if (total > 1) {
+        pdf.setPage(total);
+        const pageH   = pdf.internal.pageSize.getHeight();
+        const content = pdf.internal.pages[total];
+        // la página está vacía si solo tiene el stream inicial (< 50 chars de contenido)
+        const stream = content ? JSON.stringify(content) : '';
+        if (stream.length < 200) {
+          pdf.deletePage(total);
+          total--;
         }
-      })
-      .save()
-      .then(() => {
-        restore();
-        showToast('✓ <span class="acc">PDF descargado correctamente</span>');
-      })
-      .catch(err => {
-        console.error(err);
-        restore();
-        showToast('⚠️ Error — usa el botón <strong>Imprimir</strong> y guarda como PDF');
-      });
+      }
+
+      /* — cabecera + banda gris sidebar en páginas 2+ — */
+      /* sidebar = 210px de 794px → en A4 (210mm) = 55.5mm desde la derecha */
+      const sidebarX = 210 - (210 * 210 / 794); // ~154.5mm
+      const sidebarW = 210 * 210 / 794;          // ~55.5mm
+      for (let i = 2; i <= total; i++) {
+        pdf.setPage(i);
+        /* banda gris sidebar — cubre la página completa en altura */
+        pdf.setFillColor(247, 248, 250);
+        pdf.rect(sidebarX, 0, sidebarW, 297, 'F');
+        /* línea divisoria */
+        pdf.setDrawColor(229, 231, 235);
+        pdf.setLineWidth(0.3);
+        pdf.line(sidebarX, 0, sidebarX, 297);
+        /* zona blanca que tapa el contenido bajo la cabecera */
+        pdf.setFillColor(255, 255, 255);
+        pdf.rect(0, 0, sidebarX, 20, 'F');
+        /* franja oscura cabecera — ancho completo */
+        pdf.setFillColor(26, 29, 35);
+        pdf.rect(0, 0, 210, 11, 'F');
+        pdf.setTextColor(255, 255, 255);
+        pdf.setFont('helvetica', 'bold');
+        pdf.setFontSize(7.5);
+        pdf.text('Óscar Herruzo Montoya', 8, 7.2);
+        pdf.setTextColor(163, 230, 53);
+        pdf.text('·', 57, 7.2);
+        pdf.setTextColor(156, 163, 175);
+        pdf.setFont('helvetica', 'normal');
+        pdf.text('Data & BI Developer  ·  oscarherruzom@gmail.com  ·  +34 602 674 339', 62, 7.2);
+        pdf.setTextColor(107, 114, 128);
+        pdf.setFontSize(6.5);
+        pdf.text(`${i} / ${total}`, 202, 7.2, { align:'right' });
+      }
+
+      await pdf.save('CV_Oscar_Herruzo_Montoya.pdf');
+      restore();
+      showToast('✓ <span class="acc">PDF descargado correctamente</span>');
+    } catch(err) {
+      console.error(err);
+      restore();
+      showToast('⚠️ Error — usa el botón <strong>Imprimir</strong> y guarda como PDF');
+    }
   }
 
   if (typeof html2pdf !== 'undefined') {
     runExport();
   } else {
-    const s = document.createElement('script');
-    s.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js';
-    s.onload  = runExport;
-    s.onerror = () => {
+    const s    = document.createElement('script');
+    s.src      = 'https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js';
+    s.onload   = runExport;
+    s.onerror  = () => {
       btn.disabled    = false;
       txt.textContent = 'Descargar PDF';
       showToast('Sin conexión — usa <strong>Imprimir → Guardar como PDF</strong>');
