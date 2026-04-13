@@ -248,7 +248,6 @@ footer { background:#0D0F12;padding:20px 44px;display:flex;align-items:center;ju
 <div class="cur-dot"  id="cDot"></div>
 <div class="cur-ring" id="cRing"></div>
 
-<!-- NAV -->
 <nav id="nav">
   <a href="#" class="nav-logo">
     <div class="nav-box">◈</div>
@@ -276,7 +275,6 @@ footer { background:#0D0F12;padding:20px 44px;display:flex;align-items:center;ju
   <a href="#contacto"        class="mob-cta">contactar →</a>
 </div>
 
-<!-- HERO -->
 <section class="hero">
   <div class="hero-grid"></div>
   <div class="glow glow-a"></div>
@@ -313,7 +311,6 @@ footer { background:#0D0F12;padding:20px 44px;display:flex;align-items:center;ju
 
 <hr class="div-d">
 
-<!-- SOBRE MÍ -->
 <section class="sec" id="sobre">
   <div class="wrap">
     <p class="sec-label reveal">01 — Sobre mí</p>
@@ -352,7 +349,6 @@ footer { background:#0D0F12;padding:20px 44px;display:flex;align-items:center;ju
 
 <hr class="div-l">
 
-<!-- SKILLS -->
 <section class="band" id="skills">
   <div class="wrap">
     <p class="sec-label reveal">02 — Tecnologías</p>
@@ -394,7 +390,6 @@ footer { background:#0D0F12;padding:20px 44px;display:flex;align-items:center;ju
 
 <hr class="div-d">
 
-<!-- PROYECTOS -->
 <section class="sec" id="proyectos">
   <div class="wrap">
     <p class="sec-label reveal">03 — Proyectos</p>
@@ -497,7 +492,6 @@ footer { background:#0D0F12;padding:20px 44px;display:flex;align-items:center;ju
 
 <hr class="div-l">
 
-<!-- EXPERIENCIA -->
 <section class="sec" id="experiencia">
   <div class="wrap">
     <p class="sec-label reveal">04 — Trayectoria</p>
@@ -577,13 +571,11 @@ footer { background:#0D0F12;padding:20px 44px;display:flex;align-items:center;ju
 
 <hr class="div-l">
 
-<!-- CERTIFICACIONES -->
 <section class="band" id="certificaciones">
   <div class="wrap">
     <p class="sec-label reveal">05 — Certificaciones</p>
     <h2 class="sec-title reveal">Aprendizaje <em>continuo</em></h2>
 
-    <!-- GOOGLE -->
     <div class="reveal">
       <div class="cert-issuer-head">
         <div class="cert-issuer-ico" style="background:rgba(66,133,244,.12);border:1px solid rgba(66,133,244,.2);">🔵</div>
@@ -678,7 +670,6 @@ footer { background:#0D0F12;padding:20px 44px;display:flex;align-items:center;ju
 
     <hr class="cert-divider">
 
-    <!-- UDEMY -->
     <div class="reveal">
       <div class="cert-issuer-head">
         <div class="cert-issuer-ico" style="background:rgba(167,118,255,.12);border:1px solid rgba(167,118,255,.2);">🎓</div>
@@ -703,7 +694,6 @@ footer { background:#0D0F12;padding:20px 44px;display:flex;align-items:center;ju
 
     <hr class="cert-divider">
 
-    <!-- OTROS -->
     <div class="reveal">
       <div class="cert-issuer-head">
         <div class="cert-issuer-ico" style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);">🏛️</div>
@@ -729,7 +719,6 @@ footer { background:#0D0F12;padding:20px 44px;display:flex;align-items:center;ju
   </div>
 </section>
 
-<!-- CONTACTO -->
 <section class="contact-band" id="contacto">
   <div class="wrap">
     <div class="contact-grid">
@@ -740,11 +729,20 @@ footer { background:#0D0F12;padding:20px 44px;display:flex;align-items:center;ju
         <p class="contact-sub" style="margin-top:12px;">Si tienes un modelo de datos que mejorar, un dashboard que construir o una idea de herramienta analítica — escríbeme.</p>
       </div>
       <div class="stagger">
-        <a class="c-link" id="emailLink" style="cursor:pointer;">
-          <div class="c-ico"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="1.8"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg></div>
-          <div><p class="c-lbl">Email</p><p class="c-val" id="emailVal"></p></div>
-          <svg class="c-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M7 7h10v10"/></svg>
+        
+        <a class="c-link" id="emailLink" style="background:var(--accent); border-color:var(--accent); cursor:pointer;">
+          <div class="c-ico" style="background:rgba(26,29,35,.1);">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--dark)" stroke-width="2.5">
+              <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
+            </svg>
+          </div>
+          <div>
+            <p class="c-lbl" style="color:var(--dark); font-weight:700; letter-spacing:0.05em; margin-bottom: 0;">Ponte en contacto conmigo</p>
+            <p class="c-val" style="color:var(--dark); font-weight: 500; margin-top: 3px;">Solicitar CV por correo</p>
+          </div>
+          <svg class="c-arrow" style="color:var(--dark);" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M7 17L17 7M7 7h10v10"/></svg>
         </a>
+        
         <a href="tel:+34602674339" class="c-link">
           <div class="c-ico"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="1.8"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.91a16 16 0 0 0 6 6l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
           <div><p class="c-lbl">Teléfono</p><p class="c-val">+34 602 674 339</p></div>
@@ -761,7 +759,7 @@ footer { background:#0D0F12;padding:20px 44px;display:flex;align-items:center;ju
         </div>
         <a href="cv.html" target="_blank" class="c-link" style="background:rgba(163,230,53,.08);border-color:rgba(163,230,53,.3);margin-top:4px;">
           <div class="c-ico" style="background:rgba(163,230,53,.1);"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#A3E635" stroke-width="1.8"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></div>
-          <div><p class="c-lbl" style="color:#6B7280;">Currículum Vitae</p><p class="c-val" style="color:#A3E635;">Ver CV &amp; →</p></div>
+          <div><p class="c-lbl" style="color:#6B7280;">Currículum Vitae</p><p class="c-val" style="color:#A3E635;">Ver en formato web →</p></div>
         </a>
       </div>
     </div>
@@ -797,13 +795,21 @@ window.addEventListener('scroll', () => {
   }
 });
 
-/* EMAIL */
+/* EMAIL Y SOLICITUD DE CV OCULTA PARA BOTS */
 (function(){
   const u='oscarherruzom', d='gmail.com', email=u+'@'+d;
-  const link=document.getElementById('emailLink');
-  const val=document.getElementById('emailVal');
-  if(val) val.textContent=email;
-  if(link){ link.href='mai'+'lto:'+email; link.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();window.location.href='mai'+'lto:'+email;}); }
+  const subject = '?subject=Solicitud%20de%20CV%20-%20Óscar%20Herruzo';
+  const link = document.getElementById('emailLink');
+  
+  if(link) { 
+    const mailtoStr = 'mai'+'lto:'+email+subject;
+    link.href = mailtoStr; 
+    link.addEventListener('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      window.location.href = mailtoStr;
+    }); 
+  }
 })();
 
 /* CURSOR */
