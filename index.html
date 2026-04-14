@@ -20,6 +20,7 @@ body { font-family:var(--sans); background:var(--light); color:var(--dark); over
 .cur-dot  { width:8px;height:8px;background:var(--dark);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9999;transition:transform .1s; }
 .cur-ring { width:32px;height:32px;border:1.5px solid var(--dark);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9998;opacity:.3;transition:width .2s,height .2s,opacity .2s; }
 
+/* NAV */
 nav {
   position:fixed;top:0;left:0;right:0;z-index:200;
   background:rgba(247,248,250,.9);backdrop-filter:blur(14px);
@@ -34,8 +35,9 @@ nav {
 .nav-links { display:flex;align-items:center;gap:22px;list-style:none; }
 .nav-links a { font-family:var(--mono);font-size:.73rem;color:var(--gray);text-decoration:none;transition:color .2s; }
 .nav-links a:hover { color:var(--dark); }
+.nav-gh { display:inline-flex;align-items:center;gap:5px;color:var(--gray)!important;border:1px solid var(--border);border-radius:6px;padding:4px 10px!important;transition:border-color .2s,color .2s!important; }
+.nav-gh:hover { border-color:var(--dark);color:var(--dark)!important; }
 .nav-cta { background:var(--dark)!important;color:#fff!important;padding:6px 16px;border-radius:6px; }
-
 .nav-burger { display:none;flex-direction:column;justify-content:center;align-items:center;gap:5px;width:36px;height:36px;background:none;border:none;cursor:pointer;padding:4px;border-radius:6px;transition:background .2s; }
 .nav-burger:hover { background:var(--border); }
 .nav-burger span { display:block;width:20px;height:2px;background:var(--dark);border-radius:2px;transition:transform .3s ease, opacity .3s ease, width .3s ease;transform-origin:center; }
@@ -50,6 +52,7 @@ nav {
 .nav-mobile .mob-cta:hover { background:#374151!important; }
 @media(max-width:720px){ .nav-links{display:none;} .nav-burger{display:flex;} .nav-mobile{display:flex;} }
 
+/* HERO */
 .hero { min-height:100vh;background:var(--dark2);display:flex;align-items:center;position:relative;overflow:hidden;padding-top:56px; }
 .hero-grid { position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:48px 48px; }
 .glow { position:absolute;border-radius:50%;filter:blur(100px);opacity:.1;pointer-events:none; }
@@ -57,7 +60,8 @@ nav {
 .glow-b { width:280px;height:280px;background:#A3E635;bottom:8%;left:4%; }
 .hero-in { position:relative;z-index:2;max-width:1100px;margin:0 auto;padding:0 44px;width:100%; }
 .hero-badge { display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:5px 14px;font-family:var(--mono);font-size:.7rem;color:#9CA3AF;margin-bottom:26px;opacity:0;animation:fadeUp .6s .2s forwards; }
-.badge-dot { width:7px;height:7px;background:var(--accent);border-radius:50%; }
+.badge-dot { width:7px;height:7px;background:var(--accent);border-radius:50%;animation:pulse 2s infinite; }
+@keyframes pulse { 0%,100%{box-shadow:0 0 0 0 rgba(163,230,53,.4)} 50%{box-shadow:0 0 0 5px rgba(163,230,53,0)} }
 .hero-name { font-family:var(--serif);font-size:clamp(3rem,7vw,5.2rem);color:#fff;line-height:1.04;letter-spacing:-.025em;margin-bottom:10px;opacity:0;animation:fadeUp .7s .35s forwards; }
 .hero-name em { color:var(--accent);font-style:italic; }
 .hero-role { font-family:var(--mono);font-size:.88rem;color:#6B7280;margin-bottom:22px;letter-spacing:.02em;opacity:0;animation:fadeUp .6s .5s forwards; }
@@ -76,6 +80,55 @@ nav {
 .scroll-txt { font-family:var(--mono);font-size:.62rem;color:#4B5563;text-transform:uppercase;letter-spacing:.1em; }
 .scroll-arr { width:24px;height:24px;border:1px solid rgba(255,255,255,.1);border-radius:50%;display:flex;align-items:center;justify-content:center;animation:bounce 2s infinite; }
 
+/* ── METRICS STRIP ── */
+.metrics-strip {
+  background:var(--dark);
+  padding:0;
+  border-bottom:1px solid #1E2228;
+  overflow:hidden;
+}
+.metrics-inner {
+  max-width:1100px;margin:0 auto;padding:0 44px;
+  display:grid;grid-template-columns:repeat(3,1fr);
+}
+.metric-item {
+  padding:28px 0;
+  text-align:center;
+  border-right:1px solid rgba(255,255,255,.06);
+  position:relative;
+  transition:background .2s;
+}
+.metric-item:last-child { border-right:none; }
+.metric-item:hover { background:rgba(255,255,255,.03); }
+.metric-num {
+  font-family:var(--serif);
+  font-size:2.6rem;
+  color:#fff;
+  line-height:1;
+  margin-bottom:5px;
+  letter-spacing:-.03em;
+}
+.metric-num em { color:var(--accent);font-style:normal; }
+.metric-lbl {
+  font-family:var(--mono);
+  font-size:.63rem;
+  color:#6B7280;
+  text-transform:uppercase;
+  letter-spacing:.1em;
+  line-height:1.4;
+}
+.metric-sub {
+  font-size:.72rem;
+  color:#4B5563;
+  margin-top:3px;
+}
+@media(max-width:600px){
+  .metrics-inner { grid-template-columns:repeat(2,1fr); }
+  .metric-item:nth-child(3) { border-right:none; grid-column:1/-1; }
+  .metric-num { font-size:2rem; }
+}
+
+/* SHARED LAYOUT */
 .wrap { max-width:1100px;margin:0 auto;padding:0 44px; }
 .sec  { padding:88px 0; }
 .sec-label { font-family:var(--mono);font-size:.68rem;font-weight:500;text-transform:uppercase;letter-spacing:.15em;color:var(--gray);margin-bottom:10px;display:flex;align-items:center;gap:10px; }
@@ -90,11 +143,7 @@ nav {
 hr.div-l { border:none;border-top:1px solid var(--border);margin:0; }
 hr.div-d { border:none;border-top:1px solid #1E2228;margin:0; }
 
-.card { background:#fff;border:1px solid var(--border);border-radius:12px;padding:24px;margin-bottom:14px;transition:border-color .2s,transform .2s; }
-.card:hover { border-color:var(--dark); }
-.card-dark { background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:22px;margin-bottom:12px;transition:background .2s,border-color .2s,transform .2s; }
-.card-dark:hover { background:rgba(255,255,255,.07);border-color:rgba(163,230,53,.25);transform:translateY(-2px); }
-
+/* ABOUT */
 .about-grid { display:grid;grid-template-columns:1.2fr 1fr;gap:48px;align-items:start; }
 @media(max-width:768px){.about-grid{grid-template-columns:1fr;}}
 .about-text p { font-size:.95rem;color:var(--mid);line-height:1.78;margin-bottom:14px;font-weight:300; }
@@ -105,8 +154,9 @@ hr.div-d { border:none;border-top:1px solid #1E2228;margin:0; }
 .fact-lbl { font-family:var(--mono);font-size:.62rem;text-transform:uppercase;letter-spacing:.08em;color:#9CA3AF;margin:0 0 2px 0; }
 .fact-val { font-size:.84rem;font-weight:600;color:var(--dark);margin:0; }
 .status-ok { display:inline-flex;align-items:center;gap:6px;background:#F0FDF4;color:var(--green);border:1px solid #BBF7D0;border-radius:6px;padding:5px 12px;font-size:.75rem;font-weight:500; }
-.sdot { width:6px;height:6px;border-radius:50%;background:#22C55E;flex-shrink:0; }
+.sdot { width:6px;height:6px;border-radius:50%;background:#22C55E;flex-shrink:0;animation:pulse 2s infinite; }
 
+/* SKILLS */
 .skills-grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px; }
 .skill-card { background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:20px;transition:background .2s,border-color .2s,transform .2s; }
 .skill-card:hover { background:rgba(255,255,255,.07);border-color:rgba(163,230,53,.25);transform:translateY(-3px); }
@@ -121,37 +171,182 @@ hr.div-d { border:none;border-top:1px solid #1E2228;margin:0; }
 .tag-d { font-family:var(--mono);font-size:.62rem;color:#9CA3AF;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.07);border-radius:3px;padding:2px 7px; }
 .tag-l { font-family:var(--mono);font-size:.62rem;color:var(--gray);background:var(--light);border:1px solid var(--border);border-radius:3px;padding:2px 7px; }
 
-.proj-featured { background:#fff;border:1px solid var(--border);border-left:4px solid var(--dark);border-radius:12px;padding:28px;margin-bottom:18px;transition:box-shadow .25s; }
+/* ── PROYECTOS con preview visual ── */
+.proj-featured {
+  background:#fff;border:1px solid var(--border);border-left:4px solid var(--dark);
+  border-radius:12px;overflow:hidden;margin-bottom:18px;
+  transition:box-shadow .25s;display:grid;grid-template-columns:1fr 320px;
+}
 .proj-featured:hover { box-shadow:0 16px 40px rgba(0,0,0,.09); }
+.proj-feat-body { padding:28px; }
+.proj-feat-preview {
+  border-left:1px solid var(--border);
+  background:var(--light);
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;position:relative;min-height:200px;
+}
+@media(max-width:860px){
+  .proj-featured { grid-template-columns:1fr; }
+  .proj-feat-preview { border-left:none;border-top:1px solid var(--border);min-height:140px; }
+}
 .proj-grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:14px; }
-.proj-card { background:#fff;border:1px solid var(--border);border-radius:12px;padding:22px;transition:border-color .2s,transform .2s; }
+.proj-card { background:#fff;border:1px solid var(--border);border-radius:12px;overflow:hidden;transition:border-color .2s,transform .2s; }
 .proj-card:hover { border-color:var(--dark);transform:translateY(-3px); }
+.proj-card-preview { height:110px;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative; }
+.proj-card-body { padding:18px; }
 .proj-badge { display:inline-block;font-family:var(--mono);font-size:.63rem;padding:3px 9px;border-radius:20px;background:#F0FDF4;color:var(--green);border:1px solid #BBF7D0;margin-bottom:10px; }
 .proj-title { font-size:.98rem;font-weight:700;color:var(--dark);margin:0 0 6px 0;letter-spacing:-.01em; }
 .proj-desc  { font-size:.82rem;color:var(--gray);line-height:1.65;margin-bottom:14px; }
 
-/* ── CERTIFICACIONES ── */
-.cert-issuer-head {
-  display:flex;align-items:center;gap:12px;margin-bottom:14px;
+/* ── Previews CSS ── */
+.preview-dax {
+  width:100%;height:100%;
+  background:linear-gradient(135deg,#0D1117 0%,#161B22 100%);
+  padding:16px;font-family:'DM Mono',monospace;
+  display:flex;flex-direction:column;gap:6px;
 }
-.cert-issuer-ico {
-  width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;
+.dax-line { font-size:.62rem;line-height:1.5;white-space:nowrap;overflow:hidden; }
+.dax-kw  { color:#FF7B72; }
+.dax-fn  { color:#79C0FF; }
+.dax-str { color:#A5D6FF; }
+.dax-cm  { color:#8B949E; }
+.dax-val { color:#FFA657; }
+.dax-prompt-bar {
+  background:rgba(163,230,53,.12);border:1px solid rgba(163,230,53,.3);
+  border-radius:6px;padding:6px 10px;margin-top:4px;
+  font-size:.6rem;color:#A3E635;display:flex;align-items:center;gap:6px;
 }
+.dax-cursor { width:8px;height:12px;background:var(--accent);border-radius:1px;animation:blink .8s infinite; }
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+
+.preview-inkaria {
+  width:100%;height:100%;
+  background:linear-gradient(135deg,#0A0010 0%,#150025 100%);
+  padding:16px;display:flex;flex-direction:column;gap:8px;
+}
+.ink-header { display:flex;align-items:center;gap:8px;margin-bottom:4px; }
+.ink-logo-box { width:28px;height:28px;background:rgba(204,0,255,.2);border:1px solid rgba(204,0,255,.4);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:14px; }
+.ink-title { font-family:'DM Serif Display',serif;font-size:.8rem;color:#fff; }
+.ink-stat-row { display:grid;grid-template-columns:repeat(3,1fr);gap:5px; }
+.ink-stat { background:rgba(255,255,255,.04);border:1px solid rgba(204,0,255,.15);border-radius:6px;padding:6px;text-align:center; }
+.ink-stat-n { font-family:'DM Mono',monospace;font-size:.9rem;color:#cc00ff;font-weight:600; }
+.ink-stat-l { font-family:'DM Mono',monospace;font-size:.5rem;color:#6B7280;text-transform:uppercase; }
+.ink-bar-row { display:flex;flex-direction:column;gap:4px;margin-top:2px; }
+.ink-bar-item { display:flex;align-items:center;gap:6px; }
+.ink-bar-label { font-family:'DM Mono',monospace;font-size:.52rem;color:#9CA3AF;width:50px;flex-shrink:0; }
+.ink-bar-track { flex:1;height:4px;background:rgba(255,255,255,.06);border-radius:2px;overflow:hidden; }
+.ink-bar-fill { height:100%;border-radius:2px;background:linear-gradient(90deg,rgba(204,0,255,.6),rgba(204,0,255,.9)); }
+
+.preview-patatas {
+  width:100%;height:100%;
+  background:linear-gradient(135deg,#1E1508 0%,#2B1F0E 100%);
+  padding:14px;display:flex;flex-direction:column;gap:7px;
+}
+.pat-nav { display:flex;align-items:center;justify-content:space-between; }
+.pat-logo { font-family:'DM Serif Display',serif;font-size:.75rem;color:#E8A020; }
+.pat-nav-links { display:flex;gap:8px; }
+.pat-nav-link { font-family:'DM Mono',monospace;font-size:.48rem;color:#6B5020; }
+.pat-hero-area { flex:1;background:rgba(200,134,10,.08);border:1px solid rgba(200,134,10,.2);border-radius:6px;padding:10px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;gap:4px; }
+.pat-tagline { font-family:'DM Serif Display',serif;font-size:.72rem;color:#E8A020;line-height:1.2; }
+.pat-sub { font-family:'DM Mono',monospace;font-size:.5rem;color:#6B5020;text-transform:uppercase;letter-spacing:.05em; }
+.pat-cta { background:#C8860A;color:#1E1508;padding:4px 12px;border-radius:4px;font-family:'DM Mono',monospace;font-size:.52rem;font-weight:700;margin-top:4px; }
+.pat-cards { display:grid;grid-template-columns:repeat(3,1fr);gap:4px; }
+.pat-card { background:rgba(200,134,10,.06);border:1px solid rgba(200,134,10,.15);border-radius:4px;padding:6px 4px;text-align:center; }
+.pat-card-ico { font-size:14px;margin-bottom:2px; }
+.pat-card-lbl { font-family:'DM Mono',monospace;font-size:.46rem;color:#6B5020;text-transform:uppercase; }
+
+/* Previews pequeñas para proj-card */
+.preview-etl-oracle {
+  width:100%;height:100%;
+  background:linear-gradient(135deg,#0D1117,#1C1C2E);
+  display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;
+}
+.etl-node { position:absolute;width:50px;height:24px;border-radius:4px;border:1px solid;display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:.46rem;font-weight:600; }
+.etl-arrow { position:absolute;font-size:.7rem;color:#4B5563; }
+.preview-ssis {
+  width:100%;height:100%;
+  background:linear-gradient(135deg,#071426,#0E1F35);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;
+  padding:10px;
+}
+.ssis-flow { display:flex;align-items:center;gap:4px; }
+.ssis-box { background:rgba(59,130,246,.15);border:1px solid rgba(59,130,246,.3);border-radius:4px;padding:4px 8px;font-family:'DM Mono',monospace;font-size:.5rem;color:#93C5FD; }
+.ssis-arr { font-size:.65rem;color:#374151; }
+.ssis-valid { display:flex;gap:4px;margin-top:4px; }
+.ssis-badge { font-family:'DM Mono',monospace;font-size:.48rem;padding:2px 6px;border-radius:10px; }
+.preview-python-pbi {
+  width:100%;height:100%;
+  background:linear-gradient(135deg,#0D1117,#1A1D23);
+  padding:10px;display:flex;flex-direction:column;gap:5px;
+}
+.py-bar-chart { display:flex;align-items:flex-end;gap:3px;height:50px;margin-top:4px; }
+.py-bar { border-radius:2px 2px 0 0;transition:height .3s; }
+.preview-gas {
+  width:100%;height:100%;
+  background:linear-gradient(135deg,#0D2818,#0A3D1F);
+  padding:10px;display:flex;flex-direction:column;gap:5px;
+}
+.gas-row { display:flex;align-items:center;gap:6px; }
+.gas-ico { width:18px;height:18px;background:rgba(34,197,94,.15);border:1px solid rgba(34,197,94,.3);border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:9px;flex-shrink:0; }
+.gas-txt { font-family:'DM Mono',monospace;font-size:.5rem;color:#6B7280; }
+.gas-txt strong { color:#4ADE80; }
+.preview-nlp {
+  width:100%;height:100%;
+  background:linear-gradient(135deg,#1A0A2E,#2D1B69);
+  padding:10px;display:flex;flex-direction:column;gap:6px;
+}
+.nlp-match { display:flex;align-items:center;gap:5px;background:rgba(139,92,246,.1);border:1px solid rgba(139,92,246,.2);border-radius:5px;padding:5px 8px; }
+.nlp-pct { font-family:'DM Mono',monospace;font-size:.72rem;color:#A78BFA;font-weight:700;min-width:32px; }
+.nlp-label { font-size:.52rem;color:#9CA3AF;line-height:1.3; }
+.nlp-bar-wrap { height:3px;background:rgba(255,255,255,.06);border-radius:2px;overflow:hidden;flex:1; }
+.nlp-bar-fill { height:100%;border-radius:2px;background:linear-gradient(90deg,#7C3AED,#A78BFA); }
+
+/* ── CURRENTLY LEARNING ── */
+.learning-sec { background:var(--dark);padding:64px 0;border-top:1px solid #1E2228;border-bottom:1px solid #1E2228; }
+.learning-grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;margin-top:32px; }
+.learn-card {
+  background:rgba(255,255,255,.03);
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:12px;padding:20px;
+  transition:background .2s,border-color .2s,transform .2s;
+  position:relative;overflow:hidden;
+}
+.learn-card:hover { background:rgba(255,255,255,.06);border-color:rgba(163,230,53,.2);transform:translateY(-2px); }
+.learn-card::before {
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,rgba(163,230,53,.4),transparent);
+  opacity:0;transition:opacity .3s;
+}
+.learn-card:hover::before { opacity:1; }
+.learn-head { display:flex;align-items:center;gap:10px;margin-bottom:12px; }
+.learn-ico { width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0; }
+.learn-title { font-size:.85rem;font-weight:600;color:#fff;margin:0 0 1px 0; }
+.learn-sub { font-family:var(--mono);font-size:.6rem;color:#6B7280;text-transform:uppercase;letter-spacing:.06em;margin:0; }
+.learn-progress-wrap { background:rgba(255,255,255,.05);border-radius:3px;height:5px;overflow:hidden;margin-bottom:8px; }
+.learn-progress { height:100%;border-radius:3px;background:linear-gradient(90deg,#15803D,#A3E635);width:0;transition:width 1.4s cubic-bezier(.4,0,.2,1); }
+.learn-meta { display:flex;justify-content:space-between;align-items:center; }
+.learn-pct { font-family:var(--mono);font-size:.68rem;color:#A3E635;font-weight:600; }
+.learn-status { font-family:var(--mono);font-size:.58rem;color:#6B7280; }
+.learn-detail { font-size:.75rem;color:#4B5563;line-height:1.55;margin-top:8px; }
+.learn-section-label { font-family:var(--mono);font-size:.68rem;font-weight:500;text-transform:uppercase;letter-spacing:.15em;color:#4B5563;margin-bottom:10px;display:flex;align-items:center;gap:10px; }
+.learn-section-label::after { content:'';display:inline-block;width:40px;height:1px;background:#2A2A2A; }
+.learn-title-main { font-family:var(--serif);font-size:clamp(1.6rem,3vw,2.2rem);color:#fff;line-height:1.1;letter-spacing:-.02em; }
+.learn-title-main em { color:var(--accent);font-style:italic; }
+
+/* CERTS */
+.cert-issuer-head { display:flex;align-items:center;gap:12px;margin-bottom:14px; }
+.cert-issuer-ico { width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0; }
 .cert-issuer-name { font-size:.88rem;font-weight:600;color:#fff;margin:0 0 2px 0; }
 .cert-issuer-count { font-family:var(--mono);font-size:.63rem;color:#6B7280;margin:0; }
 .cert-grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:8px;margin-bottom:28px; }
-.cert-card {
-  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);
-  border-radius:9px;padding:13px 15px;
-  transition:background .2s,border-color .2s,transform .15s;
-}
+.cert-card { background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:9px;padding:13px 15px;transition:background .2s,border-color .2s,transform .15s; }
 .cert-card:hover { background:rgba(255,255,255,.07);border-color:rgba(163,230,53,.2);transform:translateY(-2px); }
 .cert-card-name { font-size:.78rem;font-weight:600;color:#fff;margin:0 0 4px 0;line-height:1.35; }
 .cert-card-meta { font-family:var(--mono);font-size:.6rem;color:#6B7280;margin:0; }
 .cert-card-badge { display:inline-flex;align-items:center;gap:4px;font-family:var(--mono);font-size:.58rem;color:var(--accent);background:rgba(163,230,53,.08);border:1px solid rgba(163,230,53,.18);border-radius:4px;padding:2px 6px;margin-top:5px; }
 .cert-divider { border:none;border-top:1px solid rgba(255,255,255,.06);margin:0 0 24px 0; }
 
-/* ── TIMELINE ── */
+/* TIMELINE */
 .timeline { border-left:1px solid var(--border);padding-left:22px; }
 .tl-item { position:relative;margin-bottom:30px; }
 .tl-item::before { content:'';position:absolute;left:-27px;top:7px;width:9px;height:9px;border-radius:50%;background:var(--dark);border:2px solid var(--light);box-shadow:0 0 0 1px var(--border); }
@@ -174,6 +369,7 @@ hr.div-d { border:none;border-top:1px solid #1E2228;margin:0; }
 .edu-date  { font-family:var(--mono);font-size:.63rem;color:#9CA3AF;margin:0 0 2px 0; }
 .edu-tags  { font-size:.75rem;color:var(--gray);margin:0; }
 
+/* CONTACTO */
 .contact-band { background:var(--dark2);padding:88px 0;border-top:1px solid #1E2228; }
 .contact-title { font-family:var(--serif);font-size:clamp(1.9rem,3.5vw,2.8rem);color:#fff;line-height:1.08;letter-spacing:-.02em;margin-bottom:16px; }
 .contact-title em { color:var(--accent);font-style:italic; }
@@ -190,6 +386,7 @@ hr.div-d { border:none;border-top:1px solid #1E2228;margin:0; }
 footer { background:#0D0F12;padding:20px 44px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px; }
 .ft-l,.ft-r { font-family:var(--mono);font-size:.7rem;color:#374151; }
 
+/* ANIMATIONS */
 @keyframes fadeUp  { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:translateY(0)} }
 @keyframes fadeLeft{ from{opacity:0;transform:translateX(18px)} to{opacity:1;transform:translateX(0)} }
 @keyframes bounce  { 0%,100%{transform:translateY(0)} 50%{transform:translateY(5px)} }
@@ -204,42 +401,29 @@ footer { background:#0D0F12;padding:20px 44px;display:flex;align-items:center;ju
 .stagger.vis > *:nth-child(6){opacity:1;transform:none;transition-delay:.34s}
 .stagger.vis > *:nth-child(7){opacity:1;transform:none;transition-delay:.40s}
 
+/* RESPONSIVE GENERAL */
 @media(max-width:600px){
-  .wrap { padding:0 18px; }
-  .hero-in { padding:0 18px; }
-  .sec  { padding:56px 0; }
-  .band { padding:56px 0; }
-  .contact-band { padding:56px 0; }
-  .hero-name { font-size:clamp(2.2rem,11vw,3.2rem); }
-  .hero-role { font-size:.78rem; }
-  .hero-desc { font-size:.9rem; }
-  .hero-btns { flex-direction:column; align-items:stretch; }
-  .btn-w, .btn-g { justify-content:center; padding:13px 18px; }
-  .sec-title { font-size:clamp(1.5rem,6vw,2rem); margin-bottom:28px; }
-  .card { padding:18px; }
-  .card-dark { padding:16px; }
-  .skills-grid { grid-template-columns:1fr; }
-  .proj-featured { padding:18px; }
-  .proj-grid { grid-template-columns:1fr; }
-  .cert-grid { grid-template-columns:1fr; }
-  .timeline { padding-left:16px; }
-  .tl-item::before { left:-21px; }
-  .fact-card { padding:11px 14px; }
-  .exp-grid { grid-template-columns:1fr !important; gap:36px; }
-  .contact-title { font-size:clamp(1.5rem,6vw,2rem); }
-  .c-link { padding:12px 14px; }
-  footer { padding:16px 18px; flex-direction:column; align-items:flex-start; gap:4px; }
-  .cur-dot, .cur-ring { display:none; }
+  .wrap{padding:0 18px;} .hero-in{padding:0 18px;}
+  .sec{padding:56px 0;} .band{padding:56px 0;} .contact-band{padding:56px 0;} .learning-sec{padding:44px 0;}
+  .hero-name{font-size:clamp(2.2rem,11vw,3.2rem);}
+  .hero-role{font-size:.78rem;} .hero-desc{font-size:.9rem;}
+  .hero-btns{flex-direction:column;align-items:stretch;}
+  .btn-w,.btn-g{justify-content:center;padding:13px 18px;}
+  .sec-title{font-size:clamp(1.5rem,6vw,2rem);margin-bottom:28px;}
+  .skills-grid{grid-template-columns:1fr;} .proj-grid{grid-template-columns:1fr;}
+  .cert-grid{grid-template-columns:1fr;} .timeline{padding-left:16px;}
+  .tl-item::before{left:-21px;} .fact-card{padding:11px 14px;}
+  .contact-title{font-size:clamp(1.5rem,6vw,2rem);} .c-link{padding:12px 14px;}
+  footer{padding:16px 18px;flex-direction:column;align-items:flex-start;gap:4px;}
+  .cur-dot,.cur-ring{display:none;}
+  .metrics-inner{padding:0 18px;}
+  .learning-grid{grid-template-columns:1fr;}
 }
 @media(min-width:601px) and (max-width:768px){
-  .wrap { padding:0 28px; }
-  .hero-in { padding:0 28px; }
-  .sec { padding:70px 0; }
-  .band { padding:70px 0; }
-  .contact-band { padding:70px 0; }
-  .skills-grid { grid-template-columns:1fr 1fr; }
-  .cert-grid { grid-template-columns:1fr 1fr; }
-  footer { padding:16px 28px; }
+  .wrap{padding:0 28px;} .hero-in{padding:0 28px;}
+  .sec{padding:70px 0;} .band{padding:70px 0;} .contact-band{padding:70px 0;}
+  .skills-grid{grid-template-columns:1fr 1fr;} .cert-grid{grid-template-columns:1fr 1fr;}
+  footer{padding:16px 28px;} .metrics-inner{padding:0 28px;}
 }
 </style>
 </head>
@@ -275,6 +459,7 @@ footer { background:#0D0F12;padding:20px 44px;display:flex;align-items:center;ju
   <a href="#contacto"        class="mob-cta">contactar →</a>
 </div>
 
+<!-- HERO -->
 <section class="hero">
   <div class="hero-grid"></div>
   <div class="glow glow-a"></div>
@@ -309,8 +494,29 @@ footer { background:#0D0F12;padding:20px 44px;display:flex;align-items:center;ju
   </div>
 </section>
 
+<!-- ── METRICS STRIP ── -->
+<div class="metrics-strip">
+  <div class="metrics-inner">
+    <div class="metric-item reveal">
+      <div class="metric-num"><em>82</em>%</div>
+      <div class="metric-lbl">Reducción tiempo<br>de preparación de datos</div>
+    </div>
+    <div class="metric-item reveal">
+      <div class="metric-num"><em>19</em></div>
+      <div class="metric-lbl">Certificaciones<br>verificadas</div>
+      <div class="metric-sub">Google · Udemy · EIP</div>
+    </div>
+    <div class="metric-item reveal">
+      <div class="metric-num"><em>2024</em></div>
+      <div class="metric-lbl">Programador de datos<br>profesional desde</div>
+      <div class="metric-sub">Nter Tech Services · Santander</div>
+    </div>
+  </div>
+</div>
+
 <hr class="div-d">
 
+<!-- SOBRE MÍ -->
 <section class="sec" id="sobre">
   <div class="wrap">
     <p class="sec-label reveal">01 — Sobre mí</p>
@@ -349,6 +555,7 @@ footer { background:#0D0F12;padding:20px 44px;display:flex;align-items:center;ju
 
 <hr class="div-l">
 
+<!-- SKILLS -->
 <section class="band" id="skills">
   <div class="wrap">
     <p class="sec-label reveal">02 — Tecnologías</p>
@@ -390,101 +597,283 @@ footer { background:#0D0F12;padding:20px 44px;display:flex;align-items:center;ju
 
 <hr class="div-d">
 
+<!-- PROYECTOS -->
 <section class="sec" id="proyectos">
   <div class="wrap">
     <p class="sec-label reveal">03 — Proyectos</p>
     <h2 class="sec-title reveal">Cosas que he <em>construido</em></h2>
 
+    <!-- DAX Assistant -->
     <div class="proj-featured reveal">
-      <div style="display:flex;align-items:flex-start;gap:16px;flex-wrap:wrap;">
-        <div style="width:42px;height:42px;background:var(--dark);border-radius:9px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:20px;font-weight:700;flex-shrink:0;">◈</div>
-        <div style="flex:1;min-width:260px;">
-          <span class="proj-badge">NFQ Solutions · IA Challenge 2026</span>
-          <p class="proj-title" style="font-size:1.15rem;">DAX Assistant — AI-powered BI Copilot</p>
-          <p class="proj-desc">App Streamlit (Python) con IA (Llama 3.3 70B) que conecta directamente a SQL Server, lee metadatos del schema en vivo y genera DAX de producción, valida fórmulas contra la estructura real de tablas, explica el código línea a línea y evalúa la corrección de la lógica de negocio. Sistema multi-proveedor con fallback automático Groq → SambaNova → Gemini. Genera PDFs de documentación del modelo con DAX avanzado. Diseñado GDPR-safe: nunca se exponen datos sensibles, solo metadatos.</p>
-          <div class="tag-row" style="margin-bottom:14px;">
-            <span class="tag-l">Python</span><span class="tag-l">Streamlit</span><span class="tag-l">Groq</span><span class="tag-l">Llama 3.3 70B</span><span class="tag-l">Gemini</span><span class="tag-l">SambaNova</span><span class="tag-l">SQL Server</span><span class="tag-l">ReportLab</span><span class="tag-l">DAX</span><span class="tag-l">Power BI</span>
+      <div class="proj-feat-body">
+        <span class="proj-badge">NFQ Solutions · IA Challenge 2026</span>
+        <div style="display:flex;align-items:flex-start;gap:14px;margin-bottom:12px;">
+          <div style="width:42px;height:42px;background:var(--dark);border-radius:9px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:20px;font-weight:700;flex-shrink:0;">◈</div>
+          <div>
+            <p class="proj-title" style="font-size:1.1rem;">DAX Assistant — AI-powered BI Copilot</p>
+            <p class="proj-desc">App Streamlit (Python) con IA (Llama 3.3 70B) que conecta directamente a SQL Server, lee metadatos del schema en vivo y genera DAX de producción, valida fórmulas, explica el código línea a línea. Multi-proveedor con fallback automático Groq → SambaNova → Gemini. Genera PDFs de documentación. GDPR-safe by design.</p>
+          </div>
+        </div>
+        <div class="tag-row" style="margin-bottom:14px;">
+          <span class="tag-l">Python</span><span class="tag-l">Streamlit</span><span class="tag-l">Groq</span><span class="tag-l">Llama 3.3 70B</span><span class="tag-l">SQL Server</span><span class="tag-l">ReportLab</span><span class="tag-l">DAX</span><span class="tag-l">Power BI</span>
+        </div>
+        <div style="background:var(--light);border:1px solid var(--border);border-radius:8px;padding:11px 15px;">
+          <p style="font-family:var(--mono);font-size:.62rem;color:#9CA3AF;margin:0 0 4px 0;">HIGHLIGHTS</p>
+          <p style="font-size:.81rem;color:var(--mid);margin:0;">Fallback automático 3 proveedores IA &nbsp;·&nbsp; PDF con VAR…RETURN, YoY, RANKX &nbsp;·&nbsp; GDPR-Safe by design &nbsp;·&nbsp; Star Schema aware</p>
+        </div>
+      </div>
+      <div class="proj-feat-preview">
+        <div class="preview-dax" style="width:100%;height:100%;">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+            <div style="width:26px;height:26px;background:rgba(163,230,53,.15);border:1px solid rgba(163,230,53,.3);border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:#A3E635;">◈</div>
+            <span style="font-size:.68rem;color:#9CA3AF;">DAX Assistant · v2.1</span>
+            <span style="margin-left:auto;font-size:.6rem;background:rgba(163,230,53,.1);color:#A3E635;border:1px solid rgba(163,230,53,.2);border-radius:4px;padding:1px 7px;">GDPR-safe</span>
+          </div>
+          <div class="dax-line"><span class="dax-cm">-- Ventas YoY generadas automáticamente</span></div>
+          <div class="dax-line"><span class="dax-kw">DEFINE MEASURE</span> <span class="dax-fn">Sales</span>[YoY Growth] =</div>
+          <div class="dax-line">&nbsp;&nbsp;<span class="dax-kw">VAR</span> _CurrentYear =</div>
+          <div class="dax-line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="dax-fn">CALCULATE</span>([Total Sales],</div>
+          <div class="dax-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="dax-fn">DATESYTD</span>(<span class="dax-str">Dates[Date]</span>))</div>
+          <div class="dax-line"><span class="dax-kw">&nbsp;&nbsp;VAR</span> _PrevYear =</div>
+          <div class="dax-line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="dax-fn">CALCULATE</span>([Total Sales],</div>
+          <div class="dax-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="dax-fn">SAMEPERIODLASTYEAR</span>(...))</div>
+          <div class="dax-line"><span class="dax-kw">&nbsp;&nbsp;RETURN</span> <span class="dax-fn">DIVIDE</span>(_CurrentYear - _PrevYear, _PrevYear)</div>
+          <div class="dax-prompt-bar">
+            <span>Generando con Llama 3.3 70B</span>
+            <div class="dax-cursor"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Inkaria -->
+    <div class="proj-featured reveal" style="border-left-color:#cc00ff;">
+      <div class="proj-feat-body">
+        <span class="proj-badge" style="background:#fdf0ff;color:#7e22ce;border-color:#e9d5ff;">Proyecto personal · GitHub Pages · Apps Script</span>
+        <div style="display:flex;align-items:flex-start;gap:14px;margin-bottom:12px;">
+          <div style="width:42px;height:42px;background:#150025;border:2px solid rgba(204,0,255,0.4);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;">🖋️</div>
+          <div>
+            <p class="proj-title" style="font-size:1.1rem;">Inkaria · Tattoo Inventory</p>
+            <p class="proj-desc">App web completa de gestión de inventario para estudio de tatuajes. HTML/CSS/JS puro sobre GitHub Pages, con Google Sheets como BD cloud en tiempo real vía Apps Script. Login con hash FNV-1a, 7 módulos completos, arquitectura offline-first.</p>
+          </div>
+        </div>
+        <div class="tag-row" style="margin-bottom:14px;">
+          <span class="tag-l">HTML · CSS · JS</span><span class="tag-l">Google Apps Script</span><span class="tag-l">Google Sheets API</span><span class="tag-l">Chart.js</span><span class="tag-l">GitHub Pages</span>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+          <div style="background:var(--light);border:1px solid var(--border);border-radius:8px;padding:11px 15px;">
+            <p style="font-family:var(--mono);font-size:.62rem;color:#9CA3AF;margin:0 0 4px 0;">MÓDULOS</p>
+            <p style="font-size:.79rem;color:var(--mid);margin:0;line-height:1.6;">📝 Registro · 📈 Dashboard · 🔍 Buscador · 🏪 Proveedores · ⚙️ Catálogo · 📋 Notas · 🧮 Calculadora</p>
           </div>
           <div style="background:var(--light);border:1px solid var(--border);border-radius:8px;padding:11px 15px;">
             <p style="font-family:var(--mono);font-size:.62rem;color:#9CA3AF;margin:0 0 4px 0;">HIGHLIGHTS</p>
-            <p style="font-size:.81rem;color:var(--mid);margin:0;">Fallback automático 3 proveedores IA &nbsp;·&nbsp; PDF con VAR…RETURN, YoY, RANKX &nbsp;·&nbsp; GDPR-Safe by design &nbsp;·&nbsp; Star Schema aware</p>
+            <p style="font-size:.79rem;color:var(--mid);margin:0;line-height:1.6;">Sync tiempo real con Sheets · Sin servidor · Hash de credenciales · Alertas de stock</p>
           </div>
+        </div>
+      </div>
+      <div class="proj-feat-preview">
+        <div class="preview-inkaria" style="width:100%;height:100%;">
+          <div class="ink-header">
+            <div class="ink-logo-box">🖋️</div>
+            <span class="ink-title">Inkaria</span>
+            <span style="font-family:'DM Mono',monospace;font-size:.52rem;color:#cc00ff;margin-left:auto;background:rgba(204,0,255,.08);border:1px solid rgba(204,0,255,.2);border-radius:3px;padding:2px 6px;">● LIVE</span>
+          </div>
+          <div class="ink-stat-row">
+            <div class="ink-stat"><div class="ink-stat-n">247</div><div class="ink-stat-l">sesiones</div></div>
+            <div class="ink-stat"><div class="ink-stat-n">12</div><div class="ink-stat-l">proveed.</div></div>
+            <div class="ink-stat"><div class="ink-stat-n">8.4k</div><div class="ink-stat-l">€ total</div></div>
+          </div>
+          <div class="ink-bar-row">
+            <div class="ink-bar-item">
+              <span class="ink-bar-label">Aguja 5RL</span>
+              <div class="ink-bar-track"><div class="ink-bar-fill" style="width:85%"></div></div>
+            </div>
+            <div class="ink-bar-item">
+              <span class="ink-bar-label">Tinta Black</span>
+              <div class="ink-bar-track"><div class="ink-bar-fill" style="width:60%"></div></div>
+            </div>
+            <div class="ink-bar-item">
+              <span class="ink-bar-label">Aguja 3M1</span>
+              <div class="ink-bar-track"><div class="ink-bar-fill" style="width:40%"></div></div>
+            </div>
+            <div class="ink-bar-item">
+              <span class="ink-bar-label">Film protec.</span>
+              <div class="ink-bar-track"><div class="ink-bar-fill" style="width:20%"></div></div>
+            </div>
+          </div>
+          <div style="font-family:'DM Mono',monospace;font-size:.52rem;color:#cc00ff;background:rgba(204,0,255,.06);border:1px solid rgba(204,0,255,.12);border-radius:4px;padding:4px 8px;margin-top:2px;">⚠ Stock bajo: Film protector (2 uds)</div>
         </div>
       </div>
     </div>
 
-    <div class="proj-featured reveal" style="border-left-color:#cc00ff;">
-      <div style="display:flex;align-items:flex-start;gap:16px;flex-wrap:wrap;">
-        <div style="width:42px;height:42px;background:#150025;border:2px solid rgba(204,0,255,0.4);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;">🖋️</div>
-        <div style="flex:1;min-width:260px;">
-          <span class="proj-badge" style="background:#fdf0ff;color:#7e22ce;border-color:#e9d5ff;">Proyecto personal · GitHub Pages · Apps Script</span>
-          <p class="proj-title" style="font-size:1.15rem;">Inkaria · Tattoo Inventory</p>
-          <p class="proj-desc">Aplicación web completa de gestión de inventario para estudio de tatuajes, construida en HTML/CSS/JS puro y desplegada en GitHub Pages. Conecta en tiempo real con Google Sheets como base de datos cloud mediante un backend sin servidor en Google Apps Script. Incluye <strong>login seguro</strong> con credenciales cifradas por hash FNV-1a, <strong>7 módulos completos</strong> y arquitectura offline-first.</p>
-          <div class="tag-row" style="margin-bottom:14px;">
-            <span class="tag-l">HTML · CSS · JS</span><span class="tag-l">Google Apps Script</span><span class="tag-l">Google Sheets API</span><span class="tag-l">Chart.js</span><span class="tag-l">GitHub Pages</span><span class="tag-l">FNV Hash</span>
-          </div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-            <div style="background:var(--light);border:1px solid var(--border);border-radius:8px;padding:11px 15px;">
-              <p style="font-family:var(--mono);font-size:.62rem;color:#9CA3AF;margin:0 0 4px 0;">MÓDULOS</p>
-              <p style="font-size:.79rem;color:var(--mid);margin:0;line-height:1.6;">📝 Registro · 📈 Dashboard anual · 🔍 Buscador · 🏪 Proveedores · ⚙️ Catálogo · 📋 Notas rápidas · 🧮 Calculadora de precios</p>
-            </div>
-            <div style="background:var(--light);border:1px solid var(--border);border-radius:8px;padding:11px 15px;">
-              <p style="font-family:var(--mono);font-size:.62rem;color:#9CA3AF;margin:0 0 4px 0;">HIGHLIGHTS</p>
-              <p style="font-size:.79rem;color:var(--mid);margin:0;line-height:1.6;">Sync tiempo real con Sheets &nbsp;·&nbsp; Sin servidor ni BD propia &nbsp;·&nbsp; Hash de credenciales &nbsp;·&nbsp; Alertas de stock</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
+    <!-- Patatas Andújar -->
     <div class="proj-featured reveal" style="border-left-color:#C8860A;">
-      <div style="display:flex;align-items:flex-start;gap:16px;flex-wrap:wrap;">
-        <div style="width:42px;height:42px;background:#1E1508;border:2px solid rgba(200,134,10,0.5);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;">🥔</div>
-        <div style="flex:1;min-width:260px;">
-          <span class="proj-badge" style="background:#FEF9EE;color:#92600A;border-color:#FBBF24;">Web corporativa · Vanilla JS · SPA · GitHub Pages</span>
-          <p class="proj-title" style="font-size:1.15rem;">Patatas Andújar — Web Corporativa</p>
-          <p class="proj-desc">Web corporativa completa para empresa distribuidora de patata natural pelada y cortada en Andújar, Jaén. Construida desde cero en HTML, CSS y JavaScript puro — sin frameworks — como <strong>SPA (Single Page Application)</strong> con router propio, arquitectura de configuración centralizada en <code style="font-family:var(--mono);font-size:.75rem;background:var(--light);padding:1px 5px;border-radius:3px;">config.js</code> y generación dinámica de componentes en cliente.</p>
-          <div class="tag-row" style="margin-bottom:14px;">
-            <span class="tag-l">HTML · CSS · JS</span><span class="tag-l">SPA Router</span><span class="tag-l">Vanilla JS</span><span class="tag-l">CSS Grid</span><span class="tag-l">Responsive</span><span class="tag-l">Formspree</span><span class="tag-l">GitHub Pages</span>
+      <div class="proj-feat-body">
+        <span class="proj-badge" style="background:#FEF9EE;color:#92600A;border-color:#FBBF24;">Web corporativa · Vanilla JS · SPA · GitHub Pages</span>
+        <div style="display:flex;align-items:flex-start;gap:14px;margin-bottom:12px;">
+          <div style="width:42px;height:42px;background:#1E1508;border:2px solid rgba(200,134,10,0.5);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;">🥔</div>
+          <div>
+            <p class="proj-title" style="font-size:1.1rem;">Patatas Andújar — Web Corporativa</p>
+            <p class="proj-desc">Web corporativa SPA para empresa distribuidora de patata natural en Andújar. HTML, CSS y JavaScript puro sin frameworks — router propio, arquitectura de configuración centralizada en config.js y generación dinámica de componentes en cliente.</p>
           </div>
-          <a href="https://oscarherruzo.github.io/patatas-prueba/#inicio" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:7px;background:#1E1508;color:#E8A020;padding:9px 20px;border-radius:7px;font-size:.8rem;font-weight:600;text-decoration:none;border:1px solid #C8860A;transition:background .2s;" onmouseover="this.style.background='#2B1F0E'" onmouseout="this.style.background='#1E1508'">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-            Ver web →
-          </a>
+        </div>
+        <div class="tag-row" style="margin-bottom:14px;">
+          <span class="tag-l">HTML · CSS · JS</span><span class="tag-l">SPA Router</span><span class="tag-l">Vanilla JS</span><span class="tag-l">CSS Grid</span><span class="tag-l">Responsive</span><span class="tag-l">Formspree</span><span class="tag-l">GitHub Pages</span>
+        </div>
+        <a href="https://oscarherruzo.github.io/patatas-prueba/#inicio" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:7px;background:#1E1508;color:#E8A020;padding:9px 20px;border-radius:7px;font-size:.8rem;font-weight:600;text-decoration:none;border:1px solid #C8860A;transition:background .2s;">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          Ver web en vivo →
+        </a>
+      </div>
+      <div class="proj-feat-preview">
+        <div class="preview-patatas" style="width:100%;height:100%;">
+          <div class="pat-nav">
+            <span class="pat-logo">🥔 Patatas Andújar</span>
+            <div class="pat-nav-links">
+              <span class="pat-nav-link">Inicio</span>
+              <span class="pat-nav-link">Productos</span>
+              <span class="pat-nav-link">Contacto</span>
+            </div>
+          </div>
+          <div class="pat-hero-area">
+            <span class="pat-tagline">Patata natural<br>pelada y cortada</span>
+            <span class="pat-sub">Desde Andújar, Jaén · Distribución</span>
+            <span class="pat-cta">Ver productos →</span>
+          </div>
+          <div class="pat-cards">
+            <div class="pat-card"><div class="pat-card-ico">🥔</div><div class="pat-card-lbl">Pelada</div></div>
+            <div class="pat-card"><div class="pat-card-ico">🍟</div><div class="pat-card-lbl">Cortada</div></div>
+            <div class="pat-card"><div class="pat-card-ico">📦</div><div class="pat-card-lbl">A granel</div></div>
+          </div>
         </div>
       </div>
     </div>
 
+    <!-- Proyectos pequeños -->
     <div class="proj-grid stagger">
       <div class="proj-card">
-        <div style="display:flex;align-items:center;gap:9px;margin-bottom:10px;"><div style="width:32px;height:32px;background:var(--dark);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:14px;">🗃️</div><span class="proj-badge">Nter · PL/SQL · Oracle</span></div>
-        <p class="proj-title">ETL Control de Ventas</p>
-        <p class="proj-desc">Modelo relacional de control de ventas en Oracle SQL Developer: estructuras, paquetes, procedimientos, funciones y disparadores de integridad para la gestión completa de facturas.</p>
-        <div class="tag-row"><span class="tag-l">PL/SQL</span><span class="tag-l">Oracle Database</span><span class="tag-l">SQL Developer</span><span class="tag-l">ETL</span></div>
+        <div class="proj-card-preview" style="background:linear-gradient(135deg,#0D1117,#1C1C2E);">
+          <div class="preview-etl-oracle" style="width:100%;height:100%;padding:12px;display:flex;align-items:center;justify-content:center;">
+            <div style="display:flex;flex-direction:column;gap:5px;width:100%;">
+              <div style="display:flex;align-items:center;gap:5px;justify-content:center;">
+                <div style="background:rgba(249,115,22,.12);border:1px solid rgba(249,115,22,.3);border-radius:4px;padding:4px 10px;font-family:'DM Mono',monospace;font-size:.52rem;color:#FB923C;">Factura</div>
+                <svg width="14" height="8" viewBox="0 0 14 8" fill="none"><path d="M0 4h12M9 1l3 3-3 3" stroke="#4B5563" stroke-width="1.2" stroke-linecap="round"/></svg>
+                <div style="background:rgba(249,115,22,.12);border:1px solid rgba(249,115,22,.3);border-radius:4px;padding:4px 10px;font-family:'DM Mono',monospace;font-size:.52rem;color:#FB923C;">Líneas</div>
+              </div>
+              <div style="display:flex;justify-content:center;gap:5px;margin-top:4px;">
+                <div style="background:rgba(249,115,22,.06);border:1px solid rgba(249,115,22,.15);border-radius:4px;padding:3px 8px;font-family:'DM Mono',monospace;font-size:.5rem;color:#92400E;">PACKAGE ventas_pkg</div>
+              </div>
+              <div style="display:flex;justify-content:center;gap:4px;margin-top:2px;">
+                <div style="background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.2);border-radius:3px;padding:2px 6px;font-family:'DM Mono',monospace;font-size:.48rem;color:#4ADE80;">✓ TRIGGER</div>
+                <div style="background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.2);border-radius:3px;padding:2px 6px;font-family:'DM Mono',monospace;font-size:.48rem;color:#4ADE80;">✓ INDEX</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="proj-card-body">
+          <div style="display:flex;align-items:center;gap:9px;margin-bottom:10px;"><div style="width:32px;height:32px;background:var(--dark);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:14px;">🗃️</div><span class="proj-badge">Nter · PL/SQL · Oracle</span></div>
+          <p class="proj-title">ETL Control de Ventas</p>
+          <p class="proj-desc">Modelo relacional completo en Oracle SQL Developer: estructuras, paquetes, procedimientos, funciones y disparadores de integridad para gestión completa de facturas.</p>
+          <div class="tag-row"><span class="tag-l">PL/SQL</span><span class="tag-l">Oracle Database</span><span class="tag-l">SQL Developer</span><span class="tag-l">ETL</span></div>
+        </div>
       </div>
+
       <div class="proj-card">
-        <div style="display:flex;align-items:center;gap:9px;margin-bottom:10px;"><div style="width:32px;height:32px;background:var(--dark);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:14px;">🛡️</div><span class="proj-badge">Nter · SSIS · SQL Server</span></div>
-        <p class="proj-title">ETL Aseguradora</p>
-        <p class="proj-desc">Pipeline SSIS para carga de datos desde ficheros con validación en tres niveles: técnica, funcional y de integridad. Control de calidad del dato y exportación mediante procedimientos T-SQL.</p>
-        <div class="tag-row"><span class="tag-l">SSIS</span><span class="tag-l">T-SQL</span><span class="tag-l">SQL Server</span><span class="tag-l">ETL</span></div>
+        <div class="proj-card-preview" style="background:linear-gradient(135deg,#071426,#0E1F35);">
+          <div class="preview-ssis" style="width:100%;height:100%;">
+            <div class="ssis-flow">
+              <div class="ssis-box">CSV/Excel</div>
+              <div class="ssis-arr">→</div>
+              <div class="ssis-box" style="background:rgba(59,130,246,.25);">Validación</div>
+              <div class="ssis-arr">→</div>
+              <div class="ssis-box">SQL Server</div>
+            </div>
+            <div class="ssis-valid">
+              <span class="ssis-badge" style="background:rgba(34,197,94,.1);color:#4ADE80;border:1px solid rgba(34,197,94,.2);">✓ Técnica</span>
+              <span class="ssis-badge" style="background:rgba(34,197,94,.1);color:#4ADE80;border:1px solid rgba(34,197,94,.2);">✓ Funcional</span>
+              <span class="ssis-badge" style="background:rgba(34,197,94,.1);color:#4ADE80;border:1px solid rgba(34,197,94,.2);">✓ Integridad</span>
+            </div>
+          </div>
+        </div>
+        <div class="proj-card-body">
+          <div style="display:flex;align-items:center;gap:9px;margin-bottom:10px;"><div style="width:32px;height:32px;background:var(--dark);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:14px;">🛡️</div><span class="proj-badge">Nter · SSIS · SQL Server</span></div>
+          <p class="proj-title">ETL Aseguradora</p>
+          <p class="proj-desc">Pipeline SSIS con validación en tres niveles: técnica, funcional y de integridad referencial. Control de calidad del dato y exportación mediante procedimientos T-SQL.</p>
+          <div class="tag-row"><span class="tag-l">SSIS</span><span class="tag-l">T-SQL</span><span class="tag-l">SQL Server</span><span class="tag-l">ETL</span></div>
+        </div>
       </div>
+
       <div class="proj-card">
-        <div style="display:flex;align-items:center;gap:9px;margin-bottom:10px;"><div style="width:32px;height:32px;background:var(--dark);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:14px;">🐍</div><span class="proj-badge">Nter · Python · Power BI</span></div>
-        <p class="proj-title">ETL Python + Power BI</p>
-        <p class="proj-desc">Scripts de extracción, limpieza y transformación con Pandas/NumPy desde BBDD, Excel y CSV — reducción del 82% en tiempo de preparación. Dashboards DAX avanzado + Power Query para KPIs críticos.</p>
-        <div class="tag-row"><span class="tag-l">Python</span><span class="tag-l">Pandas</span><span class="tag-l">Power BI</span><span class="tag-l">DAX</span><span class="tag-l">Power Query</span><span class="tag-l">Looker Studio</span></div>
+        <div class="proj-card-preview" style="background:linear-gradient(135deg,#0D1117,#1A1D23);">
+          <div class="preview-python-pbi" style="width:100%;height:100%;">
+            <div style="font-family:'DM Mono',monospace;font-size:.52rem;color:#A3E635;">↓ 82% tiempo de preparación</div>
+            <div class="py-bar-chart">
+              <div class="py-bar" style="flex:1;height:60%;background:rgba(163,230,53,.6);"></div>
+              <div class="py-bar" style="flex:1;height:85%;background:rgba(163,230,53,.7);"></div>
+              <div class="py-bar" style="flex:1;height:45%;background:rgba(163,230,53,.5);"></div>
+              <div class="py-bar" style="flex:1;height:95%;background:rgba(163,230,53,.8);"></div>
+              <div class="py-bar" style="flex:1;height:70%;background:rgba(163,230,53,.65);"></div>
+              <div class="py-bar" style="flex:1;height:55%;background:rgba(163,230,53,.55);"></div>
+            </div>
+            <div style="display:flex;gap:4px;margin-top:4px;">
+              <span style="font-family:'DM Mono',monospace;font-size:.48rem;background:rgba(21,128,61,.15);border:1px solid rgba(21,128,61,.3);color:#4ADE80;border-radius:3px;padding:1px 5px;">Pandas ETL</span>
+              <span style="font-family:'DM Mono',monospace;font-size:.48rem;background:rgba(21,128,61,.15);border:1px solid rgba(21,128,61,.3);color:#4ADE80;border-radius:3px;padding:1px 5px;">DAX + M</span>
+            </div>
+          </div>
+        </div>
+        <div class="proj-card-body">
+          <div style="display:flex;align-items:center;gap:9px;margin-bottom:10px;"><div style="width:32px;height:32px;background:var(--dark);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:14px;">🐍</div><span class="proj-badge">Nter · Python · Power BI</span></div>
+          <p class="proj-title">ETL Python + Power BI</p>
+          <p class="proj-desc">Scripts Pandas/NumPy desde BBDD, Excel y CSV — reducción del 82% en tiempo de preparación. Dashboards DAX avanzado + Power Query para KPIs críticos.</p>
+          <div class="tag-row"><span class="tag-l">Python</span><span class="tag-l">Pandas</span><span class="tag-l">Power BI</span><span class="tag-l">DAX</span><span class="tag-l">Power Query</span></div>
+        </div>
       </div>
+
       <div class="proj-card">
-        <div style="display:flex;align-items:center;gap:9px;margin-bottom:10px;"><div style="width:32px;height:32px;background:var(--dark);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:14px;">⚙️</div><span class="proj-badge">Nter · Internal Tool</span></div>
-        <p class="proj-title">ETL Consolidado</p>
-        <p class="proj-desc">Sistema ETL modular (8 ficheros) en Google Apps Script para consolidar datos de Mentoring y Staff desde múltiples Google Sheets. Menú nativo, reporting automático por email y triggers con PropertiesService.</p>
-        <div class="tag-row"><span class="tag-l">Google Apps Script</span><span class="tag-l">Google Sheets</span><span class="tag-l">ETL</span><span class="tag-l">Gmail API</span></div>
+        <div class="proj-card-preview" style="background:linear-gradient(135deg,#0D2818,#0A3D1F);">
+          <div class="preview-gas" style="width:100%;height:100%;">
+            <div class="gas-row"><div class="gas-ico">📋</div><div class="gas-txt">Sheets consolidadas: <strong>8 módulos</strong></div></div>
+            <div class="gas-row"><div class="gas-ico">📧</div><div class="gas-txt">Email auto: <strong>lun 08:00</strong></div></div>
+            <div class="gas-row"><div class="gas-ico">⏰</div><div class="gas-txt">Trigger: <strong>PropertiesService</strong></div></div>
+            <div class="gas-row"><div class="gas-ico">✅</div><div class="gas-txt">Mentoring + <strong>Staff sync</strong></div></div>
+            <div style="font-family:'DM Mono',monospace;font-size:.5rem;color:#4ADE80;background:rgba(34,197,94,.06);border:1px solid rgba(34,197,94,.15);border-radius:3px;padding:3px 7px;margin-top:3px;">● Sistema activo</div>
+          </div>
+        </div>
+        <div class="proj-card-body">
+          <div style="display:flex;align-items:center;gap:9px;margin-bottom:10px;"><div style="width:32px;height:32px;background:var(--dark);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:14px;">⚙️</div><span class="proj-badge">Nter · Internal Tool</span></div>
+          <p class="proj-title">ETL Consolidado</p>
+          <p class="proj-desc">Sistema modular (8 ficheros .gs) en Google Apps Script para consolidar datos de Mentoring y Staff. Menú nativo, reporting automático por email y triggers con PropertiesService.</p>
+          <div class="tag-row"><span class="tag-l">Google Apps Script</span><span class="tag-l">Google Sheets</span><span class="tag-l">ETL</span><span class="tag-l">Gmail API</span></div>
+        </div>
       </div>
+
       <div class="proj-card">
-        <div style="display:flex;align-items:center;gap:9px;margin-bottom:10px;"><div style="width:32px;height:32px;background:var(--dark);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:14px;">🎯</div><span class="proj-badge">Nter · Google Colab · Python</span></div>
-        <p class="proj-title">Career Plans Analyzer</p>
-        <p class="proj-desc">Pipeline multi-etapa para analizar planes de carrera con matching semántico (Sentence Transformers MiniLM), fuzzy matching y exportación formateada a Excel + Google Sheets.</p>
-        <div class="tag-row"><span class="tag-l">Python</span><span class="tag-l">Pandas</span><span class="tag-l">Sentence Transformers</span><span class="tag-l">openpyxl</span></div>
+        <div class="proj-card-preview" style="background:linear-gradient(135deg,#1A0A2E,#2D1B69);">
+          <div class="preview-nlp" style="width:100%;height:100%;">
+            <div style="font-family:'DM Mono',monospace;font-size:.52rem;color:#A78BFA;margin-bottom:4px;">Semantic matching · MiniLM</div>
+            <div class="nlp-match">
+              <span class="nlp-pct">94%</span>
+              <div style="flex:1"><div class="nlp-bar-wrap"><div class="nlp-bar-fill" style="width:94%"></div></div></div>
+              <span class="nlp-label">Liderazgo · Mentoring</span>
+            </div>
+            <div class="nlp-match">
+              <span class="nlp-pct">87%</span>
+              <div style="flex:1"><div class="nlp-bar-wrap"><div class="nlp-bar-fill" style="width:87%"></div></div></div>
+              <span class="nlp-label">Gestión de proyectos</span>
+            </div>
+            <div class="nlp-match">
+              <span class="nlp-pct">71%</span>
+              <div style="flex:1"><div class="nlp-bar-wrap"><div class="nlp-bar-fill" style="width:71%"></div></div></div>
+              <span class="nlp-label">Comunicación efectiva</span>
+            </div>
+          </div>
+        </div>
+        <div class="proj-card-body">
+          <div style="display:flex;align-items:center;gap:9px;margin-bottom:10px;"><div style="width:32px;height:32px;background:var(--dark);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:14px;">🎯</div><span class="proj-badge">Nter · Google Colab · Python</span></div>
+          <p class="proj-title">Career Plans Analyzer</p>
+          <p class="proj-desc">Pipeline multi-etapa con matching semántico (Sentence Transformers MiniLM), fuzzy matching y exportación formateada a Excel + Google Sheets.</p>
+          <div class="tag-row"><span class="tag-l">Python</span><span class="tag-l">Pandas</span><span class="tag-l">Sentence Transformers</span><span class="tag-l">openpyxl</span></div>
+        </div>
       </div>
     </div>
   </div>
@@ -492,6 +881,7 @@ footer { background:#0D0F12;padding:20px 44px;display:flex;align-items:center;ju
 
 <hr class="div-l">
 
+<!-- EXPERIENCIA -->
 <section class="sec" id="experiencia">
   <div class="wrap">
     <p class="sec-label reveal">04 — Trayectoria</p>
@@ -506,11 +896,10 @@ footer { background:#0D0F12;padding:20px 44px;display:flex;align-items:center;ju
             <p class="tl-company">Nter Tech Services · Santander (Model Risk & Local Credit Risks)</p>
             <p class="tl-type">Jornada completa · Híbrido · Jaén</p>
             <ul class="tl-bullets">
-              <li><strong>Arquitectura de datos:</strong> Pipelines ETL SQL Server → Power BI con data lineage completo y estándares de calidad.</li>
-              <li><strong>Desarrollo analítico:</strong> Dashboards con DAX complejo para métricas de rendimiento de modelos e indicadores de riesgo.</li>
-              <li><strong>Estandarización:</strong> Normalización del ecosistema de reporting — Star Schema, UX/UI best practices, arquitectura escalable.</li>
-              <li><strong>Seguridad:</strong> RLS y refresco automatizado en Power BI Service, disponibilidad 24/7.</li>
-              <li><strong>Innovación con IA — DAX Assistant (POC · 2026):</strong> Copiloto IA conectado a SQL Server en vivo. GDPR-safe by design.</li>
+              <li><strong>Arquitectura de datos:</strong> Pipelines ETL SQL Server → Power BI con data lineage completo.</li>
+              <li><strong>Desarrollo analítico:</strong> Dashboards con DAX complejo para métricas de riesgo regulatorio.</li>
+              <li><strong>Estandarización:</strong> Star Schema, RLS, refresco automatizado en Power BI Service 24/7.</li>
+              <li><strong>DAX Assistant (POC · 2026):</strong> Copiloto IA conectado a SQL Server en vivo. GDPR-safe by design.</li>
             </ul>
           </div>
           <div class="tl-item">
@@ -519,49 +908,40 @@ footer { background:#0D0F12;padding:20px 44px;display:flex;align-items:center;ju
             <p class="tl-company">Nter Tech Services</p>
             <p class="tl-type">Contrato de prácticas · Híbrido · Jaén</p>
             <ul class="tl-bullets">
-              <li><strong>ETL Pipelines:</strong> Python y JavaScript, reducción del 82% en tiempo de preparación de datos.</li>
-              <li><strong>Power BI Ecosystem:</strong> Dashboards con DAX avanzado y M (Power Query) para KPIs críticos.</li>
-              <li><strong>Cloud Analytics:</strong> Self-service analytics en Looker Studio para departamentos internos.</li>
+              <li><strong>ETL Pipelines:</strong> Python y JavaScript, reducción del 82% en tiempo de preparación.</li>
+              <li><strong>Power BI Ecosystem:</strong> Dashboards con DAX avanzado y M para KPIs críticos.</li>
             </ul>
           </div>
           <div class="tl-item">
             <p class="tl-date">Dic. 2024 — Abr. 2025 · 5 meses</p>
             <p class="tl-title">Becario de Desarrollo Web</p>
-            <p class="tl-company">Ioonic Sistemas Informáticos, SL</p>
-            <p class="tl-type">Prácticas · En remoto · Madrid</p>
+            <p class="tl-company">Ioonic Sistemas Informáticos, SL · Madrid (remoto)</p>
+            <p class="tl-type">Prácticas</p>
             <ul class="tl-bullets">
-              <li><strong>Full-Stack:</strong> SDLC completo con Angular y NestJS, aplicaciones modulares y escalables.</li>
-              <li><strong>Data:</strong> Modelado y optimización de consultas en MariaDB.</li>
+              <li>SDLC completo con Angular y NestJS. Modelado en MariaDB.</li>
             </ul>
           </div>
           <div class="tl-item">
-            <p class="tl-date">Mar. 2023 — Jun. 2023 · 4 meses</p>
-            <p class="tl-title">Becario de Desarrollo de Software</p>
-            <p class="tl-company">AAG Insight Strategy Concept</p>
-            <p class="tl-type">Prácticas · Presencial · Andújar</p>
-            <p class="tl-desc">Desarrollo en Java, Python, Flutter y WordPress. Metodología Agile/Scrum.</p>
+            <p class="tl-date">Mar. 2023 — Jun. 2023</p>
+            <p class="tl-title">Becario Desarrollo de Software</p>
+            <p class="tl-company">AAG Insight Strategy Concept · Andújar</p>
+            <p class="tl-type">Prácticas · Agile/Scrum</p>
+            <p class="tl-desc">Flutter · Firebase · WordPress. Metodología Agile/Scrum.</p>
           </div>
           <div class="tl-item">
-            <p class="tl-date">Mar. 2019 — Jun. 2019 · 4 meses</p>
+            <p class="tl-date">Mar. 2019 — Jun. 2019</p>
             <p class="tl-title">Administrador de Redes</p>
-            <p class="tl-company">Cubit Technology</p>
-            <p class="tl-type">Prácticas · Presencial · Viena, Austria 🇦🇹</p>
+            <p class="tl-company">Cubit Technology · Viena, Austria 🇦🇹</p>
+            <p class="tl-type">Prácticas · Internacional</p>
             <p class="tl-desc">Administración de redes SAN y DNS en entorno internacional.</p>
-          </div>
-          <div class="tl-item">
-            <p class="tl-date">Sept. 2017 — Mar. 2019 · 1 año 7 meses</p>
-            <p class="tl-title">Técnico Informático</p>
-            <p class="tl-company">Dynos</p>
-            <p class="tl-type">Prácticas · Presencial · Andújar</p>
-            <p class="tl-desc">Reparación y mantenimiento de equipos. Gestión DNS y soporte técnico.</p>
           </div>
         </div>
       </div>
       <div class="reveal">
         <p style="font-family:var(--mono);font-size:.66rem;color:#9CA3AF;text-transform:uppercase;letter-spacing:.1em;margin-bottom:22px;">Formación</p>
-        <div class="edu-card"><div class="edu-ico">🎓</div><div><p class="edu-title">CFGS Desarrollo de Aplicaciones Multiplataforma (DAM)</p><p class="edu-place">IES Jándula · Andújar</p><p class="edu-tags">Java · Flutter · Kotlin · Python · Bases de datos · XML</p></div></div>
+        <div class="edu-card"><div class="edu-ico">🎓</div><div><p class="edu-title">CFGS Desarrollo de Aplicaciones Multiplataforma (DAM)</p><p class="edu-place">IES Jándula · Andújar</p><p class="edu-tags">Java · Flutter · Kotlin · Python · Bases de datos</p></div></div>
         <div class="edu-card"><div class="edu-ico">💻</div><div><p class="edu-title">CFGS Desarrollo de Aplicaciones Web (DAW)</p><p class="edu-place">CEAC</p><p class="edu-date">Sept. 2024 — Jun. 2025</p><p class="edu-tags">HTML · CSS · JavaScript · PHP · SQL · Java</p></div></div>
-        <div class="edu-card"><div class="edu-ico">🔐</div><div><p class="edu-title">Especialista en Ciberseguridad</p><p class="edu-place">EIP International Business School · Andalucía Vuela</p><p class="edu-date">Mar. 2023 — Jul. 2023</p><p class="edu-tags">Hacking Ético · RGPD · LOPDGDD · Informática Forense · Criptografía</p></div></div>
+        <div class="edu-card"><div class="edu-ico">🔐</div><div><p class="edu-title">Especialista en Ciberseguridad</p><p class="edu-place">EIP International Business School</p><p class="edu-date">Mar. 2023 — Jul. 2023</p><p class="edu-tags">Hacking Ético · RGPD · Informática Forense · Criptografía</p></div></div>
         <div class="edu-card"><div class="edu-ico">☁️</div><div><p class="edu-title">AWS Certified Cloud Practitioner</p><p class="edu-place">Amazon Web Services · En progreso</p><p class="edu-tags">CLF-C02 → objetivo: Data Engineer Associate</p></div></div>
         <div class="edu-card"><div class="edu-ico">🤖</div><div><p class="edu-title">AI Engineering & LLM Integration</p><p class="edu-place">Autodidacta · Aplicado en proyectos reales</p><p class="edu-tags">Groq · Gemini · OpenRouter · Prompt Engineering · RAG</p></div></div>
       </div>
@@ -569,8 +949,87 @@ footer { background:#0D0F12;padding:20px 44px;display:flex;align-items:center;ju
   </div>
 </section>
 
-<hr class="div-l">
+<!-- ── CURRENTLY LEARNING ── -->
+<section class="learning-sec" id="aprendiendo">
+  <div class="wrap">
+    <div style="display:grid;grid-template-columns:1fr auto;align-items:start;gap:24px;margin-bottom:0;" class="reveal">
+      <div>
+        <p class="learn-section-label">En progreso</p>
+        <h2 class="learn-title-main">Actualmente <em>aprendiendo</em></h2>
+      </div>
+      <div style="background:rgba(163,230,53,.06);border:1px solid rgba(163,230,53,.15);border-radius:8px;padding:8px 14px;text-align:center;align-self:center;">
+        <p style="font-family:'DM Mono',monospace;font-size:.58rem;color:#6B7280;margin:0 0 2px 0;text-transform:uppercase;letter-spacing:.08em;">Commit mentalidad</p>
+        <p style="font-family:'DM Mono',monospace;font-size:.72rem;color:#A3E635;margin:0;">Never stop shipping</p>
+      </div>
+    </div>
+    <div class="learning-grid stagger">
+      <div class="learn-card">
+        <div class="learn-head">
+          <div class="learn-ico" style="background:rgba(249,115,22,.12);border:1px solid rgba(249,115,22,.2);">☁️</div>
+          <div>
+            <p class="learn-title">AWS Cloud Practitioner</p>
+            <p class="learn-sub">CLF-C02 · Objetivo: Data Engineer</p>
+          </div>
+        </div>
+        <div class="learn-progress-wrap"><div class="learn-progress" data-w="65"></div></div>
+        <div class="learn-meta">
+          <span class="learn-pct">65%</span>
+          <span class="learn-status">Examen pendiente</span>
+        </div>
+        <p class="learn-detail">EC2, S3, IAM, RDS, Lambda... Ruta planificada hacia AWS Data Engineer Associate con Redshift, Glue y Athena.</p>
+      </div>
+      <div class="learn-card">
+        <div class="learn-head">
+          <div class="learn-ico" style="background:rgba(59,130,246,.12);border:1px solid rgba(59,130,246,.2);">🔄</div>
+          <div>
+            <p class="learn-title">Informatica PowerCenter</p>
+            <p class="learn-sub">Beginner to Expert · Udemy</p>
+          </div>
+        </div>
+        <div class="learn-progress-wrap"><div class="learn-progress" data-w="80"></div></div>
+        <div class="learn-meta">
+          <span class="learn-pct">80%</span>
+          <span class="learn-status">Proyecto Nter asignado</span>
+        </div>
+        <p class="learn-detail">Repository Manager, Source Analyzer, Mapping Designer, Workflow Manager. Preparación activa para el próximo proyecto en Nter Tech.</p>
+      </div>
+      <div class="learn-card">
+        <div class="learn-head">
+          <div class="learn-ico" style="background:rgba(163,230,53,.12);border:1px solid rgba(163,230,53,.2);">📊</div>
+          <div>
+            <p class="learn-title">Power BI Avanzado</p>
+            <p class="learn-sub">Análisis de datos y BI · Udemy</p>
+          </div>
+        </div>
+        <div class="learn-progress-wrap"><div class="learn-progress" data-w="90"></div></div>
+        <div class="learn-meta">
+          <span class="learn-pct">90%</span>
+          <span class="learn-status">Certificado obtenido</span>
+        </div>
+        <p class="learn-detail">Profundización en modelado avanzado, optimización DAX, deployment en Power BI Service y administración de capacidad Premium.</p>
+      </div>
+      <div class="learn-card">
+        <div class="learn-head">
+          <div class="learn-ico" style="background:rgba(139,92,246,.12);border:1px solid rgba(139,92,246,.2);">🤖</div>
+          <div>
+            <p class="learn-title">RAG & LLM Agents</p>
+            <p class="learn-sub">Applied AI · Autodidacta</p>
+          </div>
+        </div>
+        <div class="learn-progress-wrap"><div class="learn-progress" data-w="50"></div></div>
+        <div class="learn-meta">
+          <span class="learn-pct">50%</span>
+          <span class="learn-status">En exploración activa</span>
+        </div>
+        <p class="learn-detail">LangChain, embeddings, vector stores, agent loops. Aplicado directamente en la siguiente versión del DAX Assistant con contexto persistente.</p>
+      </div>
+    </div>
+  </div>
+</section>
 
+<hr class="div-d">
+
+<!-- CERTIFICACIONES -->
 <section class="band" id="certificaciones">
   <div class="wrap">
     <p class="sec-label reveal">05 — Certificaciones</p>
@@ -585,86 +1044,22 @@ footer { background:#0D0F12;padding:20px 44px;display:flex;align-items:center;ju
         </div>
       </div>
       <div class="cert-grid">
-        <div class="cert-card">
-          <p class="cert-card-name">Introducción a los modelos de lenguaje grandes</p>
-          <p class="cert-card-meta">Google · feb. 2026 · ID 22578471</p>
-          <span class="cert-card-badge">✓ Verificado</span>
-        </div>
-        <div class="cert-card">
-          <p class="cert-card-name">Introducción a la IA generativa</p>
-          <p class="cert-card-meta">Google · feb. 2026 · ID 22578572</p>
-          <span class="cert-card-badge">✓ Verificado</span>
-        </div>
-        <div class="cert-card">
-          <p class="cert-card-name">Introducción a la IA responsable</p>
-          <p class="cert-card-meta">Google · abr. 2026 · ID 23571566</p>
-          <span class="cert-card-badge">✓ Verificado</span>
-        </div>
-        <div class="cert-card">
-          <p class="cert-card-name">Introduction to Gemini Enterprise</p>
-          <p class="cert-card-meta">Google · abr. 2026 · ID 23572621</p>
-          <span class="cert-card-badge">✓ Verificado</span>
-        </div>
-        <div class="cert-card">
-          <p class="cert-card-name">Introduction to Gemini for Google Workspace</p>
-          <p class="cert-card-meta">Google · abr. 2026 · ID 23572661</p>
-          <span class="cert-card-badge">✓ Verificado</span>
-        </div>
-        <div class="cert-card">
-          <p class="cert-card-name">Gemini in Gmail</p>
-          <p class="cert-card-meta">Google · abr. 2026 · ID 23572714</p>
-          <span class="cert-card-badge">✓ Verificado</span>
-        </div>
-        <div class="cert-card">
-          <p class="cert-card-name">Gemini in Google Docs</p>
-          <p class="cert-card-meta">Google · abr. 2026 · ID 23572755</p>
-          <span class="cert-card-badge">✓ Verificado</span>
-        </div>
-        <div class="cert-card">
-          <p class="cert-card-name">Gemini in Google Slides</p>
-          <p class="cert-card-meta">Google · abr. 2026 · ID 23572790</p>
-          <span class="cert-card-badge">✓ Verificado</span>
-        </div>
-        <div class="cert-card">
-          <p class="cert-card-name">Gemini in Google Sheets</p>
-          <p class="cert-card-meta">Google · abr. 2026 · ID 23572804</p>
-          <span class="cert-card-badge">✓ Verificado</span>
-        </div>
-        <div class="cert-card">
-          <p class="cert-card-name">Gemini in Google Meet</p>
-          <p class="cert-card-meta">Google · abr. 2026 · ID 23572829</p>
-          <span class="cert-card-badge">✓ Verificado</span>
-        </div>
-        <div class="cert-card">
-          <p class="cert-card-name">Gemini in Google Drive</p>
-          <p class="cert-card-meta">Google · abr. 2026 · ID 23572903</p>
-          <span class="cert-card-badge">✓ Verificado</span>
-        </div>
-        <div class="cert-card">
-          <p class="cert-card-name">AI Boost Bites: Prompting like a Pro with Google Workspace</p>
-          <p class="cert-card-meta">Google · abr. 2026 · ID 23571619</p>
-          <span class="cert-card-badge">✓ Verificado</span>
-        </div>
-        <div class="cert-card">
-          <p class="cert-card-name">AI Boost Bites: Gemini Gems – Your ultimate marketing sidekick</p>
-          <p class="cert-card-meta">Google · abr. 2026 · ID 23571709</p>
-          <span class="cert-card-badge">✓ Verificado</span>
-        </div>
-        <div class="cert-card">
-          <p class="cert-card-name">AI Boost Bites: Supercharge Research with Gemini</p>
-          <p class="cert-card-meta">Google · abr. 2026 · ID 23571748</p>
-          <span class="cert-card-badge">✓ Verificado</span>
-        </div>
-        <div class="cert-card">
-          <p class="cert-card-name">AI Boost Bites: Project Notebooks</p>
-          <p class="cert-card-meta">Google · abr. 2026 · ID 23571778</p>
-          <span class="cert-card-badge">✓ Verificado</span>
-        </div>
-        <div class="cert-card">
-          <p class="cert-card-name">Creating Engaging Video with Google Vids</p>
-          <p class="cert-card-meta">Google · abr. 2026 · ID 23572929</p>
-          <span class="cert-card-badge">✓ Verificado</span>
-        </div>
+        <div class="cert-card"><p class="cert-card-name">Introducción a los modelos de lenguaje grandes</p><p class="cert-card-meta">Google · feb. 2026 · ID 22578471</p><span class="cert-card-badge">✓ Verificado</span></div>
+        <div class="cert-card"><p class="cert-card-name">Introducción a la IA generativa</p><p class="cert-card-meta">Google · feb. 2026 · ID 22578572</p><span class="cert-card-badge">✓ Verificado</span></div>
+        <div class="cert-card"><p class="cert-card-name">Introducción a la IA responsable</p><p class="cert-card-meta">Google · abr. 2026 · ID 23571566</p><span class="cert-card-badge">✓ Verificado</span></div>
+        <div class="cert-card"><p class="cert-card-name">Introduction to Gemini Enterprise</p><p class="cert-card-meta">Google · abr. 2026 · ID 23572621</p><span class="cert-card-badge">✓ Verificado</span></div>
+        <div class="cert-card"><p class="cert-card-name">Introduction to Gemini for Google Workspace</p><p class="cert-card-meta">Google · abr. 2026 · ID 23572661</p><span class="cert-card-badge">✓ Verificado</span></div>
+        <div class="cert-card"><p class="cert-card-name">Gemini in Gmail</p><p class="cert-card-meta">Google · abr. 2026 · ID 23572714</p><span class="cert-card-badge">✓ Verificado</span></div>
+        <div class="cert-card"><p class="cert-card-name">Gemini in Google Docs</p><p class="cert-card-meta">Google · abr. 2026 · ID 23572755</p><span class="cert-card-badge">✓ Verificado</span></div>
+        <div class="cert-card"><p class="cert-card-name">Gemini in Google Slides</p><p class="cert-card-meta">Google · abr. 2026 · ID 23572790</p><span class="cert-card-badge">✓ Verificado</span></div>
+        <div class="cert-card"><p class="cert-card-name">Gemini in Google Sheets</p><p class="cert-card-meta">Google · abr. 2026 · ID 23572804</p><span class="cert-card-badge">✓ Verificado</span></div>
+        <div class="cert-card"><p class="cert-card-name">Gemini in Google Meet</p><p class="cert-card-meta">Google · abr. 2026 · ID 23572829</p><span class="cert-card-badge">✓ Verificado</span></div>
+        <div class="cert-card"><p class="cert-card-name">Gemini in Google Drive</p><p class="cert-card-meta">Google · abr. 2026 · ID 23572903</p><span class="cert-card-badge">✓ Verificado</span></div>
+        <div class="cert-card"><p class="cert-card-name">AI Boost Bites: Prompting like a Pro with Google Workspace</p><p class="cert-card-meta">Google · abr. 2026 · ID 23571619</p><span class="cert-card-badge">✓ Verificado</span></div>
+        <div class="cert-card"><p class="cert-card-name">AI Boost Bites: Gemini Gems</p><p class="cert-card-meta">Google · abr. 2026 · ID 23571709</p><span class="cert-card-badge">✓ Verificado</span></div>
+        <div class="cert-card"><p class="cert-card-name">AI Boost Bites: Supercharge Research with Gemini</p><p class="cert-card-meta">Google · abr. 2026 · ID 23571748</p><span class="cert-card-badge">✓ Verificado</span></div>
+        <div class="cert-card"><p class="cert-card-name">AI Boost Bites: Project Notebooks</p><p class="cert-card-meta">Google · abr. 2026 · ID 23571778</p><span class="cert-card-badge">✓ Verificado</span></div>
+        <div class="cert-card"><p class="cert-card-name">Creating Engaging Video with Google Vids</p><p class="cert-card-meta">Google · abr. 2026 · ID 23572929</p><span class="cert-card-badge">✓ Verificado</span></div>
       </div>
     </div>
 
@@ -679,21 +1074,9 @@ footer { background:#0D0F12;padding:20px 44px;display:flex;align-items:center;ju
         </div>
       </div>
       <div class="cert-grid">
-        <div class="cert-card">
-          <p class="cert-card-name">Curso Power BI – Análisis de Datos y Business Intelligence</p>
-          <p class="cert-card-meta">Udemy · abr. 2026</p>
-          <span class="cert-card-badge">✓ Verificado</span>
-        </div>
-        <div class="cert-card">
-          <p class="cert-card-name">Informatica PowerCenter – Beginner to Expert Level</p>
-          <p class="cert-card-meta">Udemy · abr. 2026</p>
-          <span class="cert-card-badge">✓ Verificado</span>
-        </div>
-        <div class="cert-card">
-          <p class="cert-card-name">Oracle PL/SQL avanzado</p>
-          <p class="cert-card-meta">Udemy · abr. 2026</p>
-          <span class="cert-card-badge">✓ Verificado</span>
-        </div>
+        <div class="cert-card"><p class="cert-card-name">Curso Power BI – Análisis de Datos y Business Intelligence</p><p class="cert-card-meta">Udemy · abr. 2026</p><span class="cert-card-badge">✓ Verificado</span></div>
+        <div class="cert-card"><p class="cert-card-name">Informatica PowerCenter – Beginner to Expert Level</p><p class="cert-card-meta">Udemy · abr. 2026</p><span class="cert-card-badge">✓ Verificado</span></div>
+        <div class="cert-card"><p class="cert-card-name">Oracle PL/SQL avanzado</p><p class="cert-card-meta">Udemy · abr. 2026</p><span class="cert-card-badge">✓ Verificado</span></div>
       </div>
     </div>
 
@@ -708,22 +1091,15 @@ footer { background:#0D0F12;padding:20px 44px;display:flex;align-items:center;ju
         </div>
       </div>
       <div class="cert-grid">
-        <div class="cert-card">
-          <p class="cert-card-name">Especialista en Ciberseguridad</p>
-          <p class="cert-card-meta">EIP International Business School · mar. 2023 · ID NNPPEC/EIP_2023_46</p>
-          <span class="cert-card-badge">✓ Verificado</span>
-        </div>
-        <div class="cert-card">
-          <p class="cert-card-name">Garantía Juvenil</p>
-          <p class="cert-card-meta">Junta de Andalucía · jul. 2023</p>
-          <span class="cert-card-badge">✓ Verificado</span>
-        </div>
+        <div class="cert-card"><p class="cert-card-name">Especialista en Ciberseguridad</p><p class="cert-card-meta">EIP International Business School · mar. 2023 · ID NNPPEC/EIP_2023_46</p><span class="cert-card-badge">✓ Verificado</span></div>
+        <div class="cert-card"><p class="cert-card-name">Garantía Juvenil</p><p class="cert-card-meta">Junta de Andalucía · jul. 2023</p><span class="cert-card-badge">✓ Verificado</span></div>
       </div>
     </div>
 
   </div>
 </section>
 
+<!-- CONTACTO -->
 <section class="contact-band" id="contacto">
   <div class="wrap">
     <div class="contact-grid">
@@ -734,20 +1110,16 @@ footer { background:#0D0F12;padding:20px 44px;display:flex;align-items:center;ju
         <p class="contact-sub" style="margin-top:12px;">Si tienes un modelo de datos que mejorar, un dashboard que construir o una idea de herramienta analítica — escríbeme.</p>
       </div>
       <div class="stagger">
-        
-        <a class="c-link" id="emailLink" style="background:var(--accent); border-color:var(--accent); cursor:pointer;">
+        <a class="c-link" id="emailLink" style="background:var(--accent);border-color:var(--accent);cursor:pointer;">
           <div class="c-ico" style="background:rgba(26,29,35,.1);">
-            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--dark)" stroke-width="2.5">
-              <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
-            </svg>
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--dark)" stroke-width="2.5"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
           </div>
           <div>
-            <p class="c-lbl" style="color:var(--dark); font-weight:700; letter-spacing:0.05em; margin-bottom: 0;">Ponte en contacto conmigo</p>
-            <p class="c-val" style="color:var(--dark); font-weight: 500; margin-top: 3px;">Solicitar CV por correo</p>
+            <p class="c-lbl" style="color:var(--dark);font-weight:700;letter-spacing:0.05em;margin-bottom:0;">Ponte en contacto</p>
+            <p class="c-val" style="color:var(--dark);font-weight:500;margin-top:3px;" id="emailDisplay">Cargando...</p>
           </div>
           <svg class="c-arrow" style="color:var(--dark);" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M7 17L17 7M7 7h10v10"/></svg>
         </a>
-        
         <a href="tel:+34602674339" class="c-link">
           <div class="c-ico"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="1.8"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.91a16 16 0 0 0 6 6l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
           <div><p class="c-lbl">Teléfono</p><p class="c-val">+34 602 674 339</p></div>
@@ -800,20 +1172,20 @@ window.addEventListener('scroll', () => {
   }
 });
 
-/* EMAIL Y SOLICITUD DE CV OCULTA PARA BOTS */
+/* EMAIL — funciona en móvil y desktop */
 (function(){
   const u='oscarherruzom', d='gmail.com', email=u+'@'+d;
-  const subject = '?subject=Solicitud%20de%20CV%20-%20Óscar%20Herruzo';
+  const subject='?subject=Hola%20%C3%93scar%20-%20Contacto%20desde%20portfolio';
   const link = document.getElementById('emailLink');
-  
-  if(link) { 
-    const mailtoStr = 'mai'+'lto:'+email+subject;
-    link.href = mailtoStr; 
-    link.addEventListener('click', function(e) {
+  const display = document.getElementById('emailDisplay');
+  if(display) display.textContent = email;
+  if(link){
+    const href = 'mailto:'+email+subject;
+    link.setAttribute('href', href);
+    link.addEventListener('click', function(e){
       e.preventDefault();
-      e.stopPropagation();
-      window.location.href = mailtoStr;
-    }); 
+      window.location.href = href;
+    });
   }
 })();
 
@@ -827,17 +1199,18 @@ document.querySelectorAll('a,button').forEach(el=>{
   el.addEventListener('mouseleave',()=>{cRing.style.width='32px';cRing.style.height='32px';cRing.style.opacity='.3';});
 });
 
-/* SCROLL REVEAL */
+/* SCROLL REVEAL + progress bars */
 const obs=new IntersectionObserver(entries=>{
   entries.forEach(e=>{
     if(e.isIntersecting){
       e.target.classList.add('vis');
       e.target.querySelectorAll('.sk-bar').forEach(b=>{b.style.width=b.getAttribute('data-w')+'%';});
+      e.target.querySelectorAll('.learn-progress').forEach(b=>{b.style.width=b.getAttribute('data-w')+'%';});
       obs.unobserve(e.target);
     }
   });
 },{threshold:.1});
-document.querySelectorAll('.reveal,.stagger,.skill-card,.tl-item').forEach(el=>obs.observe(el));
+document.querySelectorAll('.reveal,.stagger,.skill-card,.tl-item,.learn-card').forEach(el=>obs.observe(el));
 
 /* NAV SHADOW */
 window.addEventListener('scroll',()=>{
@@ -847,8 +1220,10 @@ window.addEventListener('scroll',()=>{
 /* SMOOTH SCROLL */
 document.querySelectorAll('a[href^="#"]').forEach(a=>{
   a.addEventListener('click',e=>{
+    const target=a.getAttribute('href');
+    if(target==='#') return;
     e.preventDefault();
-    const t=document.querySelector(a.getAttribute('href'));
+    const t=document.querySelector(target);
     if(t) t.scrollIntoView({behavior:'smooth',block:'start'});
   });
 });
