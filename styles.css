@@ -345,3 +345,361 @@ footer { background:#0D0F12;padding:24px 44px;display:flex;align-items:center;ju
   .metrics-inner{padding:0 20px;}
   .learning-grid{grid-template-columns:1fr;}
 }
+/* ==========================================
+   RESPONSIVE FIXES — MOBILE COMPLETO OSCAR
+   ========================================== */
+
+/* --- exp-grid: ya tiene clase pero solo estilos inline, override aquí --- */
+.exp-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 52px;
+  align-items: start;
+}
+
+/* --- feat-info-grid: 2 cajas de info en proj-featured --- */
+.feat-info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+/* --- learning-header-grid: título + badge "Never stop shipping" --- */
+.learning-header-grid {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: start;
+  gap: 24px;
+  margin-bottom: 0;
+}
+
+/* --- Skills/Projects: minmax seguro para no desbordar --- */
+.skills-grid {
+  grid-template-columns: repeat(auto-fill, minmax(min(320px, 100%), 1fr));
+}
+.proj-grid {
+  grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr));
+}
+.learning-grid {
+  grid-template-columns: repeat(auto-fill, minmax(min(280px, 100%), 1fr));
+}
+.cert-grid {
+  grid-template-columns: repeat(auto-fill, minmax(min(260px, 100%), 1fr));
+}
+
+/* --- Jupyter cell: evitar overflow horizontal --- */
+.jupyter-cell {
+  overflow: hidden;
+}
+.j-code {
+  overflow-x: auto;
+  min-width: 0;
+  word-break: break-word;
+}
+.j-line {
+  min-width: 0;
+  overflow: hidden;
+}
+.j-out {
+  min-width: 0;
+  overflow: hidden;
+}
+.j-table-wrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* --- SQL console: evitar overflow --- */
+.sql-console {
+  overflow: hidden;
+}
+.sql-editor {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.sql-input {
+  min-width: 0;
+}
+.sql-results {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.sql-table {
+  min-width: 400px; /* permite scroll horizontal en móvil */
+}
+
+/* ======================
+   TABLET: max-width 900px
+   ====================== */
+@media (max-width: 900px) {
+  .exp-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  .feat-info-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ======================
+   MÓVIL: max-width 600px
+   ====================== */
+@media (max-width: 600px) {
+
+  /* Grids de secciones */
+  .exp-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  .feat-info-grid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  .learning-header-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  /* Skills / Projects / Learning / Certs: 1 columna */
+  .skills-grid,
+  .proj-grid,
+  .learning-grid,
+  .cert-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Proj featured */
+  .proj-featured {
+    grid-template-columns: 1fr;
+  }
+  .proj-feat-body {
+    padding: 18px 16px;
+  }
+  .proj-feat-preview {
+    min-height: 160px;
+    border-left: none;
+    border-top: 1px solid var(--border);
+  }
+  .proj-card-body {
+    padding: 16px;
+  }
+
+  /* Jupyter cell */
+  .jupyter-cell {
+    font-size: 0.72rem;
+    margin-top: 16px !important;
+  }
+  .j-top-bar {
+    padding: 6px 12px;
+  }
+  .j-line {
+    padding: 12px;
+    gap: 10px;
+  }
+  .j-prompt {
+    width: 44px;
+    font-size: 0.7rem;
+  }
+  .j-code {
+    font-size: 0.74rem;
+    line-height: 1.55;
+  }
+  .j-out {
+    padding: 0 12px 12px 12px;
+    gap: 10px;
+  }
+  .j-hover-hint {
+    font-size: 0.6rem;
+    top: 6px;
+    right: 10px;
+  }
+  .pd-table th,
+  .pd-table td {
+    padding: 5px 8px;
+    font-size: 0.7rem;
+    white-space: nowrap;
+  }
+
+  /* SQL console */
+  .sql-header {
+    padding: 10px 14px;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .sql-btn {
+    font-size: 0.72rem;
+    padding: 6px 12px;
+  }
+  .sql-editor {
+    padding: 14px;
+  }
+  .sql-lines {
+    padding-right: 12px;
+    margin-right: 12px;
+    font-size: 0.8rem;
+  }
+  .sql-input {
+    font-size: 0.78rem;
+  }
+  .sql-table th,
+  .sql-table td {
+    padding: 8px 12px;
+    font-size: 0.75rem;
+    white-space: nowrap;
+  }
+  .sql-result-header {
+    font-size: 0.65rem;
+    padding: 5px 14px;
+  }
+
+  /* Timeline */
+  .timeline {
+    padding-left: 20px;
+  }
+  .tl-item::before {
+    left: -27px;
+    width: 10px;
+    height: 10px;
+  }
+  .tl-pulse {
+    left: -27px;
+  }
+  .tl-title {
+    font-size: 1rem;
+  }
+  .tl-bullets li {
+    font-size: 0.85rem;
+    padding-left: 18px;
+  }
+  .tl-date {
+    font-size: 0.65rem;
+  }
+  .tl-type {
+    font-size: 0.65rem;
+  }
+
+  /* Education cards */
+  .edu-card {
+    padding: 14px 12px;
+    gap: 12px;
+  }
+  .edu-ico {
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+  }
+  .edu-title {
+    font-size: 0.88rem;
+  }
+  .edu-tags {
+    font-size: 0.75rem;
+  }
+
+  /* Skill / Learn cards */
+  .skill-card,
+  .learn-card {
+    padding: 18px 14px;
+  }
+  .tag-row {
+    gap: 6px;
+  }
+  .tag-d, .tag-l {
+    font-size: 0.6rem;
+    padding: 3px 8px;
+  }
+
+  /* Cert cards */
+  .cert-card {
+    padding: 14px 16px;
+  }
+  .cert-card-name {
+    font-size: 0.8rem;
+  }
+
+  /* Contact */
+  .c-val {
+    font-size: 0.85rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 50vw;
+  }
+  .c-link {
+    padding: 12px 14px;
+    gap: 12px;
+  }
+
+  /* Metrics */
+  .metric-num {
+    font-size: 2.2rem;
+  }
+  .metric-lbl {
+    font-size: 0.58rem;
+  }
+  .metric-sub {
+    font-size: 0.66rem;
+  }
+
+  /* About */
+  .about-text p {
+    font-size: 0.95rem;
+  }
+  .fact-card {
+    padding: 12px 14px;
+    gap: 12px;
+  }
+
+  /* Hero */
+  .hero-desc {
+    font-size: 0.95rem;
+  }
+
+  /* "Never stop shipping" badge: centrar en móvil */
+  .learning-header-grid > .magnetic {
+    align-self: flex-start;
+    text-align: left;
+  }
+
+  /* Footer */
+  footer {
+    padding: 16px 20px;
+  }
+  .ft-l, .ft-r {
+    font-size: 0.65rem;
+  }
+}
+
+/* ================================
+   MÓVIL PEQUEÑO: max-width 380px
+   ================================ */
+@media (max-width: 380px) {
+  .wrap, .hero-in {
+    padding: 0 14px;
+  }
+  .metrics-inner {
+    padding: 0 14px;
+  }
+  .hero-name {
+    font-size: clamp(2.2rem, 11vw, 3rem);
+  }
+  .sec-title {
+    font-size: clamp(1.6rem, 8vw, 2rem);
+  }
+  .jupyter-cell {
+    font-size: 0.68rem;
+  }
+  .j-prompt {
+    width: 38px;
+  }
+  .sql-input {
+    font-size: 0.72rem;
+  }
+  .c-val {
+    max-width: 42vw;
+    font-size: 0.8rem;
+  }
+  .btn-w, .btn-g {
+    font-size: 0.85rem;
+    padding: 12px 14px;
+  }
+}
